@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Wine Pairing</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+	<script type="text/javascript">
+		const beerAPIUrl = "http://api.brewerydb.com/v2/";
+		const beerAPIKey = "d07cb2775bd592049b0b00b845f1fe70";
+		const myUrl = beerAPIUrl + "?key=" +beerAPIKey;
+
+
+		$.ajax({
+			url: myUrl,
+			method: "GET"
+		}).done(function(response){
+			console.log(response);
+		} 
+		)
+	</script>
+
+</body>
+</html>
