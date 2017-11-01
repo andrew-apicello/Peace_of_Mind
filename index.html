@@ -12,7 +12,8 @@
 		const myUrl = beerAPIUrl + "?key=" +beerAPIKey;
 		$.ajax({
 			url: myUrl,
-			method: "GET"
+			method: "GET",
+			dataType: 'jsonp'
 		}).done(function(response){
 			console.log(response);
 		} 
