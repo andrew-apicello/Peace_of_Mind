@@ -1,3 +1,10 @@
+// Loading evnironmental variables here
+if (process.env.NODE_ENV !== 'production') {
+	console.log('loading dev environments')
+	require('dotenv').config()
+}
+require('dotenv').config()
+
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -7,24 +14,28 @@ const path = require("path");
 // var db = require("./models");
 const PORT = process.env.PORT || 3001;
 const twilio = require('twilio');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const passport = require('./passport');
+const dbConnection = require('./db');
 
-//Configure Middleware
-app.use(logger("dev"));//log requests
-app.use(bodyParser.urlencoded({ extended: false })); 
-app.use(express.static("public"));// serve the public folder
+// //Configure Middleware
+// app.use(logger("dev"));//log requests
+// app.use(bodyParser.urlencoded({ extended: false })); 
+// app.use(express.static("public"));// serve the public folder
 
 
-// Connect to the Mongo DB
-mongoose.Promise = Promise;
-if (process.env.MONGODB_URI){
-  mongoose.connect(process.env.MONGODB_URI);
-  console.log("connected remotely");
-} else {
-  mongoose.connect("mongodb://localhost/pills", {
-    useMongoClient: true
-  });
-  console.log("connected locally");
-}
+// // Connect to the Mongo DB
+// mongoose.Promise = Promise;
+// if (process.env.MONGODB_URI){
+//   mongoose.connect(process.env.MONGODB_URI);
+//   console.log("connected remotely");
+// } else {
+//   mongoose.connect("mongodb://localhost/pills", {
+//     useMongoClient: true
+//   });
+//   console.log("connected locally");
+// }
 
 
 //==================================Twilio=========================================
@@ -68,13 +79,40 @@ const client = require('twilio')(accountSid, authToken);
 //   res.end(twiml.toString());
 // });
 
+// ===== Middleware ====
+app.use(logger('dev'))
+app.use(
+	bodyParser.urlencoded({
+		extended: false
+	})
+)
+app.use(bodyParser.json())
+app.use(
+	session({
+		secret: process.env.APP_SECRET || 'this is the default passphrase',
+		store: new MongoStore({ mongooseConnection: dbConnection }),
+		resave: false,
+		saveUninitialized: false
+	})
+)
 
+//================ PASSPORT ================= //
+app.use(passport.initialize())
+app.use(passport.session()) // will call the deserializeUser
 
+app.use('/auth', require('./passport/auth'))
+
+// ====== Error handler ====
+app.use(function(err, req, res, next) {
+	console.log('====== ERROR =======')
+	console.error(err.stack)
+	res.status(500)
+})
 
 // // Main "/" Route. This will redirect the user to our rendered React application
-app.get("*", function(req, res) {
-  res.sendFile(__dirname + "/build/static/index.html");
-});
+// app.get("*", function(req, res) {
+//   res.sendFile(__dirname + "/build/static/index.html");
+// });
 
 
 // Start the server
