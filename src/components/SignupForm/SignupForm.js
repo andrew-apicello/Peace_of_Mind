@@ -33,7 +33,7 @@ class SignupForm extends Component {
 				if (!response.data.errmsg) {
 					console.log('youre good')
 					this.setState({
-						redirectTo: '/login'
+						redirectTo: '/UserProfile'
 					})
 				} else {
 					console.log('duplicate')

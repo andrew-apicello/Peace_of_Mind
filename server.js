@@ -4,12 +4,13 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
-// var db = require("./models");
+// var db = require("./db/models/user");
 const PORT = process.env.PORT || 3001;
 const twilio = require('twilio');
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const passport = require('./passport')
+const dbConnection =require ('./db');;
 
 //Configure Middleware
 app.use(logger("dev"));//log requests
@@ -71,6 +72,22 @@ const client = require('twilio')(accountSid, authToken);
 //   res.end(twiml.toString());
 // });
 
+// ===== Middleware ====
+app.use(logger('dev'))
+app.use(
+	bodyParser.urlencoded({
+		extended: false
+	})
+)
+app.use(bodyParser.json())
+app.use(
+	session({
+		secret: process.env.APP_SECRET || 'this is the default passphrase',
+		store: new MongoStore({ mongooseConnection: dbConnection }),
+		resave: false,
+		saveUninitialized: false
+	})
+)
 
 // +++++++===== Passport ====+++++++
 app.use(passport.initialize())
@@ -78,7 +95,7 @@ app.use(passport.session()) // will call the deserializeUser
 
 
 
-
+app.use('/auth', require('./passport/auth'));
 
 
 // // Main "/" Route. This will redirect the user to our rendered React application
