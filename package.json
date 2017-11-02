@@ -6,6 +6,7 @@
     "axios": "^0.17.0",
     "body-parser": "^1.18.2",
     "cheerio": "^1.0.0-rc.2",
+    "concurrently": "^3.5.0",
     "express": "^4.16.2",
     "mongoose": "^4.12.6",
     "morgan": "^1.9.0",
@@ -17,10 +18,15 @@
     "request": "^2.83.0",
     "twilio": "^3.9.1"
   },
+  "devDependencies": {
+    "react-scripts": "1.0.10"
+  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "eject": "react-scripts eject",
+    "dev": "concurrently \"react-scripts start\" \"nodemon server/server.js\""
+  },
+  "proxy": "http://localhost:3001"
 }
