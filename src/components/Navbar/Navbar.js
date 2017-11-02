@@ -9,9 +9,6 @@ const Navbar = () =>
     <li className={window.location.pathname === "/createprofile" ? "active" : ""}>
       <Link to="/createprofile">Create Profile</Link>
     </li>
-    <li className={window.location.pathname === "/login" ? "active" : ""}>
-      <Link to="/login">Login</Link>
-    </li>
   </ul>;
 
 export default Navbar;

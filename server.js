@@ -7,6 +7,9 @@ const path = require("path");
 // var db = require("./models");
 const PORT = process.env.PORT || 3001;
 const twilio = require('twilio');
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
+const passport = require('./passport')
 
 //Configure Middleware
 app.use(logger("dev"));//log requests
@@ -20,7 +23,7 @@ if (process.env.MONGODB_URI){
   mongoose.connect(process.env.MONGODB_URI);
   console.log("connected remotely");
 } else {
-  mongoose.connect("mongodb://localhost/beers", {
+  mongoose.connect("mongodb://localhost/pillbox", {
     useMongoClient: true
   });
   console.log("connected locally");
@@ -67,6 +70,11 @@ const client = require('twilio')(accountSid, authToken);
 //   res.writeHead(200, {'Content-Type': 'text/xml'});
 //   res.end(twiml.toString());
 // });
+
+
+// +++++++===== Passport ====+++++++
+app.use(passport.initialize())
+app.use(passport.session()) // will call the deserializeUser
 
 
 
