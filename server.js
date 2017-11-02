@@ -20,7 +20,7 @@ if (process.env.MONGODB_URI){
   mongoose.connect(process.env.MONGODB_URI);
   console.log("connected remotely");
 } else {
-  mongoose.connect("mongodb://localhost/beers", {
+  mongoose.connect("mongodb://localhost/pills", {
     useMongoClient: true
   });
   console.log("connected locally");
