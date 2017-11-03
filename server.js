@@ -102,29 +102,30 @@ switch (new Date().getDay()) {
 
 
 
-// Go into DB and find all tasks on a specified day and time and get patient phone and task to be texted
+// Go into DB and find all reminders on a specified day and time and get patient phone and task to be texted
 queryDB = () => {
 	// Get the full current time to compare with DB
 	let time = moment().format('H:mm');
 	console.log(time);
 	console.log(day);
-
-	// // Find all patients with tasks that are related to the specified day and time
-	// db.patients.find({day:day, time:time}, function(err, data) {
+	// First we need to populate all patients with their reminders
+	
+	// // Find all patients with reminders that are related to the specified day and time
+	// db.Reminders.find({dayToComplete:day, timeToComplete:time}, function(err, data) {
  //      res.json(data);
 	//       for (let i = 0; i < data.length; i++) {
 	//       	let patientPhone = data[i].patientPhone;
-	//       	let patientMessage = data[i].message;
+	//       	let reminderMessage = data[i].message;
 
-	//       	// If the task includes a picture, send a picture message
+	//       	// If the reminder includes a picture, send a picture message
 	//       	if(data[i].pic) {
-	//       		let patientPicture = data[i].pic;
+	//       		let reminderImage = data[i].pic;
 	// 						client.messages
 	// 						  .create({
 	// 						    to: patientPhone,
 	// 						    from: '+14848123347',
-	// 						    body: patientMessage,
-	// 						    mediaUrl: patientPicture
+	// 						    body: reminderMessage,
+	// 						    mediaUrl: reminderImage
 	// 						  })
 	// 						  // Log that the message was sent.
 	// 						  .then(message => console.log(message.sid));
@@ -132,7 +133,7 @@ queryDB = () => {
 	//       	// Else, send a regular text message, with no picture
 	//       	else {
 	// 					client.messages.create({
-	// 					    body: patientMessage,
+	// 					    body: reminderMessage,
 	// 					    to: patientPhone,  // Text this number
 	// 					    from: '+14848123347' // Our valid Twilio number
 	// 					})
