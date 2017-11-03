@@ -1,7 +1,4 @@
 
-import React, { Component } from 'react'
-import axios from 'axios'
-import { Redirect } from 'react-router-dom'
 
 import React, { Component } from 'react';
 import axios from 'axios';
@@ -42,8 +39,6 @@ class SignupForm extends Component {
 				if (!response.data.errmsg) {
 					console.log('youre good')
 					this.setState({
-
-						redirectTo: '/UserProfile'
 
 						redirectTo: '/login'
 

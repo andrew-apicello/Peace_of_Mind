@@ -26,14 +26,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Route, Link } from 'react-router-dom'
-// import './App.css'
-import LoginForm from './components/LoginForm/LoginForm'
-import SignupForm from './components/SignupForm'
-// import Header from './/Header'
-
-import React, { Component } from 'react'
-import axios from 'axios'
-import { Route, Link } from 'react-router-dom'
 import LoginForm from './components/LoginForm/LoginForm'
 import SignupForm from './components/SignupForm/SignupForm'
 import Header from './components/Header/Header'
@@ -176,7 +168,7 @@ class App extends Component {
 					}
 				/>
 				<Route exact path="/signup" component={SignupForm} />
->>>>>>> 15e9733f18dd2fdd19772f86a9174892b04de3e5
+
 			</div>
 		)
 	}
@@ -185,4 +177,4 @@ class App extends Component {
 
 export default App
 
-export default App;
+

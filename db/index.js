@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 let MONGO_URL
 
-const MONGO_LOCAL_URL = 'mongodb://localhost/mern-passport'
+
 
 const MONGO_LOCAL_URL = 'mongodb://localhost/pills'
 
