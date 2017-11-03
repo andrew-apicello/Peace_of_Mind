@@ -20,6 +20,7 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "react": "^16.0.0",
+    "react-bootstrap": "^0.31.5",
     "react-dom": "^16.0.0",
     "react-moment": "^0.6.5",
     "react-router-dom": "^4.2.2",
@@ -31,10 +32,11 @@
   },
   "scripts": {
     "start": "node server",
+    "seed": "node scripts/seedDB.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "dev": "concurrently \"react-scripts start\" \"nodemon server/server.js\""
+    "dev": "concurrently \"react-scripts start\" \"nodemon server.js\""
   },
   "proxy": "http://localhost:3001"
 }

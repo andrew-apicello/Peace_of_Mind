@@ -1,4 +1,5 @@
 import React from 'react'
+import Calendar from '../components/Calendar'
 // import Clock from "../components/Clock";
 // TODO - add proptypes
 
@@ -10,6 +11,7 @@ const Home = props => {
 				<code>
 					{JSON.stringify(props)}
 				</code>
+				<Calendar/>
 			</div>
 		)
 	} else {

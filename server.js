@@ -101,6 +101,11 @@ switch (new Date().getDay()) {
 }
 
 
+app.post("/addMedication"), (req, res) => {
+	console.log(req.body);
+	console.log(res.body);
+};
+
 
 // Go into DB and find all reminders on a specified day and time and get patient phone and task to be texted
 queryDB = () => {
