@@ -52,7 +52,6 @@ class SignupForm extends Component {
 					type="text"
 					name="email"
 					value={this.state.email}
-					onChange={this.handleChange}
 				/>
 				<label htmlFor="password">Password: </label>
 				<input
@@ -74,4 +73,4 @@ class SignupForm extends Component {
 	}
 }
 
-export default SignupForm
+export default SignupForm;

@@ -27,4 +27,5 @@ passport.deserializeUser((id, done) => {
 passport.use(LocalStrategy)
 // passport.use(GoogleStratgey)
 
-module.exports = passport
+module.exports = passport;
+
