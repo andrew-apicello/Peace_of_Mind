@@ -36,24 +36,26 @@ class LoginForm extends Component {
 		} else {
 			return (
 				<div className="LoginForm">
-					<h1>Login form</h1>
-					<form>
-						<label htmlFor="email">Email: </label>
-						<input
-							type="text"
-							name="email"
-							value={this.state.email}
-							onChange={this.handleChange}
-						/>
-						<label htmlFor="password">Password: </label>
-						<input
-							type="password"
-							name="password"
-							value={this.state.password}
-							onChange={this.handleChange}
-						/>
-						<button onClick={this.handleSubmit}>Login</button>
-					</form>
+					<div className="container">
+						<h1>Login form</h1>
+						<form>
+							<label htmlFor="email">Email: </label>
+							<input
+								type="text"
+								name="email"
+								value={this.state.email}
+								onChange={this.handleChange}
+							/>
+							<label htmlFor="password">Password: </label>
+							<input
+								type="password"
+								name="password"
+								value={this.state.password}
+								onChange={this.handleChange}
+							/>
+							<button onClick={this.handleSubmit}>Login</button>
+						</form>
+					</div>
 				</div>
 			)
 		}

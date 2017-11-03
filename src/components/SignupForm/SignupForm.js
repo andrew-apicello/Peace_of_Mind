@@ -46,12 +46,14 @@ class SignupForm extends Component {
 		}
 		return (
 			<div className="SignupForm">
+				<div className="container">
 				<h1>Signup form</h1>
 				<label htmlFor="email">Email: </label>
 				<input
 					type="text"
 					name="email"
 					value={this.state.email}
+					onChange={this.handleChange}
 				/>
 				<label htmlFor="password">Password: </label>
 				<input
@@ -68,6 +70,7 @@ class SignupForm extends Component {
 					onChange={this.handleChange}
 				/>
 				<button onClick={this.handleSubmit}>Sign up</button>
+			</div>
 			</div>
 		)
 	}
