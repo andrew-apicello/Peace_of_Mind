@@ -1,6 +1,11 @@
+
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
+
+import React, { Component } from 'react';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 
 class SignupForm extends Component {
@@ -16,6 +21,10 @@ class SignupForm extends Component {
 		this.handleChange = this.handleChange.bind(this)
 	}
 	handleChange(event) {
+
+
+		console.log(event.target);
+
 		this.setState({
 			[event.target.name]: event.target.value
 		})
@@ -33,7 +42,11 @@ class SignupForm extends Component {
 				if (!response.data.errmsg) {
 					console.log('youre good')
 					this.setState({
+
 						redirectTo: '/UserProfile'
+
+						redirectTo: '/login'
+
 					})
 				} else {
 					console.log('duplicate')

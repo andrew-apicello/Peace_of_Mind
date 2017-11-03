@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../../db/models/user')
+
 const passport = require('../../passport')
 
 // router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
@@ -11,6 +12,9 @@ const passport = require('../../passport')
 // 		failureRedirect: '/login'
 // 	})
 // )
+
+const passport = require('passport')
+
 
 // this route is just used to get the user basic info
 router.get('/user', (req, res, next) => {
@@ -29,7 +33,6 @@ router.post(
 		console.log(req.body)
 		console.log('================')
 		next()
-
 
 	},
 	passport.authenticate('local'),

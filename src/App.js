@@ -1,3 +1,4 @@
+
 // import React from "react";
 // import { BrowserRouter as Router, Route } from "react-router-dom";
 // import Navbar from "./components/Navbar/Navbar";
@@ -29,6 +30,14 @@ import { Route, Link } from 'react-router-dom'
 import LoginForm from './components/LoginForm/LoginForm'
 import SignupForm from './components/SignupForm'
 // import Header from './/Header'
+
+import React, { Component } from 'react'
+import axios from 'axios'
+import { Route, Link } from 'react-router-dom'
+import LoginForm from './components/LoginForm/LoginForm'
+import SignupForm from './components/SignupForm/SignupForm'
+import Header from './components/Header/Header'
+
 import Home from './pages/Home'
 
 const DisplayLinks = props => {
@@ -139,10 +148,14 @@ class App extends Component {
 			<div className="App">
 				<h1>This is the main App component</h1>
 				
+
+				<Header user={this.state.user} />
+
 				{/* LINKS to our different 'pages' */}
 				<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
 				{/*  ROUTES */}
 				{/* <Route exact path="/" component={Home} /> */}
+
 				<Route exact path="/" render={() => <Home user={this.state.user} />} />
 				<Route
 					exact
@@ -155,9 +168,21 @@ class App extends Component {
 				/>
 				<Route exact path="/signup" component={SignupForm} />
 				{/* <LoginForm _login={this._login} /> */}
+
+				<Route exact path="/" render={() => <Home user={this.state.user} />} 
+				/>
+				<Route exact path="/login" render={() =>
+						<LoginForm _login={this._login} />
+					}
+				/>
+				<Route exact path="/signup" component={SignupForm} />
+>>>>>>> 15e9733f18dd2fdd19772f86a9174892b04de3e5
 			</div>
 		)
 	}
 }
 
+
 export default App
+
+export default App;
