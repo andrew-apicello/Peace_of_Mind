@@ -5,22 +5,34 @@ mongoose.promise = Promise
 
 // Define userSchema
 const userSchema = new Schema({
-	firstName: { type: String, unique: false },
-	lastName: { type: String, unique: false },
+	firstName: { 
+		type: String, 
+		unique: false 
+	},
+	lastName: { 
+		type: String, 
+		unique: false 
+	},
 	local: {
-		username: { type: String, unique: true, required: true },
-		password: { type: String, unique: true, required: true }
+		email: { 
+			type: String, 
+			unique: true, 
+			required: "Email is required.",
+			match: [/.+\@.+\..+/, "Please enter a valid e-mail address"] 
+		},
+		password: { 
+			type: String,
+			trim: true, 
+			unique: false, 
+			required: "Password is required.",
+			validate: [
+				function(input) {
+					return input.length >= 6;
+				},
+				"Password must be longer than 6 characters."
+			]
+		}
 	}
-	// local: {
-	// 	email: { type: String, unique: true },
-	// 	password: { type: String }
-	// },
-	// google: {
-	// 	id: { type: String },
-	// 	photos: []
-	// },
-	// firstName: { type: String },
-	// lastName: { type: String }
 })
 
 // Define schema methods
