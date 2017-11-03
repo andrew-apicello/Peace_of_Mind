@@ -13,7 +13,7 @@ passport.deserializeUser((id, done) => {
 	console.log('DEserialize ... called')
 	User.findOne(
 		{ _id: id },
-		'firstName lastName photos local.username',
+		'firstName lastName photos local.email',
 		(err, user) => {
 			console.log('======= DESERILAIZE USER CALLED ======')
 			console.log(user)
@@ -28,3 +28,4 @@ passport.use(LocalStrategy)
 // passport.use(GoogleStratgey)
 
 module.exports = passport;
+
