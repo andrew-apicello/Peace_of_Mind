@@ -9,8 +9,8 @@ const Navbar = () =>
     <li className={window.location.pathname === "/createprofile" ? "active" : ""}>
       <Link to="/createprofile">Create Profile</Link>
     </li>
-    <li className={window.location.pathname === "/login" ? "active" : ""}>
-      <Link to="/login">Login</Link>
+    <li className={window.location.pathname === "/logout" ? "active" : ""}>
+      <Link to="/logout">Logout</Link>
     </li>
   </ul>;
 
