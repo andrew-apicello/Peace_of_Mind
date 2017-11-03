@@ -1,6 +1,5 @@
 import React from 'react'
 import UserProfile from "./UserProfile"
-import LoginForm from "../components/LoginForm"
 
 // TODO - add proptypes
 
@@ -14,9 +13,10 @@ const Home = props => {
 	} else {
 		return (
 			<div className="Home">
-				<div class="row">
-					<div class="col-md-6">
+				<div className="row">
+					<div className="col-md-6">
 						<h1>Peace of Mind</h1>
+						<img src="https://www.thesun.co.uk/wp-content/uploads/2017/01/nintchdbpict000261270267.jpg?strip=all&w=960" alt="image"></img>
 					</div>
 				</div>
 			</div>

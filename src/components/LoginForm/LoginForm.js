@@ -45,6 +45,7 @@ class LoginForm extends Component {
 								name="email"
 								value={this.state.email}
 								onChange={this.handleChange}
+								className="form-control"
 							/>
 							<label htmlFor="password">Password: </label>
 							<input
@@ -52,8 +53,9 @@ class LoginForm extends Component {
 								name="password"
 								value={this.state.password}
 								onChange={this.handleChange}
+								className="form-control"
 							/>
-							<button onClick={this.handleSubmit}>Login</button>
+							<button onClick={this.handleSubmit} className="btn">Login</button>
 						</form>
 					</div>
 				</div>

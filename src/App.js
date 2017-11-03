@@ -5,7 +5,6 @@ import LoginForm from './components/LoginForm/LoginForm'
 import SignupForm from './components/SignupForm/SignupForm'
 import Header from './components/Header/Header'
 import Home from './pages/Home'
-// import UserProfile from "./pages/UserProfile"
 import './App.css'
 
 const DisplayLinks = props => {

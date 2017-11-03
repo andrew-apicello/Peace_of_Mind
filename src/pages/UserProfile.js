@@ -3,7 +3,6 @@ import Clock from "../components/Clock";
 
 const UserProfile = () =>
   <div>
-    <h1>User Profile Component</h1>
 
     <Clock />
 
