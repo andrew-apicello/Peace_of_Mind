@@ -11,6 +11,7 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
+// var db = require("./models");
 const PORT = process.env.PORT || 3001;
 const twilio = require('twilio');
 const moment = require('moment');
@@ -19,8 +20,20 @@ const MongoStore = require('connect-mongo')(session);
 const passport = require('./passport');
 const dbConnection = require('./db');
 
+// // Connect to the Mongo DB
+// mongoose.Promise = Promise;
+// if (process.env.MONGODB_URI){
+//   mongoose.connect(process.env.MONGODB_URI);
+//   console.log("connected remotely");
+// } else {
+//   mongoose.connect("mongodb://localhost/pills", {
+//     useMongoClient: true
+//   });
+//   console.log("connected locally");
+// }
+
 //Serve Public Folder
-app.use(express.static("public"));
+// app.use(express.static("public"));
 
 
 //================ MIDDLEWARE ================= //
@@ -60,6 +73,8 @@ const accountSid = 'AC48ce06d27e69dece3a0702596ee55a08'; // Your Account SID fro
 const authToken = 'a9d53929a8bf32774108b4644960dba8';   // Your Auth Token from www.twilio.com/console
 
 const client = require('twilio')(accountSid, authToken);
+
+//======================
 
 let minutes;
 clock = () => {
@@ -208,6 +223,10 @@ queryDB = () => {
 
 //==================================Routes=========================================
 
+
+
+
+//==================================Routes=========================================
 
 
 // // Main "/" Route. This will redirect the user to our rendered React application

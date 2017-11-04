@@ -1,15 +1,13 @@
 
-
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-
 
 class SignupForm extends Component {
 	constructor() {
 		super()
 		this.state = {
-			username: '',
+			email: '',
 			password: '',
 			confirmPassword: '',
 			redirectTo: null
@@ -18,10 +16,7 @@ class SignupForm extends Component {
 		this.handleChange = this.handleChange.bind(this)
 	}
 	handleChange(event) {
-
-
 		console.log(event.target);
-
 		this.setState({
 			[event.target.name]: event.target.value
 		})
@@ -31,7 +26,7 @@ class SignupForm extends Component {
 		// TODO - validate!
 		axios
 			.post('/auth/signup', {
-				username: this.state.username,
+				email: this.state.email,
 				password: this.state.password
 			})
 			.then(response => {
@@ -39,9 +34,7 @@ class SignupForm extends Component {
 				if (!response.data.errmsg) {
 					console.log('youre good')
 					this.setState({
-
 						redirectTo: '/login'
-
 					})
 				} else {
 					console.log('duplicate')
@@ -54,12 +47,13 @@ class SignupForm extends Component {
 		}
 		return (
 			<div className="SignupForm">
+				<div className="container">
 				<h1>Signup form</h1>
-				<label htmlFor="username">Username: </label>
+				<label htmlFor="email">Email: </label>
 				<input
 					type="text"
-					name="username"
-					value={this.state.username}
+					name="email"
+					value={this.state.email}
 					onChange={this.handleChange}
 				/>
 				<label htmlFor="password">Password: </label>
@@ -77,6 +71,7 @@ class SignupForm extends Component {
 					onChange={this.handleChange}
 				/>
 				<button onClick={this.handleSubmit}>Sign up</button>
+			</div>
 			</div>
 		)
 	}

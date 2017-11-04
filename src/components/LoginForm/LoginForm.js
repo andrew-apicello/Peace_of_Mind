@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-// import googleButton from './google_signin_buttons/web/1x/btn_google_signin_dark_disabled_web.png'
-// import googleButton from './google_signin_buttons/web/1x/btn_google_signin_dark_normal_web.png'
 
 class LoginForm extends Component {
 	constructor() {
 		super()
 		this.state = {
-			username: '',
+			email: '',
 			password: '',
 			redirectTo: null
 		}
@@ -17,9 +15,7 @@ class LoginForm extends Component {
 	}
 
 	handleChange(event) {
-
 		console.log(event.target);
-
 		this.setState({
 			[event.target.name]: event.target.value
 		})
@@ -28,7 +24,7 @@ class LoginForm extends Component {
 	handleSubmit(event) {
 		event.preventDefault()
 		console.log('handleSubmit')
-		this.props._login(this.state.username, this.state.password)
+		this.props._login(this.state.email, this.state.password)
 		this.setState({
 			redirectTo: '/'
 		})
@@ -40,31 +36,32 @@ class LoginForm extends Component {
 		} else {
 			return (
 				<div className="LoginForm">
-					<h1>Login form</h1>
-					<form>
-						<label htmlFor="username">Username: </label>
-						<input
-							type="text"
-							name="username"
-							value={this.state.username}
-							onChange={this.handleChange}
-						/>
-						<label htmlFor="password">Password: </label>
-						<input
-							type="password"
-							name="password"
-							value={this.state.password}
-							onChange={this.handleChange}
-						/>
-						<button onClick={this.handleSubmit}>Login</button>
-					</form>
+					<div className="container">
+						<h1>Login form</h1>
+						<form>
+							<label htmlFor="email">Email: </label>
+							<input
+								type="text"
+								name="email"
+								value={this.state.email}
+								onChange={this.handleChange}
+							/>
+							<label htmlFor="password">Password: </label>
+							<input
+								type="password"
+								name="password"
+								value={this.state.password}
+								onChange={this.handleChange}
+							/>
+							<button onClick={this.handleSubmit}>Login</button>
+						</form>
+					</div>
 				</div>
 			)
 		}
 	}
 }
 
-
-export default LoginForm
+export default LoginForm;
 
 

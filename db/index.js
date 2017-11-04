@@ -4,11 +4,7 @@
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 let MONGO_URL
-
-
-
 const MONGO_LOCAL_URL = 'mongodb://localhost/pills'
-
 
 if (process.env.MONGODB_URI) {
 	mongoose.connect(process.env.MONGODB_URI)

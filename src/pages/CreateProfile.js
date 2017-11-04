@@ -6,7 +6,7 @@ const CreateProfile = () =>
     <h1>Create Profile Page</h1>
     <SignupForm />
 
-    <SignupForm />
+ 
 
   </div>;
 
