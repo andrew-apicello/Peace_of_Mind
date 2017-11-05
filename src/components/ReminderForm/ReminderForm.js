@@ -81,20 +81,22 @@ constructor() {
             reminderMessage: ""
           });
 
+
+          axios.get('/auth/reminders').then(response => {
+          console.log("Getting new reminders...")
+          console.log(response.data)
+          if (response.data) {
+            this.setState({
+              reminders: response.data
+            })
+          };
+        });
+
         } else {
           console.log('error')
         }
       })
 
-
-      axios.get('/auth/reminders').then(response => {
-      console.log(response.data)
-      if (response.data) {
-        this.setState({
-          reminders: response.data
-        })
-      };
-    });
   };
 
   render() {
