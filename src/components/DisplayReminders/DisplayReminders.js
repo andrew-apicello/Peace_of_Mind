@@ -14,7 +14,6 @@ constructor() {
       medicationQuantity: "",
       medicationRefillDate: "",
       reminderMessage: "",
-      remindersToText: [],
       numberToText: ""
     }
 }

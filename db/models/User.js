@@ -16,6 +16,12 @@ const userSchema = new Schema({
       unique: true,
       required: true
    },
+   userEmail: {
+      type: String,
+      unique: true,
+      required: true,
+      match: [/.+\@.+\..+/, "Please enter a valid e-mail address"]
+   },
    patients: [
       {
       type: Schema.Types.ObjectId,

@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import { Button } from "react-bootstrap";
 
 
 class PatientProfile extends React.Component {

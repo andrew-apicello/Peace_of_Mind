@@ -10,7 +10,7 @@ class SignupForm extends Component {
 			password: '',
 			confirmPassword: '',
 			phone: '',
-			email: '',
+			userEmail: '',
 			redirectTo: null
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
@@ -31,7 +31,7 @@ class SignupForm extends Component {
 				username: this.state.username,
 				password: this.state.password,
 				phone: this.state.phone,
-				email: this.state.email
+				userEmail: this.state.userEmail
 			})
 			.then(response => {
 				console.log(response)
@@ -82,8 +82,8 @@ class SignupForm extends Component {
               />
               <input
               	type="text"
-                name="email"
-                value={this.state.email}
+                name="userEmail"
+                value={this.state.userEmail}
                 onChange={this.handleChange}
                 placeholder="Email"
               />
