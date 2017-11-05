@@ -9,6 +9,7 @@ constructor() {
   super()
   this.state = {
       _id: "",
+      reminders: [],
       reminderTitle: "",
       dayToComplete: "",
       timeToComplete: "",
@@ -23,6 +24,15 @@ constructor() {
       if (response.data) {
         this.setState({
           _id: response.data._id
+        })
+      };
+    });
+
+      axios.get('/auth/reminders').then(response => {
+      console.log(response.data)
+      if (response.data) {
+        this.setState({
+          reminders: response.data
         })
       };
     });
@@ -70,10 +80,21 @@ constructor() {
             medicationRefillDate: "",
             reminderMessage: ""
           });
+
         } else {
           console.log('error')
         }
       })
+
+
+      axios.get('/auth/reminders').then(response => {
+      console.log(response.data)
+      if (response.data) {
+        this.setState({
+          reminders: response.data
+        })
+      };
+    });
   };
 
   render() {
@@ -129,6 +150,26 @@ constructor() {
                       </Button>
                     </div>
               </form>
+            </div>
+          </div>
+          <div className ='row'>
+            <div className='col-md-12'>
+            <p>Current Reminders:</p>
+            {this.state.reminders.length ? (
+              <ul>
+                {this.state.reminders.map(reminder => (
+                  <li key={reminder._id}>Title: {reminder.reminderTitle + " "}
+                  Day: {reminder.dayToComplete + " "}
+                  Time: {reminder.timeToComplete + " "}
+                  {reminder.medicationQuantity ? ( "Medication Qty: " + reminder.medicationQuantity + " ") : " "}
+                  {reminder.medicationRefillDate ? ("Medication Refill " + reminder.medicationRefillDate + " ") : " "}
+                  Message: {reminder.reminderMessage + " "}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+                <p>No Reminders to Display</p>
+              )}
             </div>
           </div>
         </div>

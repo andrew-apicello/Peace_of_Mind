@@ -1,7 +1,6 @@
 import React from 'react'
 import ReminderForm from '../components/ReminderForm'
 import PatientProfile from '../components/PatientProfile'
-import DisplayReminders from '../components/DisplayReminders'
 // import Clock from "../components/Clock";
 
 const Patient = props => {
@@ -12,7 +11,6 @@ const Patient = props => {
 				<PatientProfile />
 				<p>Add a reminder:</p>
 				<ReminderForm />
-				<DisplayReminders />
 			</div>
 		)
 	} else {
