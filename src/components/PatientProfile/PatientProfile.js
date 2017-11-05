@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Button } from "react-bootstrap";
 
 
 class PatientProfile extends React.Component {
@@ -32,9 +33,10 @@ constructor() {
         <div className ='container'>
           <div className ='row'>
             <div className='col-md-12'>
-              <p>Name: {this.state.patientName}</p>
+              <p id="patientName">Name: {this.state.patientName}</p>
               <p>Phone: {this.state.patientPhone}</p>
               <p>Address: {this.state.patientAddress}</p>
+
             </div>
           </div>
         </div>

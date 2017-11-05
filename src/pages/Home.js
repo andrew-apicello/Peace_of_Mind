@@ -1,6 +1,7 @@
 import React from 'react'
 import PatientForm from '../components/PatientForm'
-// import Clock from "../components/Clock";
+import DisplayReminders from '../components/DisplayReminders'
+import Clock from "../components/Clock";
 // TODO - add proptypes
 
 const Home = props => {
@@ -12,6 +13,8 @@ const Home = props => {
 				<code>
 					{JSON.stringify(props)}
 				</code>
+				<Clock />
+				<DisplayReminders />
 			</div>
 		)
 	} 

@@ -25,6 +25,7 @@ class SignupForm extends Component {
 	handleSubmit(event) {
 		event.preventDefault()
 		// TODO - validate!
+		console.log(this.state.email);
 		axios
 			.post('/auth/signup', {
 				username: this.state.username,

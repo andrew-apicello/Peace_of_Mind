@@ -4,6 +4,13 @@ const User = require('../../db/models/user')
 const passport = require('passport')
 const Patient = require('../../db/models/patients')
 const Reminder = require('../../db/models/reminders')
+//==================================Twilio=========================================
+const twilio = require('twilio');
+const accountSid = 'AC48ce06d27e69dece3a0702596ee55a08'; // Your Account SID from www.twilio.com/console
+const authToken = 'a9d53929a8bf32774108b4644960dba8';   // Your Auth Token from www.twilio.com/console
+
+const client = require('twilio')(accountSid, authToken);
+
 
 // this route is just used to get the user basic info
 router.get('/user', (req, res, next) => {
@@ -48,6 +55,9 @@ router.post('/logout', (req, res) => {
 
 router.post('/signup', (req, res) => {
 	const { username, password, phone, email } = req.body
+
+	console.log(email);
+	console.log(req.body.email)
 	// ADD VALIDATION
 	User.findOne({ 'local.username': username }, (err, userMatch) => {
 		if (userMatch) {
@@ -81,6 +91,44 @@ router.get('/patients', (req, res) => {
 router.get('/reminders', (req, res) => {
   Reminder.find({}).then(function(reminders) {
     res.json(reminders);
+  }).catch(function(err) {
+    res.json(err);
+  })
+})
+
+
+router.get('/reminders/:day', (req, res) => {
+  let today = req.params.day;
+  Reminder.find({dayToComplete: today}).then(function(reminders) {
+    res.json(reminders);
+  }).catch(function(err) {
+    res.json(err);
+  })
+})
+
+router.get('/reminders/:day/:time/:phone', (req, res) => {
+  let today = req.params.day;
+  let time = req.params.time;
+  let phone = req.params.phone;
+  Reminder.find({dayToComplete: today, timeToComplete: time}).then(function(reminders) {
+    console.log(reminders);
+    res.json(reminders);
+
+
+	  for (let i = 0; i < reminders.length; i++) {
+	    let text = reminders[i].reminderMessage
+	    console.log(text);
+	    console.log(phone);
+	    client.messages.create({
+	        body: text,
+	        to: "+1" + phone,  // Text this number
+	        from: '+14848123347' // Our valid Twilio number
+	    })
+	    // Log that the message was sent.
+	    .then((message) => console.log(message.sid));
+	    }
+
+
   }).catch(function(err) {
     res.json(err);
   })
