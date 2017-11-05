@@ -109,31 +109,31 @@ constructor() {
                         name="reminderTitle"
                         value={this.state.reminderTitle}
                         onChange={this.handleInputChange}
-                        placeholder="Reminder Title"
+                        placeholder="Type i.e. Medication Reminder"
                       />
                       <Input
                         name="dayToComplete"
                         value={this.state.dayToComplete}
                         onChange={this.handleInputChange}
-                        placeholder="Day to complete"
+                        placeholder="Day"
                       />
                       <Input
                         name="timeToComplete"
                         value={this.state.timeToComplete}
                         onChange={this.handleInputChange}
-                        placeholder="What time to take"
+                        placeholder="Time"
                       />
                       <Input
                         name="medicationQuantity"
                         value={this.state.medicationQuantity}
                         onChange={this.handleInputChange}
-                        placeholder="Medication Quantity"
+                        placeholder="Medication Quantity (if a medication reminder)"
                       />
                       <Input
                         name="medicationRefillDate"
                         value={this.state.medicationRefillDate}
                         onChange={this.handleInputChange}
-                        placeholder="Refill Date"
+                        placeholder="Refill Date (if a medication reminder)"
                       />
                       <Input
                         name="reminderMessage"
@@ -155,20 +155,79 @@ constructor() {
           <div className ='row'>
             <div className='col-md-12'>
             <p>Current Reminders:</p>
+
             {this.state.reminders.length ? (
-              <ul>
+              <div>
+                <br/>
+                <p>SUNDAY: </p>
                 {this.state.reminders.map(reminder => (
-                  <li key={reminder._id}>Title: {reminder.reminderTitle + " "}
-                  Day: {reminder.dayToComplete + " "}
-                  Time: {reminder.timeToComplete + " "}
-                  {reminder.medicationQuantity ? ( "Medication Qty: " + reminder.medicationQuantity + " ") : " "}
-                  {reminder.medicationRefillDate ? ("Medication Refill " + reminder.medicationRefillDate + " ") : " "}
-                  Message: {reminder.reminderMessage + " "}
-                  </li>
+                  <div key={reminder._id} id={reminder._id}>
+                  {reminder.dayToComplete === "Sunday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  </div>
                 ))}
-              </ul>
+              
+
+
+                <br/>
+                <p>MONDAY: </p>
+                {this.state.reminders.map(reminder => (
+                  <div key={reminder._id} id={reminder._id}>
+                  {reminder.dayToComplete === "Monday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  </div>
+                ))}
+
+
+
+                <br/>
+                <p>TUESDAY: </p>
+                {this.state.reminders.map(reminder => (
+                  <div key={reminder._id} id={reminder._id}>
+                  {reminder.dayToComplete === "Tuesday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  </div>
+                ))}
+
+
+
+                <br/>
+                <p>WEDNESDAY: </p>
+                {this.state.reminders.map(reminder => (
+                  <div key={reminder._id} id={reminder._id}>
+                  {reminder.dayToComplete === "Wednesday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  </div>
+                ))}
+
+
+
+                <br/>
+                <p>THURSDAY: </p>
+                {this.state.reminders.map(reminder => (
+                  <div key={reminder._id} id={reminder._id}>
+                  {reminder.dayToComplete === "Thursday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  </div>
+                ))}
+
+
+
+                <br/>
+                <p>FRIDAY: </p>
+                {this.state.reminders.map(reminder => (
+                  <div key={reminder._id} id={reminder._id}>
+                  {reminder.dayToComplete === "Friday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  </div>
+                ))}
+
+
+
+                <br/>
+                <p>SATURDAY: </p>
+                {this.state.reminders.map(reminder => (
+                  <div key={reminder._id} id={reminder._id}>
+                  {reminder.dayToComplete === "Saturday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  </div>
+                ))}
+              </div>
             ) : (
-                <p>No Reminders to Display</p>
+                <p>No Reminders Scheduled</p>
               )}
             </div>
           </div>
