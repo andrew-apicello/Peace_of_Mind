@@ -9,6 +9,8 @@ class SignupForm extends Component {
 			username: '',
 			password: '',
 			confirmPassword: '',
+			phone: '',
+			email: '',
 			redirectTo: null
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
@@ -26,7 +28,9 @@ class SignupForm extends Component {
 		axios
 			.post('/auth/signup', {
 				username: this.state.username,
-				password: this.state.password
+				password: this.state.password,
+				phone: this.state.phone,
+				email: this.state.email
 			})
 			.then(response => {
 				console.log(response)
@@ -68,6 +72,20 @@ class SignupForm extends Component {
 					value={this.state.confirmPassword}
 					onChange={this.handleChange}
 				/>
+              <input
+              	type="text"
+                name="phone"
+                value={this.state.phone}
+                onChange={this.handleChange}
+                placeholder="Phone"
+              />
+              <input
+              	type="text"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleChange}
+                placeholder="Email"
+              />
 				<button onClick={this.handleSubmit}>Sign up</button>
 			</div>
 		)

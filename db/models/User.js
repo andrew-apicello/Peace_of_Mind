@@ -11,6 +11,17 @@ const userSchema = new Schema({
 		username: { type: String, unique: false, required: false },
 		password: { type: String, unique: false, required: false }
 	},
+   phone: {
+      type: String,
+      unique: true,
+      required: true
+   },
+   patients: [
+      {
+      type: Schema.Types.ObjectId,
+      ref: "Patient"
+      }
+     ],
 	photos: []
 	// local: {
 	// 	email: { type: String, unique: true },

@@ -5,6 +5,7 @@ import LoginForm from './components/LoginForm/LoginForm'
 import SignupForm from './components/SignupForm/SignupForm'
 import Header from './components/Header/Header'
 import Home from './pages/Home'
+import Patient from './pages/Patient'
 
 const DisplayLinks = props => {
 	if (props.loggedIn) {
@@ -19,6 +20,11 @@ const DisplayLinks = props => {
 					<li>
 						<Link to="#" className="nav-link" onClick={props._logout}>
 							Logout
+						</Link>
+					</li>
+					<li>
+						<Link to="/patient" className="nav-link">
+							Patient Profile
 						</Link>
 					</li>
 				</ul>
@@ -54,7 +60,8 @@ class App extends Component {
 		super()
 		this.state = {
 			loggedIn: false,
-			user: null
+			user: null,
+			patient: null
 		}
 		this._logout = this._logout.bind(this)
 		this._login = this._login.bind(this)
@@ -120,6 +127,8 @@ class App extends Component {
 				{/*  ROUTES */}
 				{/* <Route exact path="/" component={Home} /> */}
 				<Route exact path="/" render={() => <Home user={this.state.user} />} 
+				/>
+				<Route exact path="/patient" render={() => <Patient user={this.state.user} />} 
 				/>
 				<Route exact path="/login" render={() =>
 						<LoginForm _login={this._login} />

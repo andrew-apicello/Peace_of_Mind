@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const User = require('../../db/models/user')
 const passport = require('passport')
+const Patient = require('../../db/models/patients')
+const Reminder = require('../../db/models/reminders')
 
 // this route is just used to get the user basic info
 router.get('/user', (req, res, next) => {
@@ -45,7 +47,7 @@ router.post('/logout', (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-	const { username, password } = req.body
+	const { username, password, phone, email } = req.body
 	// ADD VALIDATION
 	User.findOne({ 'local.username': username }, (err, userMatch) => {
 		if (userMatch) {
@@ -55,7 +57,9 @@ router.post('/signup', (req, res) => {
 		}
 		const newUser = new User({
 			'local.username': username,
-			'local.password': password
+			'local.password': password,
+			'phone': phone,
+			'email': email
 		})
 		newUser.save((err, savedUser) => {
 			if (err) return res.json(err)
@@ -64,4 +68,74 @@ router.post('/signup', (req, res) => {
 	})
 })
 
-module.exports = router
+
+router.get('/patients', (req, res) => {
+  Patient.findOne({}).then(function(patients) {
+    res.json(patients);
+  }).catch(function(err) {
+    res.json(err);
+  })
+})
+
+
+router.get('/reminders', (req, res) => {
+  Reminder.find({}).then(function(reminders) {
+    res.json(reminders);
+  }).catch(function(err) {
+    res.json(err);
+  })
+})
+
+
+router.post("/addPatient", (req, res) => {
+	const caretakerId = req.body._id;
+	const { patientName, patientPhone, patientAddress } = req.body
+
+	const newPatient = new Patient({
+		patientName: patientName,
+		patientPhone: patientPhone,
+		patientAddress: patientAddress
+	})
+	newPatient.save((err, savedPatient) => {
+		if (err) return res.json(err)
+	})
+
+	.then(function(dbPatient) {
+	return User.findOneAndUpdate({_id: caretakerId}, { $push: { patients: dbPatient._id } }, {new:true});
+    }).then(function(dbUser) {
+      res.json(dbUser);
+    })
+    .catch(function(err) {
+      res.json(err);
+    })
+});
+
+
+router.post("/addReminder", (req, res) => {
+	const patientId = req.body._id;
+	const { reminderTitle, dayToComplete, timeToComplete, medicationQuantity, medicationRefillDate, reminderMessage } = req.body
+
+	const newReminder = new Reminder ({
+		reminderTitle: reminderTitle,
+		dayToComplete: dayToComplete,
+		timeToComplete: timeToComplete,
+		medicationQuantity: medicationQuantity,
+		medicationRefillDate: medicationRefillDate,
+		reminderMessage: reminderMessage
+	})
+	newReminder.save((err, savedReminder) => {
+		if (err) return res.json(err)
+	})
+
+	.then(function(dbReminder) {
+	return Patient.findOneAndUpdate({_id: patientId}, { $push: { reminders: dbReminder._id } }, {new:true});
+    }).then(function(dbUser) {
+      res.json(dbUser);
+    })
+    .catch(function(err) {
+      res.json(err);
+    })
+
+});
+
+module.exports = router;

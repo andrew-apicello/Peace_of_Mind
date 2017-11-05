@@ -18,9 +18,11 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('./passport');
 const dbConnection = require('./db');
+// const routes = require("./routes");
 
 //Serve Public Folder
 app.use(express.static("public"));
+// app.use(routes);
 
 
 //================ MIDDLEWARE ================= //
@@ -99,12 +101,6 @@ switch (new Date().getDay()) {
     case 6:
         day = "Saturday";
 }
-
-
-app.post("/addMedication"), (req, res) => {
-	console.log(req.body);
-	console.log(res.body);
-};
 
 
 // Go into DB and find all reminders on a specified day and time and get patient phone and task to be texted

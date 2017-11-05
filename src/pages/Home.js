@@ -1,20 +1,36 @@
 import React from 'react'
-import Calendar from '../components/Calendar'
+import PatientForm from '../components/PatientForm'
 // import Clock from "../components/Clock";
 // TODO - add proptypes
 
 const Home = props => {
-	if (props.user) {
+	// If a user exists and if that user has patients, display the patient's reminders
+	if (props.user && props.user.patients.length > 0) {
 		return (
 			<div className="Home">
 				<p>Current User:</p>
 				<code>
 					{JSON.stringify(props)}
 				</code>
-				<Calendar/>
 			</div>
 		)
-	} else {
+	} 
+	// Display the add a patient form if the user doesn't have a saved patient
+	else if (props.user && props.user.patients.length === 0) {
+		return (
+			<div className="Home">
+						{console.log(props.user)}
+				<p>Current User:</p>
+				<code>
+					{JSON.stringify(props)}
+				</code>
+				<p>Add a patient to get started:</p>
+				<PatientForm />
+			</div>
+		)
+	} 
+
+	else if (!props.user) {
 		return (
 			<div className="Home">
 				<p>Current User:</p>
