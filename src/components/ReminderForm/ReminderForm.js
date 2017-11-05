@@ -163,52 +163,63 @@ constructor() {
                 {this.state.reminders.map(reminder => (
                   <div key={reminder._id} id={reminder._id}>
                   {reminder.dayToComplete === "Sunday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete === "Sunday" && !reminder.medicationQuantity && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
                   </div>
                 ))}
               
 
 
                 <br/>
+                <hr/>
                 <p>MONDAY: </p>
                 {this.state.reminders.map(reminder => (
                   <div key={reminder._id} id={reminder._id}>
                   {reminder.dayToComplete === "Monday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete === "Monday" && !reminder.medicationQuantity && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
                   </div>
                 ))}
 
 
 
                 <br/>
+                <hr/>
                 <p>TUESDAY: </p>
                 {this.state.reminders.map(reminder => (
                   <div key={reminder._id} id={reminder._id}>
                   {reminder.dayToComplete === "Tuesday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete === "Tuesday" && !reminder.medicationQuantity && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}          
                   </div>
                 ))}
 
 
 
                 <br/>
+                <hr/>
                 <p>WEDNESDAY: </p>
                 {this.state.reminders.map(reminder => (
                   <div key={reminder._id} id={reminder._id}>
                   {reminder.dayToComplete === "Wednesday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete === "Wednesday" && !reminder.medicationQuantity && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
                   </div>
                 ))}
 
 
 
                 <br/>
+                <hr/>
                 <p>THURSDAY: </p>
                 {this.state.reminders.map(reminder => (
                   <div key={reminder._id} id={reminder._id}>
                   {reminder.dayToComplete === "Thursday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete === "Thursday" && !reminder.medicationQuantity && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
+
                   </div>
                 ))}
 
 
 
                 <br/>
+                <hr/>
                 <p>FRIDAY: </p>
                 {this.state.reminders.map(reminder => (
                   <div key={reminder._id} id={reminder._id}>
@@ -219,6 +230,7 @@ constructor() {
 
 
                 <br/>
+                <hr/>
                 <p>SATURDAY: </p>
                 {this.state.reminders.map(reminder => (
                   <div key={reminder._id} id={reminder._id}>
