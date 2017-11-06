@@ -25,6 +25,11 @@ const userSchema = new Schema({
 			]
 		}
 	},
+  phone: {
+    type: String,
+    unique: true,
+    required: true
+  },
 	patients: [
     {
     type: Schema.Types.ObjectId,

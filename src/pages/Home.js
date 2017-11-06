@@ -6,7 +6,7 @@ import Carousel from "../components/Carousel";
 
 const Home = props => {
 	// If a user exists and if that user has patients, display the patient's reminders
-	if (props.user) {
+	if (props.user && props.user.patients.length > 0) {
 		return (
 			<div className="Home">
 				<Clock />
@@ -14,20 +14,16 @@ const Home = props => {
 			</div>
 		)
 	} 
-	// // Display the add a patient form if the user doesn't have a saved patient
-	// else if (props.user && (props.user.patients.length === 0)) {
-	// 	return (
-	// 		<div className="Home">
-	// 					{console.log(props.user)}
-	// 			<p>Current User:</p>
-	// 			<code>
-	// 				{JSON.stringify(props)}
-	// 			</code>
-	// 			<p>Add a patient to get started:</p>
-	// 			<PatientForm />
-	// 		</div>
-	// 	)
-	// } 
+	// Display the add a patient form if the user doesn't have a saved patient
+	else if (props.user && props.user.patients.length === 0) {
+		return (
+			<div className="Home">
+						{console.log(props.user)}
+				<p>Add a patient to get started:</p>
+				<PatientForm />
+			</div>
+		)
+	} 
 
 	else if (!props.user) {
 		return (

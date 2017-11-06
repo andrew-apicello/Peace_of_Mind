@@ -9,6 +9,7 @@ class SignupForm extends Component {
 		super()
 		this.state = {
 			email: '',
+			phone: '',
 			password: '',
 			confirmPassword: '',
 			redirectTo: null,
@@ -78,7 +79,8 @@ class SignupForm extends Component {
 			axios
 			.post('/auth/signup', {
 				email: this.state.email,
-				password: this.state.password
+				password: this.state.password,
+				phone: this.state.phone
 			})
 			.then(response => {
 				console.log(response)
@@ -111,18 +113,28 @@ class SignupForm extends Component {
 				<div className="col-md-12">
 					<div className="SignupForm">
 						<h3>Signup</h3>
-						<Form inline className="form">
+						<Form className="form">
 							<FormGroup
 		        	>
 								<ControlLabel className="form-label">Email</ControlLabel>
-								<FormControl
-									type="email"
-									name="email"
-									value={this.state.email}
-									onChange={this.handleChange}
-									className="form-control"
-								/>
+									<FormControl
+										type="email"
+										name="email"
+										value={this.state.email}
+										onChange={this.handleChange}
+										className="form-control"
+									/>
 							</FormGroup>
+							<FormGroup>
+								<ControlLabel className="form-label">Phone Number</ControlLabel>
+								<FormControl
+	              	type="text"
+	                name="phone"
+	                value={this.state.phone}
+	                onChange={this.handleChange}
+	                placeholder="Phone"
+	              	/>
+              </FormGroup>
 								<ControlLabel className="form-label">Password</ControlLabel>
 							<FormGroup
 								controlId="password"
