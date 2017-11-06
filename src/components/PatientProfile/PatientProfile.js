@@ -13,14 +13,16 @@ constructor() {
     }
 }
   componentDidMount() {
-    axios.get('/auth/patients').then(response => {
+    const id = this.props.user._id;
+    axios.get('/auth/patients/' + id).then(response => {
+
       console.log(response.data)
       if (response.data) {
         this.setState({
-          _id: response.data._id,
-          patientName: response.data.patientName,
-          patientPhone: response.data.patientPhone,
-          patientAddress: response.data.patientAddress
+          _id: response.data[0]._id,
+          patientName: response.data[0].patientName,
+          patientPhone: response.data[0].patientPhone,
+          patientAddress: response.data[0].patientAddress
         })
       };
     });

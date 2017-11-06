@@ -79,21 +79,38 @@ router.post('/signup', (req, res) => {
 })
 
 
-router.get('/patients', (req, res) => {
-  Patient.findOne({}).then(function(patients) {
+router.get('/patients/:id', (req, res) => {
+
+const id = req.params.id;
+let patientID;
+
+  User.find({_id:id}).then(function(user) {
+  	patientID = user[0].patients[0];
+
+  Patient.find({_id: patientID}).then(function(patients) {
     res.json(patients);
   }).catch(function(err) {
     res.json(err);
   })
 })
 
+})
 
-router.get('/reminders', (req, res) => {
-  Reminder.find({}).then(function(reminders) {
+
+router.get('/reminders/:patientId', (req, res) => {
+const patientId = req.params.patientId;
+console.log("Getting reminders route")
+  Patient.find({_id:patientId}).then(function(patient) {
+  	console.log("current patient: " + patient);
+  	reminderId = patient[0].reminders;
+  	console.log("reminderID" + reminderId);
+
+  Reminder.find({_id: reminderId}).then(function(reminders) {
     res.json(reminders);
   }).catch(function(err) {
     res.json(err);
   })
+ })
 })
 
 
@@ -115,18 +132,18 @@ router.get('/reminders/:day/:time/:phone', (req, res) => {
     res.json(reminders);
 
 
-	  for (let i = 0; i < reminders.length; i++) {
-	    let text = reminders[i].reminderMessage
-	    console.log(text);
-	    console.log(phone);
-	    client.messages.create({
-	        body: text,
-	        to: "+1" + phone,  // Text this number
-	        from: '+14848123347' // Our valid Twilio number
-	    })
-	    // Log that the message was sent.
-	    .then((message) => console.log(message.sid));
-	    }
+	  // for (let i = 0; i < reminders.length; i++) {
+	  //   let text = reminders[i].reminderMessage
+	  //   console.log(text);
+	  //   console.log(phone);
+	  //   client.messages.create({
+	  //       body: text,
+	  //       to: "+1" + phone,  // Text this number
+	  //       from: '+14848123347' // Our valid Twilio number
+	  //   })
+	  //   // Log that the message was sent.
+	  //   .then((message) => console.log(message.sid));
+	  //   }
 
 
   }).catch(function(err) {

@@ -54,7 +54,10 @@ constructor() {
 				if (!response.data.errmsg) {
 					console.log('new patient was added')
           this.setState({
-            redirectTo: '/reminders'
+            patientName: "",
+            patientPhone: "",
+            patientAddress: "",
+            redirectTo: '/patient'
           })
 				} else {
 					console.log('error')

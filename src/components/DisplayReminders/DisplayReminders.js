@@ -45,7 +45,6 @@ constructor() {
     // Get all reminders based on what day it is to display on the screen
     axios.get('/auth/reminders/' + day).then(response => {
       console.log(response.data)
-      console.log(day)
       if (response.data) {
         this.setState({
           reminders: response.data
@@ -53,7 +52,7 @@ constructor() {
       };
     });
 
-    // Get the patient's phone number
+    // Get the patient's phone number -- Need to base this on who is logged in
     axios.get('/auth/patients').then(response => {
       console.log(response.data)
       console.log("number to text " + response.data.patientPhone);
@@ -65,12 +64,12 @@ constructor() {
     });
 
     // Get the current time and query the db based on what time it is to check for reminders
-    let minutes;
     const clock = () => {
+      console.log("clock function has been called");
       // Get the current minute
-      minutes = moment().format('mm');
+      let minutes = moment().format('mm');
 
-      if(minutes == 0 || minutes == 30) {
+      if(minutes == 26 || minutes == 30) {
         console.log(minutes);
         // Get the full current time to compare with DB
         let time = moment().format('H:mm');
@@ -83,7 +82,7 @@ constructor() {
       }
     }
     // Run the clock function every minute
-    setInterval(clock, 60000);
+    setInterval(clock, 60001);
 
   }
 

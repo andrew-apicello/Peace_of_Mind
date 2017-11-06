@@ -117,6 +117,7 @@ class App extends Component {
 	}
 
 	render() {
+		console.log(this.state.user);
 		return (
 			<div className="App">
 				<h1>This is the main App component</h1>

@@ -19,16 +19,21 @@ constructor() {
     }
 }
   componentDidMount() {
-    axios.get('/auth/patients').then(response => {
+    const id = this.props.user._id;
+    const patientId = this.props.user.patients[0];
+
+    console.log("patientId: " + patientId);
+
+    axios.get('/auth/patients/' + id).then(response => {
       console.log(response.data)
       if (response.data) {
         this.setState({
-          _id: response.data._id
+          _id: response.data[0]._id
         })
       };
     });
 
-      axios.get('/auth/reminders').then(response => {
+      axios.get('/auth/reminders/' + patientId).then(response => {
       console.log(response.data)
       if (response.data) {
         this.setState({
@@ -50,6 +55,7 @@ constructor() {
   handleFormSubmit = event => {
     // When the form is submitted, prevent its default behavior, get recipes update the recipes state
     event.preventDefault();
+    const patientId = this.props.user.patients[0];
     console.log(this.state.reminderTitle);
     console.log(this.state.dayToComplete);
     console.log(this.state.timeToComplete);
@@ -82,7 +88,7 @@ constructor() {
           });
 
 
-          axios.get('/auth/reminders').then(response => {
+          axios.get('/auth/reminders/' + patientId).then(response => {
           console.log("Getting new reminders...")
           console.log(response.data)
           if (response.data) {
