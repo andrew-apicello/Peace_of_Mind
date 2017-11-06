@@ -5,25 +5,6 @@ var Schema = mongoose.Schema;
 
 var PatientSchema = new Schema({
 
-   caretakerName: {
-      type: String,
-      trim: true,
-      required: true
-   },
-
-   caretakerPhone: {
-      type: String,
-      unique: true,
-      required: true
-   },
-
-   caretakerEmail: {
-      type: String,
-      unique: true,
-      required: true,
-      match: [/.+\@.+\..+/, "Please enter a valid e-mail address"]
-   },
-
    patientName: {
       type: String,
       trim: true,

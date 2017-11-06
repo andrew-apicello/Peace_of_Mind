@@ -20,21 +20,6 @@ const MongoStore = require('connect-mongo')(session);
 const passport = require('./passport');
 const dbConnection = require('./db');
 
-// // Connect to the Mongo DB
-// mongoose.Promise = Promise;
-// if (process.env.MONGODB_URI){
-//   mongoose.connect(process.env.MONGODB_URI);
-//   console.log("connected remotely");
-// } else {
-//   mongoose.connect("mongodb://localhost/pills", {
-//     useMongoClient: true
-//   });
-//   console.log("connected locally");
-// }
-
-//Serve Public Folder
-// app.use(express.static("public"));
-
 
 //================ MIDDLEWARE ================= //
 app.use(logger('dev'))
@@ -56,6 +41,7 @@ app.use(
 //================ PASSPORT ================= //
 app.use(passport.initialize())
 app.use(passport.session()) // will call the deserializeUser
+
 
 app.use('/auth', require('./passport/auth'))
 

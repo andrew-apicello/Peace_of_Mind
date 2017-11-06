@@ -1,24 +1,42 @@
-import React from 'react'
-import UserProfile from "./UserProfile"
-
-// TODO - add proptypes
+import React from 'react';
+import PatientForm from '../components/PatientForm';
+import DisplayReminders from '../components/DisplayReminders';
+import Clock from "../components/Clock";
+import Carousel from "../components/Carousel";
 
 const Home = props => {
+	// If a user exists and if that user has patients, display the patient's reminders
 	if (props.user) {
 		return (
 			<div className="Home">
-					<UserProfile />
+				<Clock />
+				<DisplayReminders />
 			</div>
 		)
-	} else {
+	} 
+	// // Display the add a patient form if the user doesn't have a saved patient
+	// else if (props.user && (props.user.patients.length === 0)) {
+	// 	return (
+	// 		<div className="Home">
+	// 					{console.log(props.user)}
+	// 			<p>Current User:</p>
+	// 			<code>
+	// 				{JSON.stringify(props)}
+	// 			</code>
+	// 			<p>Add a patient to get started:</p>
+	// 			<PatientForm />
+	// 		</div>
+	// 	)
+	// } 
+
+	else if (!props.user) {
 		return (
+			<div>				<Carousel />
 			<div className="Home">
-				<div className="row">
-					<div className="col-md-6">
-						<h1>Peace of Mind</h1>
-						<img src="https://www.thesun.co.uk/wp-content/uploads/2017/01/nintchdbpict000261270267.jpg?strip=all&w=960" alt="image"></img>
-					</div>
-				</div>
+
+				<h1>Peace of Mind</h1>
+				<p>I am not logged in</p>
+			</div>
 			</div>
 		)
 	}
