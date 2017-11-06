@@ -1,6 +1,6 @@
 import React from 'react';
 import Input from "../Input/Input"
-import { Button } from "react-bootstrap"
+import { Button, FormGroup, ControlLabel, FormControl, Form } from "react-bootstrap"
 import axios from 'axios';
 
 
@@ -105,26 +105,42 @@ constructor() {
         <div className ='container'>
           <div className ='row'>
             <div className='col-md-12'>
-                <form>
+                <Form>
                   <div className='row'>
-                      <Input
+                    <FormGroup>
+                      <FormControl
                         name="reminderTitle"
+                        type="text"
                         value={this.state.reminderTitle}
                         onChange={this.handleInputChange}
                         placeholder="Type i.e. Medication Reminder"
                       />
-                      <Input
+                    </FormGroup>
+                    <FormGroup>
+                      <FormControl
+                        componentClass="select"
                         name="dayToComplete"
                         value={this.state.dayToComplete}
                         onChange={this.handleInputChange}
                         placeholder="Day"
-                      />
-                      <Input
+                      >
+                        <option value="">Select Day</option>
+                        <option value="Sunday">Sunday</option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                      </FormControl>
+                    </FormGroup>
+                    <FormGroup>
+                      <FormControl
                         name="timeToComplete"
                         value={this.state.timeToComplete}
                         onChange={this.handleInputChange}
                         placeholder="Time"
                       />
+                    </FormGroup>
                       <Input
                         name="medicationQuantity"
                         value={this.state.medicationQuantity}
@@ -151,7 +167,7 @@ constructor() {
                         Add Reminder
                       </Button>
                     </div>
-              </form>
+              </Form>
             </div>
           </div>
           <div className ='row'>

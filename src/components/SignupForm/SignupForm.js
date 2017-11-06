@@ -126,85 +126,89 @@ class SignupForm extends Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		}
 		return (
-					<div className="SignupForm">
-						<Form inline className="form">
-							<h3>Signup</h3>
-							<FormGroup
-		        	>
-								<ControlLabel className="form-label">First Name: </ControlLabel>
-									<FormControl
-										type="text"
-										name="firstName"
-										value={this.state.firstName}
-										onChange={this.handleChange}
-										className="form-control"
-									/>
-							</FormGroup>
-							<FormGroup
-		        	>
-								<ControlLabel className="form-label">Last Name: </ControlLabel>
-									<FormControl
-										type="text"
-										name="lastName"
-										value={this.state.lastName}
-										onChange={this.handleChange}
-										className="form-control"
-									/>
-							</FormGroup>
-							<FormGroup
-		        	>
-								<ControlLabel className="form-label">Email</ControlLabel>
-									<FormControl
-										type="email"
-										name="email"
-										value={this.state.email}
-										onChange={this.handleChange}
-										className="form-control"
-									/>
-							</FormGroup>
-							<FormGroup>
-								<ControlLabel className="form-label">Phone Number</ControlLabel>
+			<div className="container">
+				<div className="SignupForm">
+					<Form className="form">
+						<h3>Signup</h3>
+						<FormGroup
+	        	>
+							<ControlLabel className="form-label">First Name: </ControlLabel>
 								<FormControl
-	              	type="text"
-	                name="phone"
-	                value={this.state.phone}
-	                onChange={this.handleChange}
-	                placeholder="Phone"
-	              	/>
-              </FormGroup>
-								<ControlLabel className="form-label">Password</ControlLabel>
-							<FormGroup
-								controlId="password"
-		        		validationState={this.passwordLengthValidate()}
-		        	>
-								<FormControl
-									type="password"
-									name="password"
-									value={this.state.password}
+									type="text"
+									name="firstName"
+									value={this.state.firstName}
 									onChange={this.handleChange}
 									className="form-control"
-									minLength="6"
-									maxLength="15"
 								/>
-							</FormGroup>
-							<ControlLabel className="form-label">Confirm Password</ControlLabel>
-							<FormGroup
-								controlId="formBasicText"
-		        		validationState={this.confirmPasswordValidate()}
-		        	>
+						</FormGroup>
+						<FormGroup
+	        	>
+							<ControlLabel className="form-label">Last Name: </ControlLabel>
 								<FormControl
-									type="password"
-									name="confirmPassword"
-									value={this.state.confirmPassword}
+									type="text"
+									name="lastName"
+									value={this.state.lastName}
 									onChange={this.handleChange}
 									className="form-control"
-									minLength="6"
-									maxLength="15"
 								/>
-							</FormGroup>
-							<Button onClick={this.handleSubmit} className="btn">Sign up</Button>
-						</Form>
-					</div>
+						</FormGroup>
+						<FormGroup
+	        	>
+							<ControlLabel className="form-label">Email</ControlLabel>
+								<FormControl
+									type="email"
+									name="email"
+									value={this.state.email}
+									onChange={this.handleChange}
+									className="form-control"
+									placeholder="example@example.com"
+								/>
+						</FormGroup>
+						<FormGroup>
+							<ControlLabel className="form-label">Phone Number</ControlLabel>
+							<FormControl
+              	type="tel"
+              	pattern="^\d{3}-\d{3}-\d{4}$" required
+                name="phone"
+                value={this.state.phone}
+                onChange={this.handleChange}
+                placeholder="000-000-0000"
+              	/>
+            </FormGroup>
+							<ControlLabel className="form-label">Password</ControlLabel>
+						<FormGroup
+							controlId="password"
+	        		validationState={this.passwordLengthValidate()}
+	        	>
+							<FormControl
+								type="password"
+								name="password"
+								value={this.state.password}
+								onChange={this.handleChange}
+								className="form-control"
+								minLength="6"
+								maxLength="15"
+							/>
+						</FormGroup>
+						<ControlLabel className="form-label">Confirm Password</ControlLabel>
+						<FormGroup
+							controlId="formBasicText"
+	        		validationState={this.confirmPasswordValidate()}
+	        	>
+							<FormControl
+								type="password"
+								name="confirmPassword"
+								value={this.state.confirmPassword}
+								onChange={this.handleChange}
+								className="form-control"
+								minLength="6"
+								maxLength="15"
+							/>
+						</FormGroup>
+						<Button onClick={this.handleSubmit} className="btn">Sign up</Button>
+					</Form>
+				</div>
+			</div>
 		)
 	}
 }

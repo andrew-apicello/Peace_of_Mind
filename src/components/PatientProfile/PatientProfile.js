@@ -20,7 +20,10 @@ constructor() {
           _id: response.data._id,
           patientName: response.data.patientName,
           patientPhone: response.data.patientPhone,
-          patientAddress: response.data.patientAddress
+          patientStreet: response.data.patientStreet,
+          patientCity: response.data.patientCity,
+          patientState: response.data.patientState,
+          patientZip: response.data.patientZip
         })
       };
     });
@@ -34,7 +37,7 @@ constructor() {
             <div className='col-md-12'>
               <p id="patientName">Name: {this.state.patientName}</p>
               <p>Phone: {this.state.patientPhone}</p>
-              <p>Address: {this.state.patientAddress}</p>
+              <p>Address: {this.state.patientStreet}, {this.state.patientCity}, {this.state.patientState} {this.state.patientZip}</p>
 
             </div>
           </div>
