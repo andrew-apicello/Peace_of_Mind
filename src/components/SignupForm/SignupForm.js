@@ -8,6 +8,8 @@ class SignupForm extends Component {
 	constructor() {
 		super()
 		this.state = {
+			firstName: "",
+			lastName: "",
 			email: '',
 			phone: '',
 			password: '',
@@ -43,8 +45,21 @@ class SignupForm extends Component {
 
 	handleSubmit = event => {
 		event.preventDefault()
+		//If no First Name is entered
+		if(!this.state.firstName){
+			alert("Please enter your First Name");
+		
+			this.setState({
+				redirectTo: ""
+			})
+		}else if (!this.state.lastName){
+			alert("Please enter your Last Name");
+
+			this.setState({
+				redirstTo: ""
+			})	
 		//If no email is input
-		if (!this.state.email){
+		}else if (!this.state.email){
 			alert("Please enter an email");
 
 			 this.setState({
@@ -80,7 +95,9 @@ class SignupForm extends Component {
 			.post('/auth/signup', {
 				email: this.state.email,
 				password: this.state.password,
-				phone: this.state.phone
+				phone: this.state.phone,
+				firstName: this.state.firstName,
+				lastName: this.state.lastName
 			})
 			.then(response => {
 				console.log(response)
@@ -109,11 +126,31 @@ class SignupForm extends Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		}
 		return (
-			<div className="row">
-				<div className="col-md-12">
 					<div className="SignupForm">
-						<h3>Signup</h3>
-						<Form className="form">
+						<Form inline className="form">
+							<h3>Signup</h3>
+							<FormGroup
+		        	>
+								<ControlLabel className="form-label">First Name: </ControlLabel>
+									<FormControl
+										type="text"
+										name="firstName"
+										value={this.state.firstName}
+										onChange={this.handleChange}
+										className="form-control"
+									/>
+							</FormGroup>
+							<FormGroup
+		        	>
+								<ControlLabel className="form-label">Last Name: </ControlLabel>
+									<FormControl
+										type="text"
+										name="lastName"
+										value={this.state.lastName}
+										onChange={this.handleChange}
+										className="form-control"
+									/>
+							</FormGroup>
 							<FormGroup
 		        	>
 								<ControlLabel className="form-label">Email</ControlLabel>
@@ -155,21 +192,19 @@ class SignupForm extends Component {
 								controlId="formBasicText"
 		        		validationState={this.confirmPasswordValidate()}
 		        	>
-							<FormControl
-								type="password"
-								name="confirmPassword"
-								value={this.state.confirmPassword}
-								onChange={this.handleChange}
-								className="form-control"
-								minLength="6"
-								maxLength="15"
-							/>
+								<FormControl
+									type="password"
+									name="confirmPassword"
+									value={this.state.confirmPassword}
+									onChange={this.handleChange}
+									className="form-control"
+									minLength="6"
+									maxLength="15"
+								/>
 							</FormGroup>
 							<Button onClick={this.handleSubmit} className="btn">Sign up</Button>
 						</Form>
 					</div>
-				</div>
-			</div>
 		)
 	}
 }

@@ -133,6 +133,7 @@ class App extends Component {
 				<div className="row">	
 					<div className="col-md-11">		
 						{/* LINKS to our different 'pages' */}
+						<Header user={this.state.user} />
 						<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
 						{/*  ROUTES */}
 						{/* <Route exact path="/" component={Home} /> */}
@@ -145,8 +146,6 @@ class App extends Component {
 							}
 						/>
 						<Route exact path="/signup" component={SignupForm} />
-
-						<Header user={this.state.user} />
 
 					</div>
 				</div>

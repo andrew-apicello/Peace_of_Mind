@@ -55,7 +55,7 @@ constructor() {
             patientName: "",
             patientPhone: "",
             patientAddress: "",
-            redirectTo: '/reminders'
+            redirectTo: '/patientProfile'
           })
 				} else {
 					console.log('error')
