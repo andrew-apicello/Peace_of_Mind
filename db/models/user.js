@@ -9,14 +9,14 @@ const userSchema = new Schema({
 		email: { 
 			type: String, 
 			unique: true, 
-			required: "Email is required.",
+			required: true,
 			match: [/.+\@.+\..+/, "Please enter a valid e-mail address"] 
 		},
 		password: { 
 			type: String,
 			trim: true, 
 			unique: false, 
-			required: "Password is required.",
+			required: true,
 			validate: [
 				function(input) {
 					return input.length >= 6;
@@ -24,7 +24,28 @@ const userSchema = new Schema({
 				"Password must be longer than 6 characters."
 			]
 		}
-	}
+	},
+	firstName: {
+		type: String,
+		unique: false,
+		required: false
+	},
+	lastName: {
+		type: String,
+		unique: false,
+		required: false
+	},
+  phone: {
+    type: String,
+    unique: true,
+    required: false
+  },
+	patients: [
+    {
+    type: Schema.Types.ObjectId,
+    ref: "Patient"
+    }
+  ]
 })
 
 // Define schema methods
@@ -46,8 +67,6 @@ userSchema.pre('save', function(next) {
 		this.local.password = this.hashPassword(this.local.password)
 		next()
 	}
-	// this.password = this.hashPassword(this.password)
-	// next()
 })
 
 // Create reference to User & export

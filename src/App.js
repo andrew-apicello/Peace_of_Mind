@@ -5,57 +5,52 @@ import LoginForm from './components/LoginForm/LoginForm'
 import SignupForm from './components/SignupForm/SignupForm'
 import Header from './components/Header/Header'
 import Home from './pages/Home'
-// import UserProfile from "./pages/UserProfile"
-import './App.css'
+import Patient from './pages/Patient'
+import Jumbotrons from "./components/Jumbotron";
 
 const DisplayLinks = props => {
 	if (props.loggedIn) {
 		return (
-			<div>
-				<nav className="navbar navbar-default navbar-fixed-top">
-					<div className="container">
-						<ul className="nav navbar-nav">
-							<li className="nav-item">
-								<a href="#">Peace of Mind</a>
-							</li>
-							<li className="nav-item">
-								<Link to="/" className="nav-link">
-									Home
-								</Link>
-							</li>
-							<li>
-								<Link to="#" className="nav-link" onClick={props._logout}>
-									Logout
-								</Link>
-							</li>
-						</ul>
-					</div>
-				</nav>
-			</div>
-
+			<nav className="navbar">
+				<ul className="nav">
+					<li className="nav-item">
+						<Link to="/" className="nav-link">
+							Home
+						</Link>
+					</li>
+					<li>
+						<Link to="#" className="nav-link" onClick={props._logout}>
+							Logout
+						</Link>
+					</li>
+					<li>
+						<Link to="/patient" className="nav-link">
+							Patient Profile
+						</Link>
+					</li>
+				</ul>
+			</nav>
 		)
 	} else {
 		return (
-			<nav className="navbar navbar-default navbar-fixed-top">
-				<div className="container">
-					<ul className="nav navbar-nav">
-						<li className="nav-item">
-							<Link to="/" className="nav-link">
-								Home
-							</Link>
-						</li>
-						<li className="nav-item">
-							<Link to="/login" className="nav-link">
-								login
-							</Link>
-						</li>
-						<li className="nav-item">
-							<Link to="/signup" className="nav-link">
-								sign up
-							</Link>
-						</li>
-					</ul>
-				</div>
+			<nav className="navbar">
+				<ul className="nav">
+					<li className="nav-item">
+						<Link to="/" className="nav-link">
+							Home
+						</Link>
+					</li>
+					<li className="nav-item">
+						<Link to="/login" className="nav-link">
+							login
+						</Link>
+					</li>
+					<li className="nav-item">
+						<Link to="/signup" className="nav-link">
+							sign up
+						</Link>
+					</li>
+				</ul>
 			</nav>
 		)
 	}
@@ -66,7 +61,8 @@ class App extends Component {
 		super()
 		this.state = {
 			loggedIn: false,
-			user: null
+			user: null,
+			patient: null
 		}
 		this._logout = this._logout.bind(this)
 		this._login = this._login.bind(this)
@@ -123,28 +119,26 @@ class App extends Component {
 
 	render() {
 		return (
-			<div className="App">	
-				<div className="row">	
-					<div className="col-md-11">		
-						{/* LINKS to our different 'pages' */}
-						<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
-						{/*  ROUTES */}
-						{/* <Route exact path="/" component={Home} /> */}
-						<Route exact path="/" render={() => <Home user={this.state.user} />} 
-						/>
-						<Route exact path="/login" render={() =>
-								<LoginForm _login={this._login} />
-							}
-						/>
-						<Route exact path="/signup" component={SignupForm} />
-
-						<Header user={this.state.user} />
-
-					</div>
-				</div>
+			<div className="App">
+				<Jumbotrons/>
+				
+				<Header user={this.state.user} />
+				{/* LINKS to our different 'pages' */}
+				<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
+				{/*  ROUTES */}
+				{/* <Route exact path="/" component={Home} /> */}
+				<Route exact path="/" render={() => <Home user={this.state.user} />} 
+				/>
+				<Route exact path="/patient" render={() => <Patient user={this.state.user} />} 
+				/>
+				<Route exact path="/login" render={() =>
+						<LoginForm _login={this._login} />
+					}
+				/>
+				<Route exact path="/signup" component={SignupForm} />
 			</div>
 		)
 	}
 }
 
-export default App
+export default App;
