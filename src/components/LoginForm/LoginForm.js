@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
-import { FormGroup, ControlLabel, FormControl, Form } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Form, Col, Button } from 'react-bootstrap';
 import axios from 'axios';
 
 class LoginForm extends Component {
@@ -61,40 +61,49 @@ class LoginForm extends Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {
 			return (
-				<div className="LoginForm">
-					<h3>Login</h3>
-					<Form inline className="form">
-					  <FormGroup
-          		controlId="formBasicText"
-        		>
-							<ControlLabel className="form-label">Email</ControlLabel>
-							<FormControl
-								type="email"
-								name="email"
-								required
-								value={this.state.email}
-								onChange={this.handleChange}
-								className="form-control"
-							/>
-						</FormGroup>
-						<FormGroup 
-							controlId="formBasicText"
-          	>
-							<ControlLabel className="form-label">Password: </ControlLabel>
-							<FormControl
-								type="password"
-								name="password"
-								required
-								value={this.state.password}
-								onChange={this.handleChange}
-								className="form-control"
-								minLength="6"
-								maxLength="15" 
-							/>
-							<button onClick={this.handleSubmit} className="btn">Login</button>
-						</FormGroup>
+				<div className="container">
+					<div className="LoginForm">
+						<Form horizontal className="form">
+							<h3>Login</h3>
+						  <FormGroup controlId="formHorzontalEmail"
+      				>
+								<Col componentClass={ControlLabel} sm={4}>Email:
+	      				</Col>
+	      				<Col sm={4}>
+									<FormControl
+										type="email"
+										name="email"
+										required
+										value={this.state.email}
+										onChange={this.handleChange}
+										className="form-control"
+										placeholder="email"
+									/>
+								</Col>
+							</FormGroup>
+							
+							<FormGroup controlId="formHorzontalEmail"
+      				>
+								<Col componentClass={ControlLabel} sm={4}>Password:
+		      			</Col>
+		      			<Col sm={4}>
+									<FormControl
+										type="password"
+										name="password"
+										required
+										value={this.state.password}
+										onChange={this.handleChange}
+										className="form-control"
+										minLength="6"
+										maxLength="15" 
+										placeholder="password"
+									/>
+								</Col>
+							</FormGroup>
+							<Button onClick={this.handleSubmit} className="btn">Login</Button>
 					</Form>
 						<p>Need an account? <Link to="/signup">Sign up</Link></p>
+					</div>
 					</div>
 			)
 		}

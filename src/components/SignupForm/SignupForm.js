@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { FormGroup, ControlLabel, FormControl, Button, Form } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button, Form, Col } from 'react-bootstrap';
 import "./SignupForm.css";
 
 class SignupForm extends Component {
@@ -128,11 +128,14 @@ class SignupForm extends Component {
 		return (
 			<div className="container">
 				<div className="SignupForm">
-					<Form className="form">
+					<Form horizontal className="form">
 						<h3>Signup</h3>
-						<FormGroup
+
+						<FormGroup controlId="formHorzontalEmail"
 	        	>
-							<ControlLabel className="form-label">First Name: </ControlLabel>
+							<Col componentClass={ControlLabel} sm={3}>First Name:
+      				</Col>
+      				<Col sm={7}>
 								<FormControl
 									type="text"
 									name="firstName"
@@ -140,10 +143,14 @@ class SignupForm extends Component {
 									onChange={this.handleChange}
 									className="form-control"
 								/>
+							</Col>
 						</FormGroup>
-						<FormGroup
+
+						<FormGroup controlId="formHorzontalEmail"
 	        	>
-							<ControlLabel className="form-label">Last Name: </ControlLabel>
+							<Col componentClass={ControlLabel} sm={3}>Last Name:
+      				</Col>
+      				<Col sm={7}>
 								<FormControl
 									type="text"
 									name="lastName"
@@ -151,10 +158,14 @@ class SignupForm extends Component {
 									onChange={this.handleChange}
 									className="form-control"
 								/>
+							</Col>
 						</FormGroup>
-						<FormGroup
+
+						<FormGroup controlId="formHorzontalEmail"
 	        	>
-							<ControlLabel className="form-label">Email</ControlLabel>
+							<Col componentClass={ControlLabel} sm={3}>Email:
+      				</Col>
+      				<Col sm={7}>
 								<FormControl
 									type="email"
 									name="email"
@@ -163,47 +174,60 @@ class SignupForm extends Component {
 									className="form-control"
 									placeholder="example@example.com"
 								/>
+							</Col>
 						</FormGroup>
+
 						<FormGroup>
-							<ControlLabel className="form-label">Phone Number</ControlLabel>
-							<FormControl
-              	type="tel"
-              	pattern="^\d{3}-\d{3}-\d{4}$" required
-                name="phone"
-                value={this.state.phone}
-                onChange={this.handleChange}
-                placeholder="000-000-0000"
-              	/>
+							<Col componentClass={ControlLabel} sm={3}>Phone Number:
+      				</Col>
+      				<Col sm={7}>
+								<FormControl
+	              	type="tel"
+	              	pattern="^\d{3}-\d{3}-\d{4}$" required
+	                name="phone"
+	                value={this.state.phone}
+	                onChange={this.handleChange}
+	                placeholder="000-000-0000"
+	              	/>
+              </Col>	
             </FormGroup>
-							<ControlLabel className="form-label">Password</ControlLabel>
+
 						<FormGroup
 							controlId="password"
 	        		validationState={this.passwordLengthValidate()}
 	        	>
-							<FormControl
-								type="password"
-								name="password"
-								value={this.state.password}
-								onChange={this.handleChange}
-								className="form-control"
-								minLength="6"
-								maxLength="15"
-							/>
+	        		<Col componentClass={ControlLabel} sm={3}>Password:
+    					</Col>
+	        		<Col sm={7}>
+								<FormControl
+									type="password"
+									name="password"
+									value={this.state.password}
+									onChange={this.handleChange}
+									className="form-control"
+									minLength="6"
+									maxLength="15"
+								/>
+							</Col>
 						</FormGroup>
-						<ControlLabel className="form-label">Confirm Password</ControlLabel>
+
 						<FormGroup
 							controlId="formBasicText"
 	        		validationState={this.confirmPasswordValidate()}
 	        	>
-							<FormControl
-								type="password"
-								name="confirmPassword"
-								value={this.state.confirmPassword}
-								onChange={this.handleChange}
-								className="form-control"
-								minLength="6"
-								maxLength="15"
-							/>
+	        		<Col componentClass={ControlLabel} sm={3}>Confirm Password:
+    					</Col>
+    					<Col sm={7}>
+								<FormControl
+									type="password"
+									name="confirmPassword"
+									value={this.state.confirmPassword}
+									onChange={this.handleChange}
+									className="form-control"
+									minLength="6"
+									maxLength="15"
+								/>
+							</Col>
 						</FormGroup>
 						<Button onClick={this.handleSubmit} className="btn">Sign up</Button>
 					</Form>

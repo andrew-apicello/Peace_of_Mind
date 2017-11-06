@@ -178,6 +178,13 @@ constructor() {
                         <option value="South Dakota">South Dakota</option>
                         <option value="Tennessee">Tennessee</option>
                         <option value="Texas">Texas</option>
+                        <option value="Utah">Utah</option>
+                        <option value="Vermont">Vermont</option>
+                        <option value="Virginia">Virginia</option>
+                        <option value="Washington">Washington</option>
+                        <option value="West Virginia">West Virginia</option>
+                        <option value="Wisconsin">Wisconsin</option>
+                        <option value="Wyoming">Wyoming</option>
                       </FormControl>
                     </FormGroup>
                     <FormGroup>
@@ -186,6 +193,7 @@ constructor() {
                         value={this.state.patientZip}
                         onChange={this.handleInputChange}
                         placeholder="Zipcode"
+                        maxLength="5"
                       />
                     </FormGroup>
                       <Button bsStyle="primary"
