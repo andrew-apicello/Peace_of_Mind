@@ -20,6 +20,10 @@ const MongoStore = require('connect-mongo')(session);
 const passport = require('./passport');
 const dbConnection = require('./db');
 
+
+
+
+//this is here
 // // Connect to the Mongo DB
 // mongoose.Promise = Promise;
 // if (process.env.MONGODB_URI){
