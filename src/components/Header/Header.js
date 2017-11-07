@@ -7,13 +7,13 @@ const Header = props => {
 	} else if (props.user.firstName) {
 		Greeting = (
 			<h1>
-				Welcome back, <strong>{props.user.firstName}</strong>
+				Welcome, <strong>{props.user.firstName}</strong>
 			</h1>
 		)
 	} else if (props.user.local.email) {
 		Greeting = (
 			<h1>
-				Welcome back, <strong>{props.user.local.email} </strong>
+				Welcome, <strong>{props.user.local.email} </strong>
 			</h1>
 		)
 	}

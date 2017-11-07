@@ -1,6 +1,6 @@
 import React from 'react';
 import Input from "../Input/Input"
-import { Button, FormGroup, ControlLabel, FormControl, Form, Checkbox, Col } from "react-bootstrap"
+import { Button, Row, Col, FormGroup, ControlLabel, FormControl, Form, Checkbox } from "react-bootstrap"
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
@@ -13,8 +13,15 @@ constructor() {
       reminders: [],
       reminderTitle: "",
       dayToComplete: [],
+      dayToCompleteSun: "",
+      dayToCompleteMon: "",
+      dayToCompleteTues: "",
+      dayToCompleteWed: "",
+      dayToCompleteThurs: "",
+      dayToCompleteFri: "",
+      dayToCompleteSat: "",
       timeToComplete: "",
-      medicationQuantity: "",
+      medicationDosage: "",
       medicationRefillDate: "",
       reminderMessage: "",
       redirectTo: null
@@ -23,6 +30,7 @@ constructor() {
   componentDidMount() {
     const id = this.props.user._id;
     const patientId = this.props.user.patients[0];
+
 
     console.log("patientId: " + patientId);
 
@@ -51,10 +59,12 @@ constructor() {
     });
   }
 
+
   handleInputChange = event => {
     // Destructure the name and value properties off of event.target
     // Update the appropriate state
-    const { name, value } = event.target;
+    const { name, value,  } = event.target;
+
     this.setState({
       [name]: value
     });
@@ -63,13 +73,45 @@ constructor() {
   handleFormSubmit = event => {
     // When the form is submitted, prevent its default behavior, get recipes update the recipes state
     event.preventDefault();
+
     const patientId = this.props.user.patients[0];
     console.log(this.state.reminderTitle);
     console.log(this.state.dayToComplete);
     console.log(this.state.timeToComplete);
-    console.log(this.state.medicationQuantity);
+    console.log(this.state.medicationDosage);
     console.log(this.state.medicationRefillDate);
     console.log(this.state.reminderMessage);
+
+
+    if(this.state.dayToCompleteSun) {
+      this.state.dayToComplete.push(this.state.dayToCompleteSun);
+    } else { this.state.dayToComplete.push(" ") }
+
+    if(this.state.dayToCompleteMon) {
+      this.state.dayToComplete.push(this.state.dayToCompleteMon);
+    } else { this.state.dayToComplete.push(" ") }
+
+    if(this.state.dayToCompleteTues) {
+      this.state.dayToComplete.push(this.state.dayToCompleteTues);      
+    } else { this.state.dayToComplete.push(" ") }
+
+    if(this.state.dayToCompleteWed) {
+      this.state.dayToComplete.push(this.state.dayToCompleteWed);
+    } else { this.state.dayToComplete.push(" ") }
+
+    if(this.state.dayToCompleteThus) {
+      this.state.dayToComplete.push(this.state.dayToCompleteThus);
+    } else { this.state.dayToComplete.push(" ") }
+
+    if(this.state.dayToCompleteFri) {
+      this.state.dayToComplete.push(this.state.dayToCompleteFri); 
+    } else { this.state.dayToComplete.push(" ") }
+
+    if(this.state.dayToCompleteSat) {
+      this.state.dayToComplete.push(this.state.dayToCompleteSat);
+    } else { this.state.dayToComplete.push(" ") }
+
+    console.log(this.state.dayToComplete);
 
     axios
       .post('/auth/addReminder', {
@@ -77,7 +119,7 @@ constructor() {
         reminderTitle: this.state.reminderTitle,
         dayToComplete: this.state.dayToComplete,
         timeToComplete: this.state.timeToComplete,
-        medicationQuantity: this.state.medicationQuantity,
+        medicationDosage: this.state.medicationDosage,
         medicationRefillDate: this.state.medicationRefillDate,
         reminderMessage: this.state.reminderMessage
       })
@@ -89,8 +131,15 @@ constructor() {
           this.setState({
             reminderTitle: "",
             dayToComplete: [],
+            dayToCompleteSun: "",
+            dayToCompleteMon: "",
+            dayToCompleteTues: "",
+            dayToCompleteWed: "",
+            dayToCompleteThurs: "",
+            dayToCompleteFri: "",
+            dayToCompleteSat: "",
             timeToComplete: "",
-            medicationQuantity: "",
+            medicationDosage: "",
             medicationRefillDate: "",
             reminderMessage: ""
           });
@@ -120,11 +169,9 @@ constructor() {
     return (
       <div>
         <div className ='container'>
-          <div className ='row'>
-            <div className='col-md-12'>
-                <Form>
-                  <div className='row'>
-                    <FormGroup>
+                <Form className='medicationForm'>
+                  <h3>Add a reminder</h3>
+                  <ControlLabel>Reminder Title:</ControlLabel>
                       <FormControl
                         name="reminderTitle"
                         type="text"
@@ -132,127 +179,153 @@ constructor() {
                         onChange={this.handleInputChange}
                         placeholder="Type i.e. Medication Reminder"
                       />
-                    </FormGroup>
-                    <FormGroup>
-                      <Col componentClass={ControlLabel} sm={4}>Choose which days medication must be taken:
-                      </Col>
-                      <Col sm={7}>
+                    <br />
+                    <ControlLabel>Choose which days medications must be taken:</ControlLabel>
                       <Checkbox inline
-                        name="dayToComplete"
+                        name="dayToCompleteSun"
                         value="Sunday"
                         onChange={this.handleInputChange}
                       >
                         Sunday
                       </Checkbox>
                       <Checkbox inline 
-                        name="dayToComplete"
+                        name="dayToCompleteMon"
                         value="Monday"
                         onChange={this.handleInputChange}
                       >
                         Monday
                       </Checkbox>
                       <Checkbox inline
-                        name="dayToComplete"
+                        name="dayToCompleteTues"
                         value="Tuesday"
                         onChange={this.handleInputChange}
                       >
                         Tuesday
                       </Checkbox>
                       <Checkbox inline
-                        name="dayToComplete"
+                        name="dayToCompleteWed"
                         value="Wednesday"
                         onChange={this.handleInputChange}
                       >
                         Wednesday
                       </Checkbox>
                       <Checkbox inline
-                        name="dayToComplete"
+                        name="dayToCompleteThurs"
                         value="Thursday"
                         onChange={this.handleInputChange}
                       >
                         Thursday
                       </Checkbox>
                       <Checkbox inline
-                        name="dayToComplete"
+                        name="dayToCompleteFri"
                         value="Friday"
                         onChange={this.handleInputChange}
                       >
                         Friday
                       </Checkbox>
                       <Checkbox inline
-                        name="dayToComplete"
+                        name="dayToCompleteSat"
                         value="Saturday"
                         onChange={this.handleInputChange}
                       >
                         Saturday
                       </Checkbox>
-                      </Col>
-                    </FormGroup>
-                    <FormGroup>
-                      <FormControl
-                        componentClass="select"
-                        name="dayToComplete"
-                        onChange={this.handleInputChange}
-                        placeholder="Day"
-                      >
-                        <option value="">Select Day</option>
-                        <option value="Sunday">Sunday</option>
-                        <option value="Monday">Monday</option>
-                        <option value="Tuesday">Tuesday</option>
-                        <option value="Wednesday">Wednesday</option>
-                        <option value="Thursday">Thursday</option>
-                        <option value="Friday">Friday</option>
-                      </FormControl>
-                    </FormGroup>
-                    <FormGroup>
-                      <FormControl
-                        name="timeToComplete"
-                        value={this.state.timeToComplete}
-                        onChange={this.handleInputChange}
-                        placeholder="Time"
-                      />
-                    </FormGroup>
-                      <Input
-                        name="medicationQuantity"
-                        value={this.state.medicationQuantity}
-                        onChange={this.handleInputChange}
-                        placeholder="Medication Quantity (if a medication reminder)"
-                      />
-                      <Input
-                        name="medicationRefillDate"
-                        value={this.state.medicationRefillDate}
-                        onChange={this.handleInputChange}
-                        placeholder="Refill Date (if a medication reminder)"
-                      />
-                      <Input
-                        name="reminderMessage"
-                        value={this.state.reminderMessage}
-                        onChange={this.handleInputChange}
-                        placeholder="Message"
-                      />
-                      <Button bsStyle="primary"
-                        onClick={this.handleFormSubmit}
-                        type="success"
-                        className="input-lg"
-                      >
-                        Add Reminder
-                      </Button>
-                    </div>
+                    </Form>
+                      <br /><br />
+              <Form inline>
+              <ControlLabel>Hour</ControlLabel>
+              {' '}
+                <FormControl
+                  name="timeToCompleteHour"
+                  componentClass="select"
+                  value={this.state.timeToCompleteHour}
+                  onChange={this.handleInputChange}
+                >
+                  <option value="">Select Hour</option>
+                  <option value="0">00:</option>
+                  <option value="1">01:</option>
+                  <option value="2">02:</option>
+                  <option value="3">03:</option>
+                  <option value="4">04:</option>
+                  <option value="5">05:</option>
+                  <option value="6">06:</option>
+                  <option value="7">07:</option>
+                  <option value="8">08:</option>
+                  <option value="9">09:</option>
+                  <option value="10">10:</option>
+                  <option value="11">11:</option>
+                  <option value="12">12:</option>
+                </FormControl>
+              <ControlLabel>Min: </ControlLabel>
+                <FormControl
+                  name="timeToCompleteMin"
+                  componentClass="select"
+                  value={this.state.timeToCompleteMin}
+                  onChange={this.handleInputChange}
+                  placeholder="Time"
+                >
+                  <option value="">Select Min</option>
+                  <option value="00">:00</option>
+                  <option value="30">:30</option>
+                </FormControl>
+                <ControlLabel>AM/PM</ControlLabel>
+                <FormControl
+                  name="timeToCompleteAmPm"
+                  componentClass="select"
+                  value={this.state.timeToCompleteAmPm}
+                  onChange={this.handleInputChange}
+                  placeholder="Time"
+                >
+                  <option value="">AM/PM</option>
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </FormControl>
+            </Form>
+            <Form>
+              <br />
+              <ControlLabel>Medication Dosage:</ControlLabel>
+                <FormControl
+                  name="medicationDosage"
+                  value={this.state.medicationDosage}
+                  onChange={this.handleInputChange}
+                  placeholder="Medication Quantity (if a medication reminder)"
+                />
+              <br />
+              <ControlLabel>Medication Refill Date:</ControlLabel>
+                <FormControl
+                  name="medicationRefillDate"
+                  value={this.state.medicationRefillDate}
+                  onChange={this.handleInputChange}
+                  placeholder="Refill Date (if a medication reminder)"
+                />
+              <br />
+             <ControlLabel>Message</ControlLabel>
+                <FormControl
+                  name="reminderMessage"
+                  value={this.state.reminderMessage}
+                  onChange={this.handleInputChange}
+                  placeholder="Message"
+                />
+              <br />
+              <Button bsStyle="primary"
+                onClick={this.handleFormSubmit}
+                type="success"
+                className="input-lg"
+              >
+                Add Reminder
+              </Button>
               </Form>
-            </div>
-          </div>
-          <div className ='row'>
+          <Row>
             <div className='col-md-12'>
             <p>Current Reminders:</p>
 
-     
               <div>
                 <br/>
                 <p>SUNDAY: </p>
                 {this.state.reminders.map(reminder => (
                   <div key={reminder._id} id={reminder._id}>
-                  {reminder.dayToComplete === "Sunday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
-                  {reminder.dayToComplete === "Sunday" && !reminder.medicationQuantity && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete[0] === "Sunday" && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete[0] === "Sunday" && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
                   </div>
                 ))}
               
@@ -263,8 +336,8 @@ constructor() {
                 <p>MONDAY: </p>
                 {this.state.reminders.map(reminder => (
                   <div key={reminder._id} id={reminder._id}>
-                  {reminder.dayToComplete === "Monday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
-                  {reminder.dayToComplete === "Monday" && !reminder.medicationQuantity && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete[1] === "Monday" && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete[1] === "Monday" && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
                   </div>
                 ))}
 
@@ -275,8 +348,8 @@ constructor() {
                 <p>TUESDAY: </p>
                 {this.state.reminders.map(reminder => (
                   <div key={reminder._id} id={reminder._id}>
-                  {reminder.dayToComplete === "Tuesday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
-                  {reminder.dayToComplete === "Tuesday" && !reminder.medicationQuantity && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}          
+                  {reminder.dayToComplete[2] === "Tuesday" && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete[2] === "Tuesday" && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}          
                   </div>
                 ))}
 
@@ -287,8 +360,8 @@ constructor() {
                 <p>WEDNESDAY: </p>
                 {this.state.reminders.map(reminder => (
                   <div key={reminder._id} id={reminder._id}>
-                  {reminder.dayToComplete === "Wednesday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
-                  {reminder.dayToComplete === "Wednesday" && !reminder.medicationQuantity && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete[3] === "Wednesday" && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete[3] === "Wednesday" && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
                   </div>
                 ))}
 
@@ -299,8 +372,8 @@ constructor() {
                 <p>THURSDAY: </p>
                 {this.state.reminders.map(reminder => (
                   <div key={reminder._id} id={reminder._id}>
-                  {reminder.dayToComplete === "Thursday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
-                  {reminder.dayToComplete === "Thursday" && !reminder.medicationQuantity && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete[4] === "Thursday" && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete[4] === "Thursday" && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
                   </div>
                 ))}
 
@@ -311,8 +384,8 @@ constructor() {
                 <p>FRIDAY: </p>
                 {this.state.reminders.map(reminder => (
                   <div key={reminder._id} id={reminder._id}>
-                  {reminder.dayToComplete === "Friday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
-                  {reminder.dayToComplete === "Friday" && !reminder.medicationQuantity && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}         
+                  {reminder.dayToComplete[5] === "Friday" && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete[5] === "Friday" && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}         
                   </div>
                 ))}
 
@@ -323,14 +396,13 @@ constructor() {
                 <p>SATURDAY: </p>
                 {this.state.reminders.map(reminder => (
                   <div key={reminder._id} id={reminder._id}>
-                  {reminder.dayToComplete === "Saturday" && reminder.medicationQuantity && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
-                  {reminder.dayToComplete === "Saturday" && !reminder.medicationQuantity && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete[6] === "Saturday" && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationQuantity + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                  {reminder.dayToComplete[6] === "Saturday" && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
                   </div>
                 ))}
               </div>
-
             </div>
-          </div>
+          </Row>
         </div>
       </div>
     );

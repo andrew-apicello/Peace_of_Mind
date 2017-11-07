@@ -10,7 +10,7 @@ constructor() {
       reminderTitle: "",
       dayToComplete: "",
       timeToComplete: "",
-      medicationQuantity: "",
+      medicationDosage: "",
       medicationRefillDate: "",
       reminderMessage: "",
       numberToText: ""
@@ -69,9 +69,8 @@ constructor() {
                   <li key={reminder._id} id={reminder._id}>
                   {reminder.timeToComplete + " "}
                   To do: {reminder.reminderTitle + " "}
-                  Day: {reminder.dayToComplete + " "}
-                  Medication Qty: {reminder.medicationQuantity + " "}
-                  Medication Refill Date: {reminder.medicationRefillDate + " "}
+                  Medication Dosage: {reminder.medicationDosage + " "}
+                  Medication Refill Date: {reminder.medicationRefillDate + " " }
                   Message: {reminder.reminderMessage + " "}
                   </li>
                 ))}

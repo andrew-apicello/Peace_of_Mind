@@ -18,12 +18,16 @@ var RemindersSchema = new Schema({
     type: String
   },
 
-  medicationQuantity: {
+  typeOfMedication: {
+    type: String
+  },
+
+  medicationDosage: {
     type: Number
   },
 
   medicationRefillDate: {
-    type: String
+    type: Date
   },
   
   reminderMessage: {
