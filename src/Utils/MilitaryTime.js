@@ -4,7 +4,7 @@ exports.convertStandardToMilitaryTime = function(hours,minutes,amPm){
 let militaryTime;
 
 if(minutes === 0){
-	minutes = "00"
+    minutes = "00"
 }
 
     if (amPm === "AM"){  //if AM
@@ -13,18 +13,18 @@ if(minutes === 0){
             let hourMilitary = "00";
             militaryTime = hourMilitary + ":" + minutes;       
         } else {
-        	militaryTime = hours + ":" + minutes;
+            militaryTime = hours + ":" + minutes;
         }
        
     } else{  //if PM
         let hourNum = parseInt(hours);
-        	
+            
         if (hourNum === 12){
             var hourMilitary = hourNum;
         } else {
-        	var hourMilitary = hourNum + 12;
+            var hourMilitary = hourNum + 12;
         }
-        	militaryTime = hourMilitary + ":" + minutes;
+            militaryTime = hourMilitary + ":" + minutes;
     }
     return militaryTime;
 }
@@ -37,21 +37,21 @@ let hoursStd;
 let hoursInt = parseInt(hours);
 
 if(minutes === 0){
-	minutes = "00"
+    minutes = "00"
 }
 
 if (hoursInt > 12){
-	hoursStd = hoursInt - 12;
-	amPm = "PM";
+    hoursStd = hoursInt - 12;
+    amPm = "PM";
 } else if (hoursInt === 0){
-	hoursStd = 12;
-	amPm = "AM";
+    hoursStd = 12;
+    amPm = "AM";
 } else if (hoursInt === 12){
-	hoursStd = 12;
-	amPm = "PM";
+    hoursStd = 12;
+    amPm = "PM";
 }else {
-	hoursStd = hoursInt;
-	amPm = "AM";
+    hoursStd = hoursInt;
+    amPm = "AM";
 }
 
 let standardTime = hoursStd + ":" + minutes + " " + amPm;

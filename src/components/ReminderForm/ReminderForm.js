@@ -3,6 +3,7 @@ import Input from "../Input/Input"
 import { Button, Row, Col, FormGroup, ControlLabel, FormControl, Form, Checkbox } from "react-bootstrap"
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import MilitaryTime from '../../Utils/MilitaryTime.js';
 
 
 class ReminderForm extends React.Component {
@@ -33,7 +34,6 @@ constructor() {
   componentDidMount() {
     const id = this.props.user._id;
     const patientId = this.props.user.patients[0];
-
 
     console.log("patientId: " + patientId);
 
@@ -89,6 +89,36 @@ constructor() {
     console.log(this.state.timeToCompleteAmPm);
 
 
+      let hours = this.state.timeToCompleteHour;
+      let minutes = this.state.timeToCompleteMin;
+      let amPm = this.timeToCompleteAmPm;
+
+      let convertedTime = MilitaryTime.convertStandardToMilitaryTime(hours,minutes,amPm);
+
+      let convertedTimeAdded = addTime(hours,minutes,amPm);
+
+      function addTime(hours,minutes,amPm){
+
+        let militaryTime = MilitaryTime.convertStandardToMilitaryTime(hours,minutes,amPm)
+        hours = parseInt(militaryTime.split(":")[0])
+        minutes = parseInt(militaryTime.split(":")[1])
+
+        if (minutes == 0){
+          minutes = minutes + 30
+        } else {
+          hours = hours + 1
+          minutes = "00"
+
+          if (hours == 24){
+            hours = 0;
+          }
+        }
+
+        return hours + ":" + minutes
+      }
+
+
+
     if(this.state.dayToCompleteSun) {
       this.state.dayToComplete.push(this.state.dayToCompleteSun);
     } else { this.state.dayToComplete.push(" ") }
@@ -124,13 +154,11 @@ constructor() {
         _id: this.state._id,
         reminderTitle: this.state.reminderTitle,
         dayToComplete: this.state.dayToComplete,
-        timeToComplete: this.state.timeToComplete,
-        timeToCompleteHour: this.state.timeToCompleteHour,
-        timeToCompleteMin: this.state.timeToCompleteMin,
-        timeToCompleteAmPm: this.state.timeToCompleteAmPm,
+        timeToComplete: convertedTime,
         medicationDosage: this.state.medicationDosage,
         medicationRefillDate: this.state.medicationRefillDate,
-        reminderMessage: this.state.reminderMessage
+        reminderMessage: this.state.reminderMessage,
+        receiveResponseBy: convertedTimeAdded
       })
       .then(response => {
         console.log(response)

@@ -162,7 +162,7 @@ router.post("/addPatient", (req, res) => {
 
 router.post("/addReminder", (req, res) => {
 	const patientId = req.body._id;
-	const { reminderTitle, dayToComplete, timeToComplete, medicationQuantity, medicationRefillDate, reminderMessage } = req.body
+	const { reminderTitle, dayToComplete, timeToComplete, medicationQuantity, medicationRefillDate, reminderMessage, receiveResponseBy } = req.body
 
 	console.log("Array of days: " + dayToComplete);
 
@@ -206,7 +206,8 @@ router.post("/addReminder", (req, res) => {
 		timeToComplete: timeToComplete,
 		medicationQuantity: medicationQuantity,
 		medicationRefillDate: medicationRefillDate,
-		reminderMessage: reminderMessage
+		reminderMessage: reminderMessage, 
+		receiveResponseBy: receiveResponseBy
 	})
 	newReminder.save((err, savedReminder) => {
 		if (err) return res.json(err)
