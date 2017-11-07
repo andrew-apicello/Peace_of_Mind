@@ -19,7 +19,6 @@ const Home = props => {
 		return (
 			<div className="Home">
 						{console.log(props.user)}
-				<p>Add a patient to get started:</p>
 				<PatientForm />
 			</div>
 		)

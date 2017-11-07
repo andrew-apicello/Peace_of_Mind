@@ -1,7 +1,8 @@
 import React from 'react';
 import Input from "../Input/Input"
-import { Button, Form, FormGroup, ControlLabel, FormControl, } from "react-bootstrap"
+import { Button, Form, FormGroup, Col, ControlLabel, FormControl, } from "react-bootstrap"
 import axios from 'axios';
+import {WarningBanner} from "../Alerts"
 
 class PatientForm extends React.Component {
 constructor() {
@@ -9,11 +10,16 @@ constructor() {
   this.state = {
       _id: "",
       patientName: "",
+      nameFlag: false,
       patientPhone: "",
+      phoneFlag: false,
       patientStreet: "",
+      streetFlag: false, 
       patientCity: "",
+      cityFlag: false,
       patientState: "",
       patientZip: "",
+      zipFlag: false,
       redirectTo: null
     }
 }
@@ -44,17 +50,85 @@ constructor() {
     console.log(`Phone: ${this.state.patientPhone}`);
     console.log(`Address: ${this.state.patientStreet}, ${this.state.patientCity}, ${this.state.patientState} ${this.state.patientZip}`);
 
-    if (!this.state.patientName){
-      alert("Please enter the patient's name");
+    if (this.state.patientName){
       this.setState({
+        nameFlag: false,
+      })
+    }
+
+    if (!this.state.patientName){
+      this.setState({
+        nameFlag: true,
         redirectTo:""
       })
-    } else if (!this.state.patientPhone){
-      alert("please enter the patient's phone number");
+    }
+
+    if (this.state.patientPhone){
       this.setState({
+        phoneFlag: false,
+      })
+    }
+
+    if (!this.state.patientPhone){
+      this.setState({
+        phoneFlag: true,
         redirectTo: ""
       })
-    }else{
+    }
+
+    if (this.state.patientStreet){
+      this.setState({
+        streetFlag: false,
+      })
+    }
+
+    if (!this.state.patientStreet){
+      this.setState({
+        streetFlag: true,
+        redirectTo: ""
+      })
+    }
+
+    if (this.state.patientCity){
+      this.setState({
+        cityFlag: false,
+      })
+    }
+
+    if (!this.state.patientCity){
+      this.setState({
+        cityFlag: true,
+        redirectTo: ""
+      })
+    }
+
+    if (this.state.patientState){
+      this.setState({
+        stateFlag: false,
+      })
+    }
+
+    if (!this.state.patientState){
+      this.setState({
+        stateFlag: true,
+        redirectTo: ""
+      })
+    }
+
+    if (this.state.patientZip){
+      this.setState({
+        zipFlag: false,
+      })
+    }
+
+    if (!this.state.patientZip){
+      this.setState({
+        zipFlag: true,
+        redirectTo: ""
+      })
+    }
+
+    if (this.state.patientName && this.state.patientPhone && this.state.patientStreet && this.state.patientCity && this.state.patientState && this.state.patientZip) {
 		axios
 			.post('/auth/addPatient', {
         _id: this.state._id,
@@ -87,52 +161,76 @@ constructor() {
 
   render() {
     return (
-      <div>
         <div className ='container'>
-          <div className ='row'>
-            <div className='col-md-12'>
-              <Form className="form">
-                  <div className='row'>
+              <Form horizontal className="addPatientForm">
+                <h3>Add a patient to get started</h3>
                     <FormGroup>
-                      <FormControl
-                        name="patientName"
-                        value={this.state.patientName}
-                        onChange={this.handleInputChange}
-                        placeholder="Patient's Name"
-                      />
-                    </FormGroup>
-                    <FormGroup>  
-                      <FormControl
-                        name="patientPhone"
-                        value={this.state.patientPhone}
-                        onChange={this.handleInputChange}
-                        placeholder="Phone"
-                      />
+                      <Col componentClass={ControlLabel} sm={3}>Name: </Col>
+                      <Col sm={6}>
+                        <FormControl
+                          name="patientName"
+                          value={this.state.patientName}
+                          onChange={this.handleInputChange}
+                          placeholder="Patient's Name"
+                        />
+                        <WarningBanner
+                          warn={this.state.nameFlag}
+                         /> 
+                       </Col> 
                     </FormGroup>
                     <FormGroup>
-                      <FormControl
-                        name="patientStreet"
-                        value={this.state.patientStreet}
-                        onChange={this.handleInputChange}
-                        placeholder="Street"
-                      />
+                      <Col componentClass={ControlLabel} sm={3}>Phone: </Col>
+                      <Col sm={6}>  
+                        <FormControl
+                          name="patientPhone"
+                          value={this.state.patientPhone}
+                          onChange={this.handleInputChange}
+                          placeholder="000 000 0000"
+                        />
+                        <WarningBanner
+                          warn={this.state.phoneFlag}
+                         /> 
+                      </Col>  
                     </FormGroup>
                     <FormGroup>
-                      <FormControl
-                        name="patientCity"
-                        value={this.state.patientCity}
-                        onChange={this.handleInputChange}
-                        placeholder="City"
-                      />
+                      <Col componentClass={ControlLabel} sm={3}>Street: </Col>
+                      <Col sm={6}>  
+                        <FormControl
+                          name="patientStreet"
+                          value={this.state.patientStreet}
+                          onChange={this.handleInputChange}
+                          placeholder="Street"
+                        />
+                        <WarningBanner
+                          warn={this.state.streetFlag}
+                         /> 
+                      </Col>
                     </FormGroup>
                     <FormGroup>
-                      <FormControl
-                        name="patientState"
-                        componentClass="select"
-                        value={this.state.patientState}
-                        onChange={this.handleInputChange}
-                        placeholder="State"
-                      >
+                      <Col componentClass={ControlLabel} sm={3}>City: </Col>
+                      <Col sm={6}>  
+                        <FormControl
+                          name="patientCity"
+                          value={this.state.patientCity}
+                          onChange={this.handleInputChange}
+                          placeholder="City"
+                        />
+                        <WarningBanner
+                          warn={this.state.cityFlag}
+                         /> 
+                      </Col>
+                    </FormGroup>
+                    <FormGroup>
+                      <Col componentClass={ControlLabel} sm={3}>State: </Col>
+                      <Col sm={6}>  
+                        <FormControl
+                          name="patientState"
+                          componentClass="select"
+                          value={this.state.patientState}
+                          onChange={this.handleInputChange}
+                          placeholder="State"
+                        >
+
                         <option value="">Select State</option>
                         <option value="Alabama">Alabama</option>
                         <option value="Alaska">Alaska</option>
@@ -185,16 +283,27 @@ constructor() {
                         <option value="West Virginia">West Virginia</option>
                         <option value="Wisconsin">Wisconsin</option>
                         <option value="Wyoming">Wyoming</option>
+
                       </FormControl>
+                        <WarningBanner
+                          warn={this.state.stateFlag}
+                        />
+                      </Col> 
                     </FormGroup>
                     <FormGroup>
-                      <FormControl
-                        name="patientZip"
-                        value={this.state.patientZip}
-                        onChange={this.handleInputChange}
-                        placeholder="Zipcode"
-                        maxLength="5"
-                      />
+                      <Col componentClass={ControlLabel} sm={3}>Phone: </Col>
+                      <Col sm={6}>  
+                        <FormControl
+                          name="patientZip"
+                          value={this.state.patientZip}
+                          onChange={this.handleInputChange}
+                          placeholder="Zipcode"
+                          maxLength="5"
+                        />
+                        <WarningBanner
+                          warn={this.state.zipFlag}
+                        />
+                      </Col>
                     </FormGroup>
                       <Button bsStyle="primary"
                         onClick={this.handleFormSubmit}
@@ -203,12 +312,8 @@ constructor() {
                       >
                         Add Patient
                       </Button>
-                    </div>
               </Form>
             </div>
-          </div>
-        </div>
-      </div>
     );
   }
 }
