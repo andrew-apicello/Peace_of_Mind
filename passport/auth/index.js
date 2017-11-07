@@ -200,7 +200,7 @@ clock = () => {
 }
 
 // Run the clock function every minute
-// setInterval(clock, 10000);
+setInterval(clock, 60000);
 
 let day;
 switch (new Date().getDay()) {
