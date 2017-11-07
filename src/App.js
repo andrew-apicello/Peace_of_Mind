@@ -7,6 +7,7 @@ import Header from './components/Header/Header'
 import Home from './pages/Home'
 import './App.css'
 import Patient from './pages/Patient'
+import { Nav, Navbar, NavItem } from "react-bootstrap"
 
 const DisplayLinks = props => {
 	if (props.loggedIn) {
@@ -40,30 +41,30 @@ const DisplayLinks = props => {
 
 		)
 	} else {
-		return (
-			<nav className="navbar navbar-default navbar-fixed-top">
-				<div className="container">
-					<ul className="nav navbar-nav">
-						<li className="nav-item">
-							<Link to="/" className="nav-link">
-								Home
-							</Link>
-						</li>
-						<li className="nav-item">
-							<Link to="/login" className="nav-link">
-								login
-							</Link>
-						</li>
-						<li className="nav-item">
-							<Link to="/signup" className="nav-link">
-								sign up
-							</Link>
-						</li>
-					</ul>
-				</div>
-			</nav>
-		)
-	}
+        return (
+          <Navbar collapseOnSelect className="navbar navbar-default navbar-fixed-top">
+					   <Navbar.Header>
+					    <Navbar.Brand>
+					      <a href="#">PILLMinder</a>
+					    </Navbar.Brand>
+					      <Navbar.Toggle />
+					    </Navbar.Header>
+					    <Navbar.Collapse>
+					      <Nav pullRight>
+					        <NavItem eventKey={1}><Link to="/">
+					          <a><span class="glyphicon glyphicon-home">Home</span></a></Link>
+					         </NavItem>
+					        <NavItem eventKey={2}><Link to="/login">
+					          <a><span class="glyphicon glyphicon-log-in">Login</span></a></Link>
+					         </NavItem>
+					         <NavItem eventKey={3}><Link to="/signup">
+					          <a><span class="glyphicon glyphicon-log-in">Signup</span></a></Link>
+					         </NavItem> 
+					      </Nav>
+					    </Navbar.Collapse>
+					</Navbar>
+        )
+    }
 }
 
 class App extends Component {
