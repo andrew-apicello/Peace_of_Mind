@@ -180,7 +180,7 @@ constructor() {
             <div className='col-md-12'>
             <p>Current Reminders:</p>
 
-            {this.state.reminders.length ? (
+     
               <div>
                 <br/>
                 <p>SUNDAY: </p>
@@ -263,9 +263,7 @@ constructor() {
                   </div>
                 ))}
               </div>
-            ) : (
-                <p>No Reminders Scheduled</p>
-              )}
+
             </div>
           </div>
         </div>

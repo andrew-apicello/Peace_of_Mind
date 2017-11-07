@@ -163,13 +163,32 @@ router.post("/addReminder", (req, res) => {
 	const patientId = req.body._id;
 	const { reminderTitle, dayToComplete, timeToComplete, medicationQuantity, medicationRefillDate, reminderMessage } = req.body
 
+	// Need to calculate 30 minutes from timeToComplete to get the time of when the task should be completed
+	// First, split the time and remove the colon upon splitting
+	const timeArray = timeToComplete.split(":")
+	// Then loop through the new array and parseInt each of the items
+	let timeNumbers = [];
+	for (let i = 0; i < timeArray.length; i++) {
+		// push the numbers into a new array
+		let numbers = parseInt(timeArray[i])
+		timeNumbers.push(numbers);
+	}
+
+	// Then, add 30 minutes to the second item in the array, which should be the minutes
+	let hours = timeNumbers[0];
+	let minutes = timeNumbers[1];
+	let addThirtyMinutes = minutes + 30;
+	// Then, concatenate the two back together and send into db with a colon in between 
+	let receiveResponseBy = hours + ":" + addThirtyMinutes;
+
 	const newReminder = new Reminder ({
 		reminderTitle: reminderTitle,
 		dayToComplete: dayToComplete,
 		timeToComplete: timeToComplete,
 		medicationQuantity: medicationQuantity,
 		medicationRefillDate: medicationRefillDate,
-		reminderMessage: reminderMessage
+		reminderMessage: reminderMessage,
+		receiveResponseBy: receiveResponseBy
 	})
 	newReminder.save((err, savedReminder) => {
 		if (err) return res.json(err)
