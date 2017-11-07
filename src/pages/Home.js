@@ -2,19 +2,19 @@ import React from 'react'
 import PatientForm from '../components/PatientForm'
 import DisplayReminders from '../components/DisplayReminders'
 import Clock from "../components/Clock";
-// TODO - add proptypes
+import Carousel from "../components/Carousel";
+
 
 const Home = props => {
+	let user = props.user || 'no user';
+	console.log('props: ', user._id);
+	
 	// If a user exists and if that user has patients, display the patient's reminders
 	if (props.user && props.user.patients.length > 0) {
 		return (
 			<div className="Home">
-				<p>Current User:</p>
-				<code>
-					{JSON.stringify(props)}
-				</code>
 				<Clock />
-				<DisplayReminders />
+				<DisplayReminders user = {user}/>
 			</div>
 		)
 	} 
@@ -23,10 +23,6 @@ const Home = props => {
 		return (
 			<div className="Home">
 						{console.log(props.user)}
-				<p>Current User:</p>
-				<code>
-					{JSON.stringify(props)}
-				</code>
 				<p>Add a patient to get started:</p>
 				<PatientForm />
 			</div>
@@ -35,11 +31,12 @@ const Home = props => {
 
 	else if (!props.user) {
 		return (
+			<div>				<Carousel />
 			<div className="Home">
-				<p>Current User:</p>
-				<code>
-					{JSON.stringify(props)}
-				</code>
+
+				<h1>Peace of Mind</h1>
+				<p>I am not logged in</p>
+			</div>
 			</div>
 		)
 	}

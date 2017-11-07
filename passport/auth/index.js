@@ -4,11 +4,11 @@ const User = require('../../db/models/user')
 const passport = require('passport')
 const Patient = require('../../db/models/patients')
 const Reminder = require('../../db/models/reminders')
+const moment = require('moment');
 //==================================Twilio=========================================
 const twilio = require('twilio');
 const accountSid = 'AC48ce06d27e69dece3a0702596ee55a08'; // Your Account SID from www.twilio.com/console
 const authToken = 'a9d53929a8bf32774108b4644960dba8';   // Your Auth Token from www.twilio.com/console
-
 const client = require('twilio')(accountSid, authToken);
 
 
@@ -54,22 +54,20 @@ router.post('/logout', (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-	const { username, password, phone, userEmail } = req.body
-
-	console.log(userEmail);
-	console.log(req.body.userEmail)
+	const { email, password, phone, firstName, lastName } = req.body
 	// ADD VALIDATION
-	User.findOne({ 'local.username': username }, (err, userMatch) => {
+	User.findOne({ 'local.email': email }, (err, userMatch) => {
 		if (userMatch) {
 			return res.json({
-				error: `Sorry, already a user with the username: ${username}`
+				error: `Sorry, already a user with the email: ${email}`
 			})
 		}
 		const newUser = new User({
-			'local.username': username,
+			'local.email': email,
 			'local.password': password,
-			'phone': phone,
-			'userEmail': userEmail
+			"phone": phone,
+			"firstName": firstName,
+			"lastName": lastName
 		})
 		newUser.save((err, savedUser) => {
 			if (err) return res.json(err)
@@ -99,11 +97,9 @@ let patientID;
 
 router.get('/reminders/:patientId', (req, res) => {
 const patientId = req.params.patientId;
-console.log("Getting reminders route")
+
   Patient.find({_id:patientId}).then(function(patient) {
-  	console.log("current patient: " + patient);
   	reminderId = patient[0].reminders;
-  	console.log("reminderID" + reminderId);
 
   Reminder.find({_id: reminderId}).then(function(reminders) {
     res.json(reminders);
@@ -114,52 +110,39 @@ console.log("Getting reminders route")
 })
 
 
-router.get('/reminders/:day', (req, res) => {
-  let today = req.params.day;
-  Reminder.find({dayToComplete: today}).then(function(reminders) {
+router.get('/reminders/:patientId/:day', (req, res) => {
+console.log("Getting reminders/id/day route")
+const patientId = req.params.patientId;
+const today = req.params.day;
+console.log(patientId);
+
+console.log("Getting reminders route")
+  Patient.find({_id: patientId}).then(function(patient) {
+  	// console.log("current patient: " + patient);
+  	reminderId = patient[0].reminders;
+  	console.log("reminderID" + reminderId);
+
+  Reminder.find({_id: reminderId, dayToComplete: today}).then(function(reminders) {
     res.json(reminders);
   }).catch(function(err) {
     res.json(err);
   })
+ })
 })
 
-router.get('/reminders/:day/:time/:phone', (req, res) => {
-  let today = req.params.day;
-  let time = req.params.time;
-  let phone = req.params.phone;
-  Reminder.find({dayToComplete: today, timeToComplete: time}).then(function(reminders) {
-    console.log(reminders);
-    res.json(reminders);
-
-
-	  // for (let i = 0; i < reminders.length; i++) {
-	  //   let text = reminders[i].reminderMessage
-	  //   console.log(text);
-	  //   console.log(phone);
-	  //   client.messages.create({
-	  //       body: text,
-	  //       to: "+1" + phone,  // Text this number
-	  //       from: '+14848123347' // Our valid Twilio number
-	  //   })
-	  //   // Log that the message was sent.
-	  //   .then((message) => console.log(message.sid));
-	  //   }
-
-
-  }).catch(function(err) {
-    res.json(err);
-  })
-})
 
 
 router.post("/addPatient", (req, res) => {
 	const caretakerId = req.body._id;
-	const { patientName, patientPhone, patientAddress } = req.body
+	const { patientName, patientPhone, patientStreet, patientCity, patientState, patientZip } = req.body
 
 	const newPatient = new Patient({
 		patientName: patientName,
 		patientPhone: patientPhone,
-		patientAddress: patientAddress
+		patientStreet: patientStreet,
+		patientCity: patientCity,
+		patientState: patientState,
+		patientZip: patientZip
 	})
 	newPatient.save((err, savedPatient) => {
 		if (err) return res.json(err)
@@ -202,5 +185,133 @@ router.post("/addReminder", (req, res) => {
     })
 
 });
+
+
+
+// Logic to text/receive/update reminders
+clock = () => {
+	// Get the current minute
+	let minutes = moment().format('mm');
+
+	// if(minutes == 00 || minutes == 59) {
+		// Query the db to check for tasks every 0 and 30 minutes 
+		queryDB();
+	// }
+}
+
+// Run the clock function every minute
+// setInterval(clock, 10000);
+
+let day;
+switch (new Date().getDay()) {
+    case 0:
+        day = "Sunday";
+        break;
+    case 1:
+        day = "Monday";
+        break;
+    case 2:
+        day = "Tuesday";
+        break;
+    case 3:
+        day = "Wednesday";
+        break;
+    case 4:
+        day = "Thursday";
+        break;
+    case 5:
+        day = "Friday";
+        break;
+    case 6:
+        day = "Saturday";
+}
+
+
+// Go into DB and find all reminders on a specified day and time and get patient phone and task to be texted
+queryDB = () => {
+	// Get the full current time to compare with DB
+	let time = moment().format('HH:mm');
+	let thirtyMinutesFromNow = moment().add(30, 'minutes').format('HH:mm');
+	console.log("current time: " + time);
+	console.log("day: " + day);
+	console.log("30 minutes from now: " + thirtyMinutesFromNow);
+
+
+	Patient.find({}).then(function(patients) {
+
+		// Loop through all of the patients information in the db
+		for (let i = 0; i < patients.length; i++) {
+			// Get the patient's phone and all of their reminders
+			let currentPatient = patients[i];
+			let patientPhone = currentPatient.patientPhone;
+			let remindersArray = currentPatient.reminders;
+
+			// Loop through each of the patient's reminders and get the reminderId
+			for (let j = 0; j < remindersArray.length; j++) {
+				let reminderId = remindersArray[j];
+
+
+				//***** ADD IN TIME TO QUERY!!!! USING WITHOUT FOR TESTING PURPOSES ***** //
+
+
+				// Query into db to find the id of each reminder based on what day and time it is as well as if the responseReceived = false
+				Reminder.find({_id: reminderId, dayToComplete: day, responseReceived: false}).then(function(reminders) {
+					// console.log(reminders + " " + patientPhone);
+					for (let i = 0; i < reminders.length; i++) {
+						// Get the body of the reminderMessage. Can also get the reminder photo
+						let textMessage = reminders[i].reminderMessage;
+						let pictureUrl = reminders[i].reminderImage;
+
+					console.log(textMessage + " " + patientPhone);
+
+
+					// ********* THIS WORKS! *********
+
+					// Text the patients. 
+					// If the pictureUrl is true, send a picture text message
+					// Else send a regular text message without a picture
+
+					// if(pictureUrl) {
+					// client.messages
+					//   .create({
+					//     to: '+1' + patientPhone, // Text this number
+					//     from: '+14848123347', // Our valid Twilio number
+					//     body: textMessage,
+					//     mediaUrl: pictureUrl,
+					//   })
+					//   .then(message => console.log(message.sid));
+					// } else { 
+				 //    client.messages.create({
+				 //        body: textMessage + " Please respond 'YES' when finished.",
+				 //        to: "+1" + patientPhone,  // Text this number
+				 //        from: '+14848123347' // Our valid Twilio number
+				 //    })
+				 //    // Log that the message was sent.
+				 //    .then((message) => console.log(message.sid));
+				 //  }
+
+
+				 // ********* NEXT STEPS *********
+
+				    // Then, we query all users, get their phone numbers
+				    // Loop through their patients, get their IDs 
+				    // Find the reminders of that patient with the receiveResponseBy = thirtyMinutesFromNow and if responseReceived = false
+				    // If response received = false, then we send a text message to the user alerting that the patient's 12:00 or so reminder hasn't been completed
+				    // Update reminder in db as responseLate = true
+
+				    // If a response has been received, we need to get the phone number that it's coming from. 
+				    // Query all patients where the phone number matches and somehow find which reminder they were responding to. 
+				    // Maybe we get the time the 'YES' was sent and say if it is less than receiveResponseBy then update that responseReceived to true
+					}
+				})
+
+			}
+
+		}
+
+	})
+
+}
+
 
 module.exports = router;

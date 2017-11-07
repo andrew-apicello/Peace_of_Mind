@@ -5,40 +5,47 @@ mongoose.promise = Promise
 
 // Define userSchema
 const userSchema = new Schema({
-	firstName: { type: String, unique: false },
-	lastName: { type: String, unique: false },
 	local: {
-		username: { type: String, unique: false, required: false },
-		password: { type: String, unique: false, required: false }
+		email: { 
+			type: String, 
+			unique: true, 
+			required: true,
+			match: [/.+\@.+\..+/, "Please enter a valid e-mail address"] 
+		},
+		password: { 
+			type: String,
+			trim: true, 
+			unique: false, 
+			required: true,
+			validate: [
+				function(input) {
+					return input.length >= 6;
+				},
+				"Password must be longer than 6 characters."
+			]
+		}
 	},
-   phone: {
-      type: String,
-      unique: true,
-      required: true
-   },
-   userEmail: {
-      type: String,
-      unique: true,
-      required: true,
-      match: [/.+\@.+\..+/, "Please enter a valid e-mail address"]
-   },
-   patients: [
-      {
-      type: Schema.Types.ObjectId,
-      ref: "Patient"
-      }
-     ],
-	photos: []
-	// local: {
-	// 	email: { type: String, unique: true },
-	// 	password: { type: String }
-	// },
-	// google: {
-	// 	id: { type: String },
-	// 	photos: []
-	// },
-	// firstName: { type: String },
-	// lastName: { type: String }
+	firstName: {
+		type: String,
+		unique: false,
+		required: true
+	},
+	lastName: {
+		type: String,
+		unique: false,
+		required: true
+	},
+  phone: {
+    type: String,
+    unique: true,
+    required: true
+  },
+	patients: [
+    {
+    type: Schema.Types.ObjectId,
+    ref: "Patient"
+    }
+  ]
 })
 
 // Define schema methods
@@ -60,8 +67,6 @@ userSchema.pre('save', function(next) {
 		this.local.password = this.hashPassword(this.local.password)
 		next()
 	}
-	// this.password = this.hashPassword(this.password)
-	// next()
 })
 
 // Create reference to User & export

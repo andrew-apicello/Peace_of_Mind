@@ -1,62 +1,110 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
-// import googleButton from './google_signin_buttons/web/1x/btn_google_signin_dark_disabled_web.png'
-// import googleButton from './google_signin_buttons/web/1x/btn_google_signin_dark_normal_web.png'
+import { Redirect, Link } from 'react-router-dom'
+import { FormGroup, ControlLabel, FormControl, Form, Col, Button } from 'react-bootstrap';
+import axios from 'axios';
 
 class LoginForm extends Component {
 	constructor() {
 		super()
 		this.state = {
-			username: '',
+			email: '',
 			password: '',
 			redirectTo: null
 		}
-		// this.googleSignin = this.googleSignin.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.handleChange = this.handleChange.bind(this)
-	}
+	};
 
-	handleChange(event) {
+	handleChange = event => {
 		console.log(event.target);
 		this.setState({
 			[event.target.name]: event.target.value
 		})
-	}
+	};
 
-	handleSubmit(event) {
+	handleSubmit = event => {
 		event.preventDefault()
-		console.log('handleSubmit')
-		this.props._login(this.state.username, this.state.password)
-		this.setState({
-			redirectTo: '/'
-		})
-	}
+		console.log(event)
+
+		if (!this.state.email){
+      alert(`Please enter your email`);
+
+      this.setState({
+      	email: "",
+				redirectTo: ""
+			})
+		}else if (!this.state.password){
+      alert(`Please enter your password`);
+
+      this.setState({
+      	password: "",
+				redirectTo: ""
+			})
+		}else{
+			console.log(`Trying to login`);
+			axios.get("/auth/user", {
+				email: this.state.email,
+				password: this.state.password
+			}).then(response =>{
+				console.log(response);
+				this.props._login(this.state.email, this.state.password)
+					this.setState({
+						redirectTo: '/'
+					})
+			})
+		}
+	};
 
 	render() {
 		if (this.state.redirectTo) {
+			console.log(`Redirecting to: ${this.state.redirectTo}`);
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {
 			return (
-				<div className="LoginForm">
-					<h1>Login form</h1>
-					<form>
-						<label htmlFor="username">Username: </label>
-						<input
-							type="text"
-							name="username"
-							value={this.state.username}
-							onChange={this.handleChange}
-						/>
-						<label htmlFor="password">Password: </label>
-						<input
-							type="password"
-							name="password"
-							value={this.state.password}
-							onChange={this.handleChange}
-						/>
-						<button onClick={this.handleSubmit}>Login</button>
-					</form>
-				</div>
+				<div className="container">
+					<div className="LoginForm">
+						<Form horizontal className="form">
+							<h3>Login</h3>
+						  <FormGroup controlId="formHorzontalEmail"
+      				>
+								<Col componentClass={ControlLabel} sm={4}>Email:
+	      				</Col>
+	      				<Col sm={4}>
+									<FormControl
+										type="email"
+										name="email"
+										required
+										value={this.state.email}
+										onChange={this.handleChange}
+										className="form-control"
+										placeholder="email"
+									/>
+								</Col>
+							</FormGroup>
+							
+							<FormGroup controlId="formHorzontalEmail"
+      				>
+								<Col componentClass={ControlLabel} sm={4}>Password:
+		      			</Col>
+		      			<Col sm={4}>
+									<FormControl
+										type="password"
+										name="password"
+										required
+										value={this.state.password}
+										onChange={this.handleChange}
+										className="form-control"
+										minLength="6"
+										maxLength="15" 
+										placeholder="password"
+									/>
+								</Col>
+							</FormGroup>
+							<Button onClick={this.handleSubmit} className="btn">Login</Button>
+					</Form>
+						<p>Need an account? <Link to="/signup">Sign up</Link></p>
+					</div>
+					</div>
 			)
 		}
 	}

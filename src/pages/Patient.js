@@ -3,8 +3,6 @@ import ReminderForm from '../components/ReminderForm'
 import PatientProfile from '../components/PatientProfile'
 // import Clock from "../components/Clock";
 
-// user={JSON.stringify(props)}
-
 const Patient = props => {
 
 	let user = props.user || 'no user';

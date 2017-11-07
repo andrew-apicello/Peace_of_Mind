@@ -1,0 +1,13 @@
+  .carousel-caption {
+    top: 0;
+    bottom: auto;
+    max-width: 100%;
+    width:100%;
+    left: 0;
+    font-size: 200%;
+  }
+
+  .carousel {
+    width:50%;
+    height: 50%;
+  }
