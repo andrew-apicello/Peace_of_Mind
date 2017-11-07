@@ -163,7 +163,8 @@ router.post("/addReminder", (req, res) => {
 	const patientId = req.body._id;
 	const { reminderTitle, dayToComplete, timeToComplete, medicationQuantity, medicationRefillDate, reminderMessage } = req.body
 
-	// Need to calculate 30 minutes from timeToComplete to get the time of when the task should be completed
+	// Need to calculate 30 minutes from timeToComplete to get the time of when we should receive a response by
+	// Since the inputted minutes will either be 0 or 30, we can check for those numbers and set them appropriately
 	// First, split the time and remove the colon upon splitting
 	const timeArray = timeToComplete.split(":")
 	// Then loop through the new array and parseInt each of the items
@@ -174,12 +175,20 @@ router.post("/addReminder", (req, res) => {
 		timeNumbers.push(numbers);
 	}
 
-	// Then, add 30 minutes to the second item in the array, which should be the minutes
+	// Then check if the second item in the array, which should be the minutes, is 0 or 30
 	let hours = timeNumbers[0];
 	let minutes = timeNumbers[1];
-	let addThirtyMinutes = minutes + 30;
+	let newMinutes; 
+	
+	// Set the new minutes
+	if minutes === 0 {
+		newMinutes === 30;
+	} else if (minutes === 30) {
+		newMinutes === 0;
+	}
+
 	// Then, concatenate the two back together and send into db with a colon in between 
-	let receiveResponseBy = hours + ":" + addThirtyMinutes;
+	let receiveResponseBy = hours + ":" + newMinutes;
 
 	const newReminder = new Reminder ({
 		reminderTitle: reminderTitle,
@@ -274,7 +283,7 @@ queryDB = () => {
 
 
 				// Query into db to find the id of each reminder based on what day and time it is as well as if the responseReceived = false
-				Reminder.find({_id: reminderId, dayToComplete: day, responseReceived: false}).then(function(reminders) {
+				Reminder.find({_id: reminderId, dayToComplete: day, responseReceived: false, responseLate: false}).then(function(reminders) {
 					// console.log(reminders + " " + patientPhone);
 					for (let i = 0; i < reminders.length; i++) {
 						// Get the body of the reminderMessage. Can also get the reminder photo
