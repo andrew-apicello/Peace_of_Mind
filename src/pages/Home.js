@@ -8,18 +8,22 @@ const Home = props => {
 	// If a user exists and if that user has patients, display the patient's reminders
 	if (props.user && props.user.patients.length > 0) {
 		return (
-			<div className="Home">
-				<Clock />
-				<DisplayReminders />
+			<div className="container">
+				<div className="Home">
+					<Clock />
+					<DisplayReminders />
+				</div>
 			</div>
 		)
 	} 
 	// Display the add a patient form if the user doesn't have a saved patient
 	else if (props.user && props.user.patients.length === 0) {
 		return (
-			<div className="Home">
-						{console.log(props.user)}
-				<PatientForm />
+			<div className="container">
+				<div className="Home">
+							{console.log(props.user)}
+					<PatientForm />
+				</div>
 			</div>
 		)
 	} 

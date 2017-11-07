@@ -1,3 +1,12 @@
-.controlLabel{
+.medicationForm{
+	width:600px;
 	text-align:left;
+}
+
+.dropdownFields{
+	margin: 0 20px 0 10px;
+}
+
+.reminderFormTitle{
+	text-align:center;
 }

@@ -130,7 +130,8 @@ class App extends Component {
 
 	render() {
 		return (
-			<div className="App">	
+			<div className="App">
+				
 				<div className="row">	
 					<div className="col-md-11">		
 						{/* LINKS to our different 'pages' */}

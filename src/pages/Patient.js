@@ -1,21 +1,27 @@
 import React from 'react'
 import ReminderForm from '../components/ReminderForm'
 import PatientProfile from '../components/PatientProfile'
-// import Clock from "../components/Clock";
+import {Row, Col} from "react-bootstrap"
 
 const Patient = props => {
 	if (props.user) {
 		return (
-			<div>
-				<p>Your Patient:</p>
-				<PatientProfile />
-				<p>Add a reminder:</p>
-				<ReminderForm />
+			<div class="container">
+				<Row>
+					<Col lg={12}>
+						<PatientProfile />
+					</Col>
+				</Row>
+				<Row>
+					<Col lg={12}>
+					<ReminderForm />
+					</Col>
+				</Row>
 			</div>
 		)
 	} else {
 		return (
-			<div>
+			<div class="container">
 				<p>Please add a patient before adding a reminder</p>
 			</div>
 		)

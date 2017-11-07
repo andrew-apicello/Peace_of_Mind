@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import {Row, Col} from "react-bootstrap"
 
 
 class PatientProfile extends React.Component {
@@ -31,17 +32,11 @@ constructor() {
 
   render() {
     return (
-      <div>
-        <div className ='container'>
-          <div className ='row'>
-            <div className='col-md-12'>
-              <p id="patientName">Name: {this.state.patientName}</p>
-              <p>Phone: {this.state.patientPhone}</p>
-              <p>Address: {this.state.patientStreet}, {this.state.patientCity}, {this.state.patientState} {this.state.patientZip}</p>
-
-            </div>
-          </div>
-        </div>
+      <div classNAme="patientProfile">
+        <h2>Your Patient:</h2>
+        <p id="patientName"><strong>Name: </strong>{this.state.patientName}</p>
+        <p><strong>Phone: </strong>{this.state.patientPhone}</p>
+        <p><strong>Address: </strong>{this.state.patientStreet}, {this.state.patientCity}, {this.state.patientState} {this.state.patientZip}</p>
       </div>
     );
   }

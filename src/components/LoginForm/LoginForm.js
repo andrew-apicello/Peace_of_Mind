@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
-import { FormGroup, ControlLabel, FormControl, Form, Col, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Form, Row, Col, Button } from 'react-bootstrap';
 import axios from 'axios';
 import {WarningBanner} from "../Alerts"
+import "./LoginForm.css"
 
 class LoginForm extends Component {
 	constructor() {
@@ -129,7 +130,7 @@ class LoginForm extends Component {
 					</Form>
 						<p>Need an account? <Link to="/signup">Sign up</Link></p>
 					</div>
-					</div>
+			</div>
 			)
 		}
 	}
