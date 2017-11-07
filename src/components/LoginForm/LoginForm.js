@@ -2,13 +2,16 @@ import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import { FormGroup, ControlLabel, FormControl, Form, Col, Button } from 'react-bootstrap';
 import axios from 'axios';
+import {WarningBanner} from "../Alerts"
 
 class LoginForm extends Component {
 	constructor() {
 		super()
 		this.state = {
 			email: '',
+			emailFlag: false,
 			password: '',
+			passwordFlag: false,
 			redirectTo: null
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
@@ -26,21 +29,37 @@ class LoginForm extends Component {
 		event.preventDefault()
 		console.log(event)
 
-		if (!this.state.email){
-      alert(`Please enter your email`);
+		if (this.state.email){
 
       this.setState({
+      	emailFlag: false,
+			})
+		}
+
+		if (!this.state.email){
+      this.setState({
+      	emailFlag: true,
       	email: "",
 				redirectTo: ""
 			})
-		}else if (!this.state.password){
-      alert(`Please enter your password`);
+		}
+
+		if (this.state.password){
+      this.setState({
+      	passwordFlag: false,
+			})
+		}
+
+		if (!this.state.password){
 
       this.setState({
+      	passwordFlag: true,
       	password: "",
 				redirectTo: ""
 			})
-		}else{
+		}
+
+		if(this.state.email && this.state.password) {
 			console.log(`Trying to login`);
 			axios.get("/auth/user", {
 				email: this.state.email,
@@ -79,6 +98,9 @@ class LoginForm extends Component {
 										className="form-control"
 										placeholder="email"
 									/>
+									<WarningBanner 
+										warn={this.state.emailFlag}
+									/>
 								</Col>
 							</FormGroup>
 							
@@ -97,6 +119,9 @@ class LoginForm extends Component {
 										minLength="6"
 										maxLength="15" 
 										placeholder="password"
+									/>
+									<WarningBanner 
+										warn={this.state.passwordFlag}
 									/>
 								</Col>
 							</FormGroup>

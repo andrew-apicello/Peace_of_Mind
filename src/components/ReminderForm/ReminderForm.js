@@ -1,6 +1,6 @@
 import React from 'react';
 import Input from "../Input/Input"
-import { Button, FormGroup, ControlLabel, FormControl, Form } from "react-bootstrap"
+import { Button, FormGroup, ControlLabel, FormControl, Form, Checkbox, Col } from "react-bootstrap"
 import axios from 'axios';
 
 
@@ -42,6 +42,7 @@ constructor() {
     // Destructure the name and value properties off of event.target
     // Update the appropriate state
     const { name, value } = event.target;
+    console.log(event.target);
     this.setState({
       [name]: value
     });
@@ -56,7 +57,14 @@ constructor() {
     console.log(this.state.medicationQuantity);
     console.log(this.state.medicationRefillDate);
     console.log(this.state.reminderMessage);
+    
+    if(!this.state.reminderTitle){
+      alert("Title Required");
 
+    }else if (!this.state.dayToComplete){
+      alert("Days required");
+
+    }else{  
     axios
       .post('/auth/addReminder', {
         _id: this.state._id,
@@ -96,7 +104,7 @@ constructor() {
           console.log('error')
         }
       })
-
+    }
   };
 
   render() {
@@ -117,10 +125,64 @@ constructor() {
                       />
                     </FormGroup>
                     <FormGroup>
+                      <Col componentClass={ControlLabel} sm={4}>Choose which days medication must be taken:
+                      </Col>
+                      <Col sm={7}>
+                      <Checkbox inline
+                        name="dayToComplete"
+                        value="Sunday"
+                        onChange={this.handleInputChange}
+                      >
+                        Sunday
+                      </Checkbox>
+                      <Checkbox inline 
+                        name="dayToComplete"
+                        value="Monday"
+                        onChange={this.handleInputChange}
+                      >
+                        Monday
+                      </Checkbox>
+                      <Checkbox inline
+                        name="dayToComplete"
+                        value="Tuesday"
+                        onChange={this.handleInputChange}
+                      >
+                        Tuesday
+                      </Checkbox>
+                      <Checkbox inline
+                        name="dayToComplete"
+                        value="Wednesday"
+                        onChange={this.handleInputChange}
+                      >
+                        Wednesday
+                      </Checkbox>
+                      <Checkbox inline
+                        name="dayToComplete"
+                        value="Thursday"
+                        onChange={this.handleInputChange}
+                      >
+                        Thursday
+                      </Checkbox>
+                      <Checkbox inline
+                        name="dayToComplete"
+                        value="Friday"
+                        onChange={this.handleInputChange}
+                      >
+                        Friday
+                      </Checkbox>
+                      <Checkbox inline
+                        name="dayToComplete"
+                        value="Saturday"
+                        onChange={this.handleInputChange}
+                      >
+                        Saturday
+                      </Checkbox>
+                      </Col>
+                    </FormGroup>
+                    <FormGroup>
                       <FormControl
                         componentClass="select"
                         name="dayToComplete"
-                        value={this.state.dayToComplete}
                         onChange={this.handleInputChange}
                         placeholder="Day"
                       >
