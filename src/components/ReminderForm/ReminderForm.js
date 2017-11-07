@@ -21,6 +21,9 @@ constructor() {
       dayToCompleteFri: "",
       dayToCompleteSat: "",
       timeToComplete: "",
+      timeToCompleteHour: "",
+      timeToCompleteMin: "",
+      timeToCompleteAmPm: "",
       medicationDosage: "",
       medicationRefillDate: "",
       reminderMessage: "",
@@ -81,6 +84,9 @@ constructor() {
     console.log(this.state.medicationDosage);
     console.log(this.state.medicationRefillDate);
     console.log(this.state.reminderMessage);
+    console.log(this.state.timeToCompleteHour);
+    console.log(this.state.timeToCompleteMin);
+    console.log(this.state.timeToCompleteAmPm);
 
 
     if(this.state.dayToCompleteSun) {
@@ -119,6 +125,9 @@ constructor() {
         reminderTitle: this.state.reminderTitle,
         dayToComplete: this.state.dayToComplete,
         timeToComplete: this.state.timeToComplete,
+        timeToCompleteHour: this.state.timeToCompleteHour,
+        timeToCompleteMin: this.state.timeToCompleteMin,
+        timeToCompleteAmPm: this.state.timeToCompleteAmPm,
         medicationDosage: this.state.medicationDosage,
         medicationRefillDate: this.state.medicationRefillDate,
         reminderMessage: this.state.reminderMessage
@@ -139,6 +148,9 @@ constructor() {
             dayToCompleteFri: "",
             dayToCompleteSat: "",
             timeToComplete: "",
+            timeToCompleteHour: "",
+            timeToCompleteMin: "",
+            timeToCompleteAmPm: "",
             medicationDosage: "",
             medicationRefillDate: "",
             reminderMessage: ""
