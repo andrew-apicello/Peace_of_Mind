@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 
+
 // Save a reference to the Schema constructor
 var Schema = mongoose.Schema;
 
@@ -32,17 +33,21 @@ var RemindersSchema = new Schema({
   },
 
   reminderImage: {
-  	type: String
+    type: String
   },
 
-  reminderCompleted: {
+  receiveResponseBy: {
+    type: String
+  },
+
+  responseReceived: {
     type: Boolean,
     default: false
   },
 
-   reminderLate: {
-   	 type: Boolean,
-   	 default: false
+   responseLate: {
+     type: Boolean,
+     default: false
    }
 });
 

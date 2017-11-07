@@ -17,9 +17,28 @@ var PatientSchema = new Schema({
       required: true
    },
 
-   patientAddress: {
+   patientStreet: {
       type: String,
       required: true
+   },
+
+   patientCity: {
+      type:String,
+      required: true
+   },
+
+   patientState: {
+      type:String,
+      required: true
+   },
+
+   patientZip: {
+      type: String,
+      required: true,
+      validate: [
+         function(input) {
+            return input.length = 5;
+         }]
    },
 
    reminders: [

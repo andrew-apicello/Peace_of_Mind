@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { FormGroup, ControlLabel, FormControl, Button, Form } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button, Form, Col } from 'react-bootstrap';
 import "./SignupForm.css";
 
 class SignupForm extends Component {
 	constructor() {
 		super()
 		this.state = {
+			firstName: "",
+			lastName: "",
 			email: '',
+			phone: '',
 			password: '',
 			confirmPassword: '',
 			redirectTo: null,
@@ -42,8 +45,21 @@ class SignupForm extends Component {
 
 	handleSubmit = event => {
 		event.preventDefault()
+		//If no First Name is entered
+		if(!this.state.firstName){
+			alert("Please enter your First Name");
+		
+			this.setState({
+				redirectTo: ""
+			})
+		}else if (!this.state.lastName){
+			alert("Please enter your Last Name");
+
+			this.setState({
+				redirstTo: ""
+			})	
 		//If no email is input
-		if (!this.state.email){
+		}else if (!this.state.email){
 			alert("Please enter an email");
 
 			 this.setState({
@@ -78,7 +94,10 @@ class SignupForm extends Component {
 			axios
 			.post('/auth/signup', {
 				email: this.state.email,
-				password: this.state.password
+				password: this.state.password,
+				phone: this.state.phone,
+				firstName: this.state.firstName,
+				lastName: this.state.lastName
 			})
 			.then(response => {
 				console.log(response)
@@ -107,27 +126,79 @@ class SignupForm extends Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		}
 		return (
-			<div className="row">
-				<div className="col-md-12">
-					<div className="SignupForm">
+			<div className="container">
+				<div className="SignupForm">
+					<Form horizontal className="form">
 						<h3>Signup</h3>
-						<Form inline className="form">
-							<FormGroup
-		        	>
-								<ControlLabel className="form-label">Email</ControlLabel>
+
+						<FormGroup controlId="formHorzontalEmail"
+	        	>
+							<Col componentClass={ControlLabel} sm={3}>First Name:
+      				</Col>
+      				<Col sm={7}>
+								<FormControl
+									type="text"
+									name="firstName"
+									value={this.state.firstName}
+									onChange={this.handleChange}
+									className="form-control"
+								/>
+							</Col>
+						</FormGroup>
+
+						<FormGroup controlId="formHorzontalEmail"
+	        	>
+							<Col componentClass={ControlLabel} sm={3}>Last Name:
+      				</Col>
+      				<Col sm={7}>
+								<FormControl
+									type="text"
+									name="lastName"
+									value={this.state.lastName}
+									onChange={this.handleChange}
+									className="form-control"
+								/>
+							</Col>
+						</FormGroup>
+
+						<FormGroup controlId="formHorzontalEmail"
+	        	>
+							<Col componentClass={ControlLabel} sm={3}>Email:
+      				</Col>
+      				<Col sm={7}>
 								<FormControl
 									type="email"
 									name="email"
 									value={this.state.email}
 									onChange={this.handleChange}
 									className="form-control"
+									placeholder="example@example.com"
 								/>
-							</FormGroup>
-								<ControlLabel className="form-label">Password</ControlLabel>
-							<FormGroup
-								controlId="password"
-		        		validationState={this.passwordLengthValidate()}
-		        	>
+							</Col>
+						</FormGroup>
+
+						<FormGroup>
+							<Col componentClass={ControlLabel} sm={3}>Phone Number:
+      				</Col>
+      				<Col sm={7}>
+								<FormControl
+	              	type="tel"
+	              	pattern="^\d{3}-\d{3}-\d{4}$" required
+	                name="phone"
+	                value={this.state.phone}
+	                onChange={this.handleChange}
+	                placeholder="000-000-0000"
+	              	/>
+              </Col>	
+            </FormGroup>
+
+						<FormGroup
+							controlId="password"
+	        		validationState={this.passwordLengthValidate()}
+	        	>
+	        		<Col componentClass={ControlLabel} sm={3}>Password:
+    					</Col>
+	        		<Col sm={7}>
 								<FormControl
 									type="password"
 									name="password"
@@ -137,25 +208,29 @@ class SignupForm extends Component {
 									minLength="6"
 									maxLength="15"
 								/>
-							</FormGroup>
-							<ControlLabel className="form-label">Confirm Password</ControlLabel>
-							<FormGroup
-								controlId="formBasicText"
-		        		validationState={this.confirmPasswordValidate()}
-		        	>
-							<FormControl
-								type="password"
-								name="confirmPassword"
-								value={this.state.confirmPassword}
-								onChange={this.handleChange}
-								className="form-control"
-								minLength="6"
-								maxLength="15"
-							/>
-							</FormGroup>
-							<Button onClick={this.handleSubmit} className="btn">Sign up</Button>
-						</Form>
-					</div>
+							</Col>
+						</FormGroup>
+
+						<FormGroup
+							controlId="formBasicText"
+	        		validationState={this.confirmPasswordValidate()}
+	        	>
+	        		<Col componentClass={ControlLabel} sm={3}>Confirm Password:
+    					</Col>
+    					<Col sm={7}>
+								<FormControl
+									type="password"
+									name="confirmPassword"
+									value={this.state.confirmPassword}
+									onChange={this.handleChange}
+									className="form-control"
+									minLength="6"
+									maxLength="15"
+								/>
+							</Col>
+						</FormGroup>
+						<Button onClick={this.handleSubmit} className="btn">Sign up</Button>
+					</Form>
 				</div>
 			</div>
 		)

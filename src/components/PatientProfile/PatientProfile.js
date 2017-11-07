@@ -9,18 +9,26 @@ constructor() {
       _id: "",
       patientName: "",
       patientPhone: "",
-      patientAddress: ""
+      patientStreet: "",
+      patientCity: "",
+      patientState: "",
+      patientZip: ""
     }
 }
   componentDidMount() {
-    axios.get('/auth/patients').then(response => {
+    const id = this.props.user._id;
+  
+    axios.get('/auth/patients/' + id).then(response => {
       console.log(response.data)
       if (response.data) {
         this.setState({
-          _id: response.data._id,
-          patientName: response.data.patientName,
-          patientPhone: response.data.patientPhone,
-          patientAddress: response.data.patientAddress
+          _id: response.data[0]._id,
+          patientName: response.data[0].patientName,
+          patientPhone: response.data[0].patientPhone,
+          patientStreet: response.data[0].patientStreet,
+          patientCity: response.data[0].patientCity,
+          patientState: response.data[0].patientState,
+          patientZip: response.data[0].patientZip
         })
       };
     });
@@ -32,9 +40,10 @@ constructor() {
         <div className ='container'>
           <div className ='row'>
             <div className='col-md-12'>
-              <p>Name: {this.state.patientName}</p>
+              <p id="patientName">Name: {this.state.patientName}</p>
               <p>Phone: {this.state.patientPhone}</p>
-              <p>Address: {this.state.patientAddress}</p>
+              <p>Address: {this.state.patientStreet}, {this.state.patientCity}, {this.state.patientState} {this.state.patientZip}</p>
+
             </div>
           </div>
         </div>
