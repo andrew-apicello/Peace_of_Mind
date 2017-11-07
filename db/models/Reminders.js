@@ -11,7 +11,7 @@ var RemindersSchema = new Schema({
   },
 
   dayToComplete: {
-    type: String
+    type: Array
   },
 
   timeToComplete: {

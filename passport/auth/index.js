@@ -5,6 +5,7 @@ const passport = require('passport')
 const Patient = require('../../db/models/patients')
 const Reminder = require('../../db/models/reminders')
 const moment = require('moment');
+// const convertTime = require("../../Utils/MilitaryTime.js");
 //==================================Twilio=========================================
 const twilio = require('twilio');
 const accountSid = 'AC48ce06d27e69dece3a0702596ee55a08'; // Your Account SID from www.twilio.com/console
@@ -163,33 +164,41 @@ router.post("/addReminder", (req, res) => {
 	const patientId = req.body._id;
 	const { reminderTitle, dayToComplete, timeToComplete, medicationQuantity, medicationRefillDate, reminderMessage } = req.body
 
-	// Need to calculate 30 minutes from timeToComplete to get the time of when we should receive a response by
-	// Since the inputted minutes will either be 0 or 30, we can check for those numbers and set them appropriately
-	// First, split the time and remove the colon upon splitting
-	const timeArray = timeToComplete.split(":")
-	// Then loop through the new array and parseInt each of the items
-	let timeNumbers = [];
-	for (let i = 0; i < timeArray.length; i++) {
-		// push the numbers into a new array
-		let numbers = parseInt(timeArray[i])
-		timeNumbers.push(numbers);
-	}
+	console.log("Array of days: " + dayToComplete);
 
-	// Then check if the second item in the array, which should be the minutes, is 0 or 30
-	let hours = timeNumbers[0];
-	let minutes = timeNumbers[1];
-	let newMinutes;
-	
-	// Set the new minutes
-	if (minutes === 0) {
-		newMinutes = "30";
-	} else if (minutes === 30) {
-		newMinutes = "00";
-		hours++;
-	}
+	// var hours = timeToCompleteHour;
+	// var minutes = timeToCompleteMin;
+	// var amPm = timeToCompleteAmPm;
 
-	// Then, concatenate the two back together and send into db with a colon in between 
-	let receiveResponseBy = hours + ":" + newMinutes;
+	// var sayTime = convertTime.convertStandardToMilitaryTime(hours,minutes,amPm);
+	// 	const timeToComplete = parseInt(sayTime.split(":")[0])
+	// 	minutes = parseInt(sayTime.split(":")[1])
+
+
+	// addTime(hours,minutes,amPm);
+
+	// function addTime(hours,minutes,amPm){
+
+	// 	var militaryTime = convertTime.convertStandardToMilitaryTime(hours,minutes,amPm)
+	// 	hours = parseInt(militaryTime.split(":")[0])
+	// 	minutes = parseInt(militaryTime.split(":")[1])
+
+	// 	if (minutes == 0){
+	// 		minutes = minutes + 30
+	// 	} else {
+	// 		hours = hours + 1
+	// 		minutes = "00"
+
+	// 		if (hours == 24){
+	// 			hours = 0;
+	// 		}
+	// 	}
+	// 	console.log(hours + ":" + minutes)
+	// 	const receiveResponseBy = hours + ":" + minutes;
+	// }
+
+
+
 
 	const newReminder = new Reminder ({
 		reminderTitle: reminderTitle,
@@ -197,8 +206,7 @@ router.post("/addReminder", (req, res) => {
 		timeToComplete: timeToComplete,
 		medicationQuantity: medicationQuantity,
 		medicationRefillDate: medicationRefillDate,
-		reminderMessage: reminderMessage,
-		receiveResponseBy: receiveResponseBy
+		reminderMessage: reminderMessage
 	})
 	newReminder.save((err, savedReminder) => {
 		if (err) return res.json(err)
@@ -222,14 +230,14 @@ clock = () => {
 	// Get the current minute
 	let minutes = moment().format('mm');
 
-	if(minutes == 00 || minutes == 30) {
+	// if(minutes == 00 || minutes == 30) {
 		// Query the db to check for tasks every 0 and 30 minutes 
 		queryDB();
-	}
+	// }
 }
 
 // Run the clock function every minute
-setInterval(clock, 60000);
+// setInterval(clock, 10000);
 
 let day;
 switch (new Date().getDay()) {
@@ -319,26 +327,44 @@ queryDB = () => {
 				 //    .then((message) => console.log(message.sid));
 				 //  }
 
-
-				 // ********* NEXT STEPS *********
-
-				    // Then, we query all users, get their phone numbers
-				    // Loop through their patients, get their IDs 
-				    // Find the reminders of that patient with the receiveResponseBy = thirtyMinutesFromNow and if responseReceived = false
-				    // If response received = false, then we send a text message to the user alerting that the patient's 12:00 or so reminder hasn't been completed
-				    // Update reminder in db as responseLate = true
-
-				    // If a response has been received, we need to get the phone number that it's coming from. 
-				    // Query all patients where the phone number matches and somehow find which reminder they were responding to. 
-				    // Maybe we get the time the 'YES' was sent and say if it is less than receiveResponseBy then update that responseReceived to true
 					}
 				})
 
+
+
+
+
+
 			}
-
 		}
+	}); // End Patient.find query
 
-	})
+
+ // ********* NEXT STEPS *********
+
+    // Then, we query all users, get their phone numbers
+	User.find({}).then(function(users) {
+    // Loop through their patients, get their IDs 
+    for (var i = 0; i < users.length; i++) {
+    	// console.log("users: " + users[i]);
+
+    	if(users.patients) {
+    		for (var i = 0; i < users.patients.length; i++) {
+    			console.log("user patients: " + users.patients[i]);
+    		}
+    	}
+    }
+    // Find the reminders of that patient with the receiveResponseBy = thirtyMinutesFromNow and if responseReceived = false
+    // If response received = false, then we send a text message to the user alerting that the patient's 12:00 or so reminder hasn't been completed
+    // Update reminder in db as responseLate = true
+
+    // If a response has been received, we need to get the phone number that it's coming from. 
+    // Query all patients where the phone number matches and somehow find which reminder they were responding to. 
+    // Maybe we get the time the 'YES' was sent and say if it is less than receiveResponseBy then update that responseReceived to true
+
+
+
+	});
 
 }
 

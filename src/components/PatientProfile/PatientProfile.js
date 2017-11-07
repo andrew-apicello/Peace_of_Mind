@@ -20,7 +20,7 @@ constructor() {
   
     axios.get('/auth/patients/' + id).then(response => {
       console.log(response.data)
-      if (response.data) {
+      if (response.data.length > 0) {
         this.setState({
           _id: response.data[0]._id,
           patientName: response.data[0].patientName,
@@ -30,7 +30,7 @@ constructor() {
           patientState: response.data[0].patientState,
           patientZip: response.data[0].patientZip
         })
-      };
+      } 
     });
   }
 

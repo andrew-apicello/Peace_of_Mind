@@ -1,7 +1,8 @@
 import React from 'react';
 import Input from "../Input/Input"
-import { Button, FormGroup, ControlLabel, FormControl, Form } from "react-bootstrap"
+import { Button, FormGroup, ControlLabel, FormControl, Form, Checkbox, Col } from "react-bootstrap"
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 
 class ReminderForm extends React.Component {
@@ -11,11 +12,12 @@ constructor() {
       _id: "",
       reminders: [],
       reminderTitle: "",
-      dayToComplete: "",
+      dayToComplete: [],
       timeToComplete: "",
       medicationQuantity: "",
       medicationRefillDate: "",
-      reminderMessage: ""
+      reminderMessage: "",
+      redirectTo: null
     }
 }
   componentDidMount() {
@@ -26,10 +28,16 @@ constructor() {
 
     axios.get('/auth/patients/' + id).then(response => {
       console.log(response.data)
-      if (response.data) {
+      if (response.data.length > 0) {
         this.setState({
           _id: response.data[0]._id
         })
+      } else {
+        alert("Please add a patient before adding a patient profile.")
+        this.setState({
+          redirectTo: "/"
+        })
+
       };
     });
 
@@ -80,7 +88,7 @@ constructor() {
 
           this.setState({
             reminderTitle: "",
-            dayToComplete: "",
+            dayToComplete: [],
             timeToComplete: "",
             medicationQuantity: "",
             medicationRefillDate: "",
@@ -106,6 +114,9 @@ constructor() {
   };
 
   render() {
+    if (this.state.redirectTo === "/") {
+      return <Redirect to={{ pathname: this.state.redirectTo }} />
+    }
     return (
       <div>
         <div className ='container'>
@@ -123,10 +134,64 @@ constructor() {
                       />
                     </FormGroup>
                     <FormGroup>
+                      <Col componentClass={ControlLabel} sm={4}>Choose which days medication must be taken:
+                      </Col>
+                      <Col sm={7}>
+                      <Checkbox inline
+                        name="dayToComplete"
+                        value="Sunday"
+                        onChange={this.handleInputChange}
+                      >
+                        Sunday
+                      </Checkbox>
+                      <Checkbox inline 
+                        name="dayToComplete"
+                        value="Monday"
+                        onChange={this.handleInputChange}
+                      >
+                        Monday
+                      </Checkbox>
+                      <Checkbox inline
+                        name="dayToComplete"
+                        value="Tuesday"
+                        onChange={this.handleInputChange}
+                      >
+                        Tuesday
+                      </Checkbox>
+                      <Checkbox inline
+                        name="dayToComplete"
+                        value="Wednesday"
+                        onChange={this.handleInputChange}
+                      >
+                        Wednesday
+                      </Checkbox>
+                      <Checkbox inline
+                        name="dayToComplete"
+                        value="Thursday"
+                        onChange={this.handleInputChange}
+                      >
+                        Thursday
+                      </Checkbox>
+                      <Checkbox inline
+                        name="dayToComplete"
+                        value="Friday"
+                        onChange={this.handleInputChange}
+                      >
+                        Friday
+                      </Checkbox>
+                      <Checkbox inline
+                        name="dayToComplete"
+                        value="Saturday"
+                        onChange={this.handleInputChange}
+                      >
+                        Saturday
+                      </Checkbox>
+                      </Col>
+                    </FormGroup>
+                    <FormGroup>
                       <FormControl
                         componentClass="select"
                         name="dayToComplete"
-                        value={this.state.dayToComplete}
                         onChange={this.handleInputChange}
                         placeholder="Day"
                       >

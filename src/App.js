@@ -9,7 +9,9 @@ import './App.css'
 import Patient from './pages/Patient'
 
 const DisplayLinks = props => {
+
 	if (props.loggedIn) {
+	
 		return (
 			<div>
 				<nav className="navbar navbar-default navbar-fixed-top">
