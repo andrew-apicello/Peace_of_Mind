@@ -178,23 +178,18 @@ router.post("/addReminder", (req, res) => {
 	// Then check if the second item in the array, which should be the minutes, is 0 or 30
 	let hours = timeNumbers[0];
 	let minutes = timeNumbers[1];
-	console.log("current minutes: " + minutes);
 	let newMinutes;
 	
 	// Set the new minutes
 	if (minutes === 0) {
 		newMinutes = "30";
-		console.log("newMinutes: " + newMinutes)
 	} else if (minutes === 30) {
 		newMinutes = "00";
 		hours++;
-		console.log("newMinutes: " + newMinutes)
-		console.log("newhours: " + hours)
 	}
 
 	// Then, concatenate the two back together and send into db with a colon in between 
 	let receiveResponseBy = hours + ":" + newMinutes;
-	console.log("receiveREsponseby: " + receiveResponseBy)
 
 	const newReminder = new Reminder ({
 		reminderTitle: reminderTitle,
