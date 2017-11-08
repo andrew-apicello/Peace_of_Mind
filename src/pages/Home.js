@@ -33,8 +33,9 @@ const Home = props => {
 
 	else if (!props.user) {
 		return (
-			<div>				<Carousel />
-			<div className="Home">
+			<div>				
+				<Carousel />
+				<div className="Home">
 
 				<h1>Peace of Mind</h1>
 				<p>I am not logged in</p>
