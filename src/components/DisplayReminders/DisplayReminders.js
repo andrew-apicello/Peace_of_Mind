@@ -66,7 +66,7 @@ constructor() {
             {this.state.reminders.length ? (
               <div>
                 {this.state.reminders.map(reminder => (
-                  <Well key={reminder._id} id={reminder._id} className="remindersWell">
+                  <Well key={reminder._id} id={reminder._id} className={this.state.reminders.responseLate ? ('incomplete' ): 'completed'}>
                     <Row className="mainRow">
                       <Col sm={2}>
                         <h2 className="timeToComplete">{reminder.timeToComplete}</h2>

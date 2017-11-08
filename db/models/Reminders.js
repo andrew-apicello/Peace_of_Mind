@@ -31,7 +31,8 @@ var RemindersSchema = new Schema({
   },
 
   reminderMessage: {
-    type: String
+    type: String,
+    required: true
   },
 
   reminderImage: {
