@@ -22,7 +22,7 @@ if(minutes === 0){
         if (hourNum === 12){
             var hourMilitary = hourNum;
         } else {
-            var hourMilitary = hourNum + 12;
+            hourMilitary = hourNum + 12;
         }
             militaryTime = hourMilitary + ":" + minutes;
     }

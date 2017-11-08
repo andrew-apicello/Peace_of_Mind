@@ -102,7 +102,7 @@ const patientId = req.params.patientId;
   Patient.find({_id:patientId}).then(function(patient) {
   	reminderId = patient[0].reminders;
 
-  Reminder.find({_id: reminderId}).then(function(reminders) {
+  Reminder.find({_id: reminderId}).sort({ timeToComplete: 1 }).then(function(reminders) {
     res.json(reminders);
   }).catch(function(err) {
     res.json(err);
@@ -119,11 +119,9 @@ console.log(patientId);
 
 console.log("Getting reminders route")
   Patient.find({_id: patientId}).then(function(patient) {
-  	// console.log("current patient: " + patient);
   	reminderId = patient[0].reminders;
-  	console.log("reminderID" + reminderId);
 
-  Reminder.find({_id: reminderId, dayToComplete: today}).then(function(reminders) {
+  Reminder.find({_id: reminderId, dayToComplete: today}).sort({ timeToComplete: 1 }).then(function(reminders) {
     res.json(reminders);
   }).catch(function(err) {
     res.json(err);
@@ -163,42 +161,6 @@ router.post("/addPatient", (req, res) => {
 router.post("/addReminder", (req, res) => {
 	const patientId = req.body._id;
 	const { reminderTitle, dayToComplete, timeToComplete, medicationQuantity, medicationRefillDate, reminderMessage, receiveResponseBy } = req.body
-
-	console.log("Array of days: " + dayToComplete);
-
-	// var hours = timeToCompleteHour;
-	// var minutes = timeToCompleteMin;
-	// var amPm = timeToCompleteAmPm;
-
-	// var sayTime = convertTime.convertStandardToMilitaryTime(hours,minutes,amPm);
-	// 	const timeToComplete = parseInt(sayTime.split(":")[0])
-	// 	minutes = parseInt(sayTime.split(":")[1])
-
-
-	// addTime(hours,minutes,amPm);
-
-	// function addTime(hours,minutes,amPm){
-
-	// 	var militaryTime = convertTime.convertStandardToMilitaryTime(hours,minutes,amPm)
-	// 	hours = parseInt(militaryTime.split(":")[0])
-	// 	minutes = parseInt(militaryTime.split(":")[1])
-
-	// 	if (minutes == 0){
-	// 		minutes = minutes + 30
-	// 	} else {
-	// 		hours = hours + 1
-	// 		minutes = "00"
-
-	// 		if (hours == 24){
-	// 			hours = 0;
-	// 		}
-	// 	}
-	// 	console.log(hours + ":" + minutes)
-	// 	const receiveResponseBy = hours + ":" + minutes;
-	// }
-
-
-
 
 	const newReminder = new Reminder ({
 		reminderTitle: reminderTitle,

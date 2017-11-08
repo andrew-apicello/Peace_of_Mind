@@ -1,7 +1,7 @@
 import React from 'react';
-// import Input from "../Input/Input"
 import { Button, Form, FormGroup, ControlLabel, FormControl, } from "react-bootstrap"
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class PatientForm extends React.Component {
 constructor() {
@@ -76,7 +76,7 @@ constructor() {
             patientCity: "",
             patientState: "",
             patientZip: "",
-            redirectTo: '/patientProfile'
+            redirectTo: '/patient'
           })
         } else {
           console.log('error')
@@ -86,6 +86,9 @@ constructor() {
   };
 
   render() {
+    if (this.state.redirectTo === "/patient") {
+      return <Redirect to={{ pathname: this.state.redirectTo }} />
+    }
     return (
       <div>
         <div className ='container'>

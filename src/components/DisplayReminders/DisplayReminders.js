@@ -69,8 +69,8 @@ constructor() {
                   <li key={reminder._id} id={reminder._id}>
                   {reminder.timeToComplete + " "}
                   To do: {reminder.reminderTitle + " "}
-                  Medication Dosage: {reminder.medicationDosage + " "}
-                  Medication Refill Date: {reminder.medicationRefillDate + " " }
+                  {this.state.medicationDosage ? ("Medication Dosage: " + reminder.medicationDosage + " " ) : "" } 
+                  {this.state.medicationRefillDate ? ("Medication Refill Date: " + reminder.medicationRefillDate + " " ) : "" } 
                   Message: {reminder.reminderMessage + " "}
                   </li>
                 ))}
