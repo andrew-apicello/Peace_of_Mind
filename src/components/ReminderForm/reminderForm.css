@@ -1,6 +1,10 @@
 .medicationForm{
-	width:600px;
+
 	text-align:left;
+}
+
+.addMedsPanel{
+		width:630px;
 }
 
 .dropdownFields{

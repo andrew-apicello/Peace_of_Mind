@@ -1,8 +1,9 @@
 import React from 'react';
-import Input from "../Input/Input"
-import { Button, Form, FormGroup, Col, ControlLabel, FormControl, } from "react-bootstrap"
+import { Button, Form, FormGroup, Col, ControlLabel, FormControl, Checkbox } from "react-bootstrap"
 import axios from 'axios';
 import {WarningBanner} from "../Alerts"
+import { Redirect } from 'react-router-dom';
+import MilitaryTime from '../../Utils/MilitaryTime.js';
 
 class PatientForm extends React.Component {
 constructor() {
@@ -150,7 +151,7 @@ constructor() {
             patientCity: "",
             patientState: "",
             patientZip: "",
-            redirectTo: '/patientProfile'
+            redirectTo: '/patient'
           })
 				} else {
 					console.log('error')
@@ -160,6 +161,9 @@ constructor() {
   };
 
   render() {
+    if (this.state.redirectTo === "/patient") {
+      return <Redirect to={{ pathname: this.state.redirectTo }} />
+    }
     return (
         <div className ='container'>
               <Form horizontal className="addPatientForm">
@@ -291,7 +295,7 @@ constructor() {
                       </Col> 
                     </FormGroup>
                     <FormGroup>
-                      <Col componentClass={ControlLabel} sm={3}>Phone: </Col>
+                      <Col componentClass={ControlLabel} sm={3}>Zipcode: </Col>
                       <Col sm={6}>  
                         <FormControl
                           name="patientZip"

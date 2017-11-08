@@ -11,19 +11,23 @@ var RemindersSchema = new Schema({
   },
 
   dayToComplete: {
-    type: String
+    type: Array
   },
 
   timeToComplete: {
     type: String
   },
 
-  medicationQuantity: {
+  typeOfMedication: {
+    type: String
+  },
+
+  medicationDosage: {
     type: Number
   },
 
   medicationRefillDate: {
-    type: String
+    type: Date
   },
   
   reminderMessage: {
@@ -35,12 +39,16 @@ var RemindersSchema = new Schema({
     type: String
   },
 
-  reminderCompleted: {
+  receiveResponseBy: {
+    type: String
+  },
+
+  responseReceived: {
     type: Boolean,
     default: false
   },
 
-   reminderLate: {
+   responseLate: {
      type: Boolean,
      default: false
    }

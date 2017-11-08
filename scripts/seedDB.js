@@ -11,19 +11,19 @@ mongoose.connect(
   }
 );
 
-const patientSeed = ({caretakerName: 'Steve', caretakerPhone: '19087631304', caretakerEmail: 'carvalho@gmail.com', patientName: 'Nicole', patientPhone: '19087631304', patientAddress: '210 Ross Place, Westfield, NJ 07090'});
+// const patientSeed = ({caretakerName: 'Steve', caretakerPhone: '19087631304', caretakerEmail: 'carvalho@gmail.com', patientName: 'Nicole', patientPhone: '19087631304', patientAddress: '210 Ross Place, Westfield, NJ 07090'});
 
-db.Patients
-  .remove({})
-  .then(() => db.Patients.collection.insert(patientSeed))
-  .then(data => {
-    console.log(data.insertedIds.length + " records inserted!");
-    process.exit(0);
-  })
-  .catch(err => {
-    console.error(err);
-    process.exit(1);
-  });
+// db.Patients
+//   .remove({})
+//   .then(() => db.Patients.collection.insert(patientSeed))
+//   .then(data => {
+//     console.log(data.insertedIds.length + " records inserted!");
+//     process.exit(0);
+//   })
+//   .catch(err => {
+//     console.error(err);
+//     process.exit(1);
+//   });
 
 
 const reminderSeed = ({reminderTitle: 'Take Medication', dayToComplete: 'Friday', timeToComplete: '2:00', medicationQuantity: 10, medicationRefillDate: '12/01/17', reminderMessage: 'Take your whatever pills'});

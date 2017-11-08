@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import {Row, Col} from "react-bootstrap"
 
 
 class PatientProfile extends React.Component {
@@ -14,19 +13,21 @@ constructor() {
     }
 }
   componentDidMount() {
-    axios.get('/auth/patients').then(response => {
+    const id = this.props.user._id;
+
+    axios.get('/auth/patients/' + id).then(response => {
       console.log(response.data)
-      if (response.data) {
+      if (response.data.length > 0) {
         this.setState({
-          _id: response.data._id,
-          patientName: response.data.patientName,
-          patientPhone: response.data.patientPhone,
-          patientStreet: response.data.patientStreet,
-          patientCity: response.data.patientCity,
-          patientState: response.data.patientState,
-          patientZip: response.data.patientZip
+          _id: response.data[0]._id,
+          patientName: response.data[0].patientName,
+          patientPhone: response.data[0].patientPhone,
+          patientStreet: response.data[0].patientStreet,
+          patientCity: response.data[0].patientCity,
+          patientState: response.data[0].patientState,
+          patientZip: response.data[0].patientZip
         })
-      };
+      } 
     });
   }
 

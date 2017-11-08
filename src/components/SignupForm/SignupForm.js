@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { FormGroup, ControlLabel, FormControl, Button, Form, Col, HelpBlock, Row } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button, Form, Col, HelpBlock } from 'react-bootstrap';
 import "./SignupForm.css";
 import {WarningBanner, WarningBanner2, WarningBanner3, WarningBanner4} from "../Alerts"
 

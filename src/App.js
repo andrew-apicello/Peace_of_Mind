@@ -52,13 +52,13 @@ const DisplayLinks = props => {
 					    <Navbar.Collapse>
 					      <Nav pullRight>
 					        <NavItem eventKey={1}><Link to="/">
-					          <a><span class="glyphicon glyphicon-home">Home</span></a></Link>
+					          <a><span className="glyphicon glyphicon-home">Home</span></a></Link>
 					         </NavItem>
 					        <NavItem eventKey={2}><Link to="/login">
-					          <a><span class="glyphicon glyphicon-log-in">Login</span></a></Link>
+					          <a><span className="glyphicon glyphicon-log-in">Login</span></a></Link>
 					         </NavItem>
 					         <NavItem eventKey={3}><Link to="/signup">
-					          <a><span class="glyphicon glyphicon-log-in">Signup</span></a></Link>
+					          <a><span className="glyphicon glyphicon-log-in">Signup</span></a></Link>
 					         </NavItem> 
 					      </Nav>
 					    </Navbar.Collapse>
