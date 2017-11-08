@@ -16,7 +16,7 @@ if(minutes === 0){
             militaryTime = hours + ":" + minutes;
         }
        
-    } else{  //if PM
+    } else {  //if PM
         let hourNum = parseInt(hours);
             
         if (hourNum === 12){

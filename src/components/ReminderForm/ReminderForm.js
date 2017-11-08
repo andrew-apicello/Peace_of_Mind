@@ -97,7 +97,7 @@ constructor() {
 
       let hours = this.state.timeToCompleteHour;
       let minutes = this.state.timeToCompleteMin;
-      let amPm = this.timeToCompleteAmPm;
+      let amPm = this.state.timeToCompleteAmPm;
 
       let convertedTime = MilitaryTime.convertStandardToMilitaryTime(hours,minutes,amPm);
 

@@ -1,3 +1,4 @@
+
 // Loading evnironmental variables here
 if (process.env.NODE_ENV !== 'production') {
 	console.log('loading dev environments')
@@ -12,13 +13,19 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
 const PORT = process.env.PORT || 3001;
-const twilio = require('twilio');
 const moment = require('moment');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('./passport');
 const dbConnection = require('./db');
 // const routes = require("./routes");
+// var index = require('./passport/auth/index.js')
+
+// const myModule = require('./passport/auth')
+// const myModule = require('./passport/auth');
+const User = require('./db/models/user')
+const Patient = require('./db/models/patients')
+const Reminder = require('./db/models/reminders')
 
 //Serve Public Folder
 app.use(express.static("public"));
@@ -57,7 +64,10 @@ app.use(function(err, req, res, next) {
 
 
 //==================================Twilio=========================================
-
+const twilio = require('twilio');
+const accountSid = 'AC48ce06d27e69dece3a0702596ee55a08'; // Your Account SID from www.twilio.com/console
+const authToken = 'a9d53929a8bf32774108b4644960dba8';   // Your Auth Token from www.twilio.com/console
+const client = require('twilio')(accountSid, authToken);
 
 //==================================Send Twilio Text=========================================
 
@@ -82,17 +92,98 @@ app.use(function(err, req, res, next) {
 
 //==================================Twilio Respond to Text=========================================
 
-// const MessagingResponse = require('twilio').twiml.MessagingResponse;
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
-// app.post('/sms', (req, res) => {
-//   const twiml = new MessagingResponse();
 
-//   twiml.message('Great!');
+let day;
+switch (new Date().getDay()) {
+    case 0:
+        day = "Sunday";
+        break;
+    case 1:
+        day = "Monday";
+        break;
+    case 2:
+        day = "Tuesday";
+        break;
+    case 3:
+        day = "Wednesday";
+        break;
+    case 4:
+        day = "Thursday";
+        break;
+    case 5:
+        day = "Friday";
+        break;
+    case 6:
+        day = "Saturday";
+}
 
-//   res.writeHead(200, {'Content-Type': 'text/xml'});
-//   res.end(twiml.toString());
-// });
+app.post('/sms', (req, res) => {
+  const twiml = new MessagingResponse();
 
+  console.log(
+  	"*********************************************************  server req: ");
+  console.log(req.body);
+  console.log(req._startTime);
+
+  twiml.message('Great!');
+
+  res.writeHead(200, {'Content-Type': 'text/xml'});
+  res.end(twiml.toString());
+
+	var string =  req.body.From;
+	var array = string.split("");
+	array = array.slice(2);
+	array = array.join("")
+	console.log(array);
+
+  Patient.find({patientPhone: array}).then(function(patients) {
+
+		// Loop through all of the patients information in the db
+		for (let i = 0; i < patients.length; i++) {
+			// Get the patient's phone and all of their reminders
+			let currentPatient = patients[i];
+			let patientPhone = currentPatient.patientPhone;
+			let remindersArray = currentPatient.reminders;
+
+			// Loop through each of the patient's reminders and get the reminderId
+			for (let j = 0; j < remindersArray.length; j++) {
+				let reminderId = remindersArray[j];
+				console.log(reminderId);
+
+				var d = new Date();
+				var currentMinutes = d.getMinutes();
+
+				if (currentMinutes >= 30) {
+					currentMinutes = "30";
+				} else {
+					currentMinutes = "00";
+				}
+
+				var currentHours = d.getHours();
+
+				var timeDue = currentHours + ":" + currentMinutes;
+
+			  Reminder.find({_id: reminderId, dayToComplete: {$in: [day]}, timeToComplete: timeDue }).then(function(reminders) {
+			  	console.log(reminders);
+			  	for (var i = 0; i < reminders.length; i++) {
+			  		var updateReminderId = reminders[i];
+
+				  Reminder.findOneAndUpdate({_id: updateReminderId}, {responseReceived: true}).then(function(completeReminder) {
+					    console.log("reminder has been set to true: " + completeReminder)
+					  }).catch(function(err) {
+					    res.json(err);
+					  })
+
+			  	}
+
+				})
+		}
+	}
+
+})
+})
 
 //==================================Routes=========================================
 

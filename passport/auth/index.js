@@ -1,11 +1,11 @@
-const express = require('express')
+const express = require("express");
+const app = express();
 const router = express.Router()
 const User = require('../../db/models/user')
 const passport = require('passport')
 const Patient = require('../../db/models/patients')
 const Reminder = require('../../db/models/reminders')
 const moment = require('moment');
-// const convertTime = require("../../Utils/MilitaryTime.js");
 //==================================Twilio=========================================
 const twilio = require('twilio');
 const accountSid = 'AC48ce06d27e69dece3a0702596ee55a08'; // Your Account SID from www.twilio.com/console
@@ -160,13 +160,13 @@ router.post("/addPatient", (req, res) => {
 
 router.post("/addReminder", (req, res) => {
 	const patientId = req.body._id;
-	const { reminderTitle, dayToComplete, timeToComplete, medicationQuantity, medicationRefillDate, reminderMessage, receiveResponseBy } = req.body
+	const { reminderTitle, dayToComplete, timeToComplete, medicationDosage, medicationRefillDate, reminderMessage, receiveResponseBy } = req.body
 
 	const newReminder = new Reminder ({
 		reminderTitle: reminderTitle,
 		dayToComplete: dayToComplete,
 		timeToComplete: timeToComplete,
-		medicationQuantity: medicationQuantity,
+		medicationDosage: medicationDosage,
 		medicationRefillDate: medicationRefillDate,
 		reminderMessage: reminderMessage, 
 		receiveResponseBy: receiveResponseBy
@@ -193,14 +193,14 @@ clock = () => {
 	// Get the current minute
 	let minutes = moment().format('mm');
 
-	// if(minutes == 00 || minutes == 30) {
+	if(minutes == 00 || minutes == 30) {
 		// Query the db to check for tasks every 0 and 30 minutes 
 		queryDB();
-	// }
+	}
 }
 
 // Run the clock function every minute
-// setInterval(clock, 10000);
+setInterval(clock, 60000);
 
 let day;
 switch (new Date().getDay()) {
@@ -232,10 +232,14 @@ switch (new Date().getDay()) {
 queryDB = () => {
 	// Get the full current time to compare with DB
 	let time = moment().format('HH:mm');
-	let thirtyMinutesFromNow = moment().add(30, 'minutes').format('HH:mm');
-	// console.log("current time: " + time);
-	// console.log("day: " + day);
-	// console.log("30 minutes from now: " + thirtyMinutesFromNow);
+
+	if(time === "0:0") {
+	  Reminder.find({}, {responseLate: false, responseReceived: false}).then(function(reminders) {
+		    console.log("reminders have been reset " + reminders)
+		  }).catch(function(err) {
+		    res.json(err);
+		  })
+		}
 
 
 	Patient.find({}).then(function(patients) {
@@ -256,7 +260,7 @@ queryDB = () => {
 
 
 				// Query into db to find the id of each reminder based on what day and time it is as well as if the responseReceived = false
-				Reminder.find({_id: reminderId, dayToComplete: day, responseReceived: false, responseLate: false}).then(function(reminders) {
+				Reminder.find({_id: reminderId, dayToComplete: day, timeToComplete: time, responseReceived: false, responseLate: false}).then(function(reminders) {
 					// console.log(reminders + " " + patientPhone);
 					for (let i = 0; i < reminders.length; i++) {
 						// Get the body of the reminderMessage. Can also get the reminder photo
@@ -272,24 +276,24 @@ queryDB = () => {
 					// If the pictureUrl is true, send a picture text message
 					// Else send a regular text message without a picture
 
-					// if(pictureUrl) {
-					// client.messages
-					//   .create({
-					//     to: '+1' + patientPhone, // Text this number
-					//     from: '+14848123347', // Our valid Twilio number
-					//     body: textMessage,
-					//     mediaUrl: pictureUrl,
-					//   })
-					//   .then(message => console.log(message.sid));
-					// } else { 
-				 //    client.messages.create({
-				 //        body: textMessage + " Please respond 'YES' when finished.",
-				 //        to: "+1" + patientPhone,  // Text this number
-				 //        from: '+14848123347' // Our valid Twilio number
-				 //    })
-				 //    // Log that the message was sent.
-				 //    .then((message) => console.log(message.sid));
-				 //  }
+					if(pictureUrl) {
+					client.messages
+					  .create({
+					    to: '+1' + patientPhone, // Text this number
+					    from: '+14848123347', // Our valid Twilio number
+					    body: textMessage,
+					    mediaUrl: pictureUrl,
+					  })
+					  .then(message => console.log(message.sid));
+					} else { 
+				    client.messages.create({
+				        body: textMessage + " Please respond 'YES' when finished.",
+				        to: "+1" + patientPhone,  // Text this number
+				        from: '+14848123347' // Our valid Twilio number
+				    })
+				    // Log that the message was sent.
+				    .then((message) => console.log(message.sid));
+				  }
 
 					}
 				})
@@ -298,8 +302,25 @@ queryDB = () => {
 	}); // End Patient.find query
 
 
+	// 9084513744
+
+
     // Then, we query all users, get their phone numbers
 	User.find({}).then(function(users) {
+
+		var d = new Date();
+		var currentMinutes = d.getMinutes();
+
+		if (currentMinutes >= 30) {
+			currentMinutes = "30";
+		} else {
+			currentMinutes = "00";
+		}
+
+		var currentHours = d.getHours();
+
+		var timeDue = currentHours + ":" + currentMinutes;	
+
     // Loop through their patients, get their IDs 
     for (var i = 0; i < users.length; i++) {
  		let currentUserId = users[i]._id;
@@ -317,54 +338,42 @@ queryDB = () => {
 	 			// Loop through each of the patient's reminders and get the reminderId
 				for (let j = 0; j < remindersArray.length; j++) {
 					let reminderId = remindersArray[j];
-    		
- 			    // Find the reminders of that patient with the receiveResponseBy = thirtyMinutesFromNow and if responseReceived = false   
-		    	Reminder.find({_id: reminderId, dayToComplete: day, receiveResponseBy: thirtyMinutesFromNow, responseReceived: false, responseLate: false}).then(function(reminders) {
+
+ 			    // Find the reminders of that patient with the receiveResponseBy = timeDue and if responseReceived = false   
+		    	Reminder.find({_id: reminderId, dayToComplete: day, receiveResponseBy: timeDue, responseReceived: false, responseLate: false}).then(function(reminders) {
 			    	console.log(reminders);
 
 			    	for (var i = 0; i < reminders.length; i++) {
 				    	let lateReminderBody = reminders[i].reminderMessage;
 				    	let timeToBeCompleted = reminders[i]. timeToComplete;
+						let textMessage = "userPhone: " + userPhone + userFirstName + ", " + patientName + " did not complete the following reminder: " + lateReminderBody + ", which was scheduled for " + timeToBeCompleted;
 						console.log( "userPhone: " + userPhone + userFirstName + ", " + patientName + " did not complete the following reminder: " + lateReminderBody + ", which was scheduled for " + timeToBeCompleted);
 						// Send text to user that the response is late
-						// client.messages.create({
-						//     body: userFirstName + ", " + patientName + " did not complete the following reminder: " + lateReminderBody + ", which was scheduled for " + timeToBeCompleted,
-						//     to: userPhone,  // Text this number
-						//     from: '+14848123347' // Our valid Twilio number
-						// })
-						// .then((message) => console.log(message.sid));
+						client.messages.create({
+						    body: textMessage, 
+						    to: "+1" + userPhone,  // Text this number
+						    from: '+14848123347' // Our valid Twilio number
+						})
+						.then(function(message) {
+
+						  console.log(message.sid)
+						  // Update reminder in db as responseLate: true
+						  Reminder.findOneAndUpdate({_id: reminderId}, {responseLate: true}).then(function(lateReminder) {
+							    console.log("reminder has been set to late: " + lateReminder)
+							  }).catch(function(err) {
+							    res.json(err);
+							  })
+							});
 			    	}
 		    	});
 
-	    	// Update reminder in db as responseLate: true
-			  Reminder.findOneAndUpdate({_id: reminderId}, {responseLate: true}).then(function(lateReminder) {
-				    console.log("reminder has been set to late: " + lateReminder)
-				  }).catch(function(err) {
-				    res.json(err);
-				  })
 	    		}
     	  	}
     	  });
     	}
     });
-
 }
 
-// *** TO DO ***
 
-// This should run whenever we receive a response, not within the every 0 or 30 minutes
-// If we receive a response, update the reminder to responseReceived: true
-// Get where the response came from 
-// Update the reminder in db to responseReceived: true
-// const MessagingResponse = require('twilio').twiml.MessagingResponse;
-
-// app.post('/sms', (req, res) => {
-//   const twiml = new MessagingResponse();
-
-//   twiml.message('Great!');
-
-//   res.writeHead(200, {'Content-Type': 'text/xml'});
-//   res.end(twiml.toString());
-// });
 
 module.exports = router;
