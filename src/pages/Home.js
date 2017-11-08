@@ -3,6 +3,7 @@ import PatientForm from '../components/PatientForm';
 import DisplayReminders from '../components/DisplayReminders';
 import Clock from "../components/Clock";
 import Carousel from "../components/Carousel";
+import Header from '../components/Header/Header'
 
 const Home = props => {
 		let user = props.user || 'no user';
@@ -11,6 +12,7 @@ const Home = props => {
 		return (
 			<div className="container">
 				<div className="Home">
+					<Header user={user} />
 					<Clock />
 					<DisplayReminders user = {user}/>
 				</div>

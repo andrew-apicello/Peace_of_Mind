@@ -157,13 +157,13 @@ router.post("/addPatient", (req, res) => {
 
 router.post("/addReminder", (req, res) => {
 	const patientId = req.body._id;
-	const { reminderTitle, dayToComplete, timeToComplete, medicationQuantity, medicationRefillDate, reminderMessage, receiveResponseBy } = req.body
+	const { reminderTitle, dayToComplete, timeToComplete, medicationDosage, medicationRefillDate, reminderMessage, receiveResponseBy } = req.body
 
 	const newReminder = new Reminder ({
 		reminderTitle: reminderTitle,
 		dayToComplete: dayToComplete,
 		timeToComplete: timeToComplete,
-		medicationQuantity: medicationQuantity,
+		medicationDosage: medicationDosage,
 		medicationRefillDate: medicationRefillDate,
 		reminderMessage: reminderMessage, 
 		receiveResponseBy: receiveResponseBy

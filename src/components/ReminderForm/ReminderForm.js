@@ -108,6 +108,12 @@ constructor() {
     console.log(this.state.reminderMessage);
     console.log(this.state.startDate._d);
 
+    // var string = this.state.startDate;
+
+    // var array = string.split("").slice(0,10).join("");
+
+    // console.log(array);
+
     let hours = this.state.timeToCompleteHour;
     let minutes = this.state.timeToCompleteMin;
     let amPm = this.state.timeToCompleteAmPm;
@@ -188,7 +194,7 @@ constructor() {
       return <Redirect to={{ pathname: this.state.redirectTo }} />
     }
     return (
-      <Row>
+      <Row className="content">
         <Col md={6}>
           <h3>Current Reminders:</h3>
 
@@ -198,19 +204,7 @@ constructor() {
               <p>SUNDAY: </p>
               {this.state.reminders.map(reminder => (
                 <div key={reminder._id} id={reminder._id}>
-                {reminder.dayToComplete.includes("Sunday") && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationDosage + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
-                {reminder.dayToComplete.includes("Sunday") && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
-                </div>
-              ))}
-            
-              <br/>
-              <hr/>
-
-              <h5>SUNDAY: </h5>
-             {this.state.reminders.map(reminder => (
-                <div key={reminder._id} id={reminder._id}>
-                {reminder.dayToComplete.includes("Sunday") && reminder.medicationDosage && reminder.medicationRefillDate ? 
-                  (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationDosage + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
+                {reminder.dayToComplete.includes("Sunday") && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Dosage: " + reminder.medicationDosage + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
                 {reminder.dayToComplete.includes("Sunday") && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
                 </div>
               ))}
@@ -277,7 +271,7 @@ constructor() {
               <p>No Reminders Scheduled</p>
             )}
           </Col>
-          <Col md={5}>
+          <Col md={6}>
             <Panel className="addMedsPanel">
               <h3>Add a New Reminder</h3>
               <Form className="medicationForm">
@@ -401,23 +395,24 @@ constructor() {
                 warn={this.state.timeFlag}
               />
               <br />
-              <Form inline className="medicationForm">
+              <Form className="medicationForm">
                 <ControlLabel>Dosage:</ControlLabel>
                   <FormControl
-                    className="dropdownFields"
+                    className="dosageInput"
                     name="medicationDosage"
                     value={this.state.medicationDosage}
                     onChange={this.handleInputChange}
                     placeholder="(if a med reminder)"
                   />
+                  <br />
                 <ControlLabel>Refill Date:</ControlLabel>
-                  <DatePicker
+                  <DatePicker className="datePicker"
                     name="startDate"
                     selected={this.state.startDate}
                     onChange={this.handleChange}
                   />
               </Form>
-                <br />
+              <br />
               <Form className="medicationForm">
                <ControlLabel>Message</ControlLabel>
                   <FormControl

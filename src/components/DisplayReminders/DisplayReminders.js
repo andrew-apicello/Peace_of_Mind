@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import {Well} from "react-bootstrap";
+import {Well, Row, Col} from "react-bootstrap";
+import "./DisplayReminders.css";
 
 class DisplayReminders extends React.Component {
 constructor() {
@@ -49,8 +50,7 @@ constructor() {
       console.log(day);
       if (response.data) {
         this.setState({
-          reminders: response.data,
-          day: day
+          reminders: response.data
         })
       };
     });
@@ -59,37 +59,47 @@ constructor() {
 
   render() {
     return (
-      <div>
-        <div className ='container'>
-          <div className ='row'>
-            <div className='col-md-12'>
-            <h2>{this.state.day}'s Reminders:</h2>
+          <Row>
+            <Col lg={12}>
+            <h2>Today's Reminders:</h2>
             
             {this.state.reminders.length ? (
-              <ul>
+              <div>
                 {this.state.reminders.map(reminder => (
-                  <Well key={reminder._id} id={reminder._id}>
-                  {reminder.timeToComplete + " "}
-                  <br />
-                  To do: {reminder.reminderTitle + " "}
-                  <br />
-                  Day: {reminder.dayToComplete + " "}
-                  <br />
-                  Dosage: {reminder.medicationDosage + " "}
-                  <br />
-                  Medication Refill Date: {reminder.medicationRefillDate + " "}
-                  <br />
-                  Message: {reminder.reminderMessage + " "}
+                  <Well key={reminder._id} id={reminder._id} className="remindersWell">
+                    <Row className="mainRow">
+                      <Col sm={2}>
+                        <h2 className="timeToComplete">{reminder.timeToComplete}</h2>
+                      </Col>
+                      <Col sm={8}>
+                        <h2 className="toDo">{reminder.reminderTitle}</h2>
+                      </Col>
+                      <Col sm={2}>
+                      </Col>
+                    </Row>
+                    <hr />
+                    <Row>
+                      <Col sm={4}>
+                        Dosage:<br />
+                        {reminder.medicationDosage }
+                       </Col>
+                       <Col sm={4}> 
+                        Refill Date: <br/>
+                        {reminder.medicationRefillDate}
+                        </Col>
+                        <Col sm={4}>
+                        Message: <br />
+                        {reminder.reminderMessage}
+                        </Col>
+                    </Row>
                   </Well>
                 ))}
-              </ul>
+              </div>
             ) : (
                 <p>No Reminders to Display</p>
               )}
-            </div>
-          </div>
-        </div>
-      </div>
+            </Col>
+          </Row>
     );
   }
 }

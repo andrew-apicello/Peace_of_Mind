@@ -132,7 +132,6 @@ class App extends Component {
 		return (
 			<div className="App">
 						{/* LINKS to our different 'pages' */}
-						<Header user={this.state.user} />
 						<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
 						{/*  ROUTES */}
 						{/* <Route exact path="/" component={Home} /> */}
