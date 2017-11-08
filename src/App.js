@@ -131,9 +131,6 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				
-				<div className="row">	
-					<div className="col-md-11">		
 						{/* LINKS to our different 'pages' */}
 						<Header user={this.state.user} />
 						<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
@@ -144,13 +141,10 @@ class App extends Component {
 						<Route exact path="/patient" render={() => <Patient user={this.state.user} />} 
 						/>
 						<Route exact path="/login" render={() =>
-								<LoginForm _login={this._login} />
-							}
+							<LoginForm _login={this._login} />}
 						/>
 						<Route exact path="/signup" component={SignupForm} />
 
-					</div>
-				</div>
 			</div>
 		)
 	}

@@ -1,7 +1,7 @@
 import React from 'react'
 import ReminderForm from '../components/ReminderForm'
 import PatientProfile from '../components/PatientProfile'
-import {Row, Col} from "react-bootstrap"
+import {Row, Col, Jumbotron} from "react-bootstrap"
 import Home from './Home'
 
 const Patient = props => {
@@ -11,11 +11,7 @@ const Patient = props => {
 	if (props.user) {
 		return (
 			<div className="container">
-				<Row>
-					<Col lg={12}>
 						<PatientProfile user = {user} />
-					</Col>
-				</Row>
 				<Row>
 					<Col lg={12}>
 					<ReminderForm user = {user}/>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
-import { FormGroup, ControlLabel, FormControl, Form, Col, Button } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Form, Row, Col, Button } from 'react-bootstrap';
 import axios from 'axios';
 import {WarningBanner} from "../Alerts"
 import "./LoginForm.css"
@@ -81,7 +81,8 @@ class LoginForm extends Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {
 			return (
-				<div className="container">
+				<Row>
+					<Col lg={12} className="loginCol">
 					<div className="LoginForm">
 						<Form horizontal className="form">
 							<h3>Login</h3>
@@ -127,10 +128,12 @@ class LoginForm extends Component {
 								</Col>
 							</FormGroup>
 							<Button onClick={this.handleSubmit} className="btn">Login</Button>
-					</Form>
+						</Form>
 						<p>Need an account? <Link to="/signup">Sign up</Link></p>
 					</div>
-			</div>
+					</Col>
+				</Row>
+
 			)
 		}
 	}

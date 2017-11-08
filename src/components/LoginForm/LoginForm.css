@@ -1,5 +1,8 @@
-/*.container{
-	background-image: url("http://images.panda.org/assets/images/pages/welcome/orangutan_1600x1000_279157.jpg");
+.loginCol{
+	background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAmx-B26aYjbZsCGBwxp8FQEz0JDh_FYnftqX1WK_oTkdHYb00pA");
 	background-repeat: no-repeat;
 	background-position: center;
-}*/
+	width:100%;
+	height:95vh;
+}
+

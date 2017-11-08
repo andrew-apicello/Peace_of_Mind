@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import {Jumbotron} from "react-bootstrap";
 
 
 class PatientProfile extends React.Component {
@@ -33,12 +34,12 @@ constructor() {
 
   render() {
     return (
-      <div classNAme="patientProfile">
-        <h2>Your Patient:</h2>
-        <p id="patientName"><strong>Name: </strong>{this.state.patientName}</p>
-        <p><strong>Phone: </strong>{this.state.patientPhone}</p>
-        <p><strong>Address: </strong>{this.state.patientStreet}, {this.state.patientCity}, {this.state.patientState} {this.state.patientZip}</p>
-      </div>
+        <div classNAme="patientProfile">
+          <h4 id="patientName"><strong>Name: </strong>{this.state.patientName}</h4>
+          <p><strong>Phone: </strong>{this.state.patientPhone}</p>
+          <p><strong>Address: </strong>{this.state.patientStreet}, {this.state.patientCity}, {this.state.patientState} {this.state.patientZip}</p>
+        </div>
+
     );
   }
 }

@@ -5,13 +5,14 @@ import Clock from "../components/Clock";
 import Carousel from "../components/Carousel";
 
 const Home = props => {
+		let user = props.user || 'no user';
 	// If a user exists and if that user has patients, display the patient's reminders
 	if (props.user && props.user.patients.length > 0) {
 		return (
 			<div className="container">
 				<div className="Home">
 					<Clock />
-					<DisplayReminders />
+					<DisplayReminders user = {user}/>
 				</div>
 			</div>
 		)

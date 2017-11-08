@@ -226,9 +226,9 @@ queryDB = () => {
 	// Get the full current time to compare with DB
 	let time = moment().format('HH:mm');
 	let thirtyMinutesFromNow = moment().add(30, 'minutes').format('HH:mm');
-	console.log("current time: " + time);
-	console.log("day: " + day);
-	console.log("30 minutes from now: " + thirtyMinutesFromNow);
+	// console.log("current time: " + time);
+	// console.log("day: " + day);
+	// console.log("30 minutes from now: " + thirtyMinutesFromNow);
 
 
 	Patient.find({}).then(function(patients) {
@@ -256,7 +256,7 @@ queryDB = () => {
 						let textMessage = reminders[i].reminderMessage;
 						let pictureUrl = reminders[i].reminderImage;
 
-					console.log(textMessage + " " + patientPhone);
+					// console.log(textMessage + " " + patientPhone);
 
 
 					// ********* THIS WORKS! *********
@@ -286,44 +286,78 @@ queryDB = () => {
 
 					}
 				})
-
-
-
-
-
-
 			}
 		}
 	}); // End Patient.find query
 
 
- // ********* NEXT STEPS *********
-
     // Then, we query all users, get their phone numbers
 	User.find({}).then(function(users) {
     // Loop through their patients, get their IDs 
     for (var i = 0; i < users.length; i++) {
-    	// console.log("users: " + users[i]);
+ 		let currentUserId = users[i]._id;
+ 		let userPhone = users[i].phone;
+ 		let userFirstName = users[i].firstName;
+ 		let userLastName = users[i].lastName;
+ 		let userPatientsId = users[i].patients;
+    	console.log("current user: " + currentUserId + " phone: " + userPhone +  " patient: " + userPatientsId);
 
-    	if(users.patients) {
-    		for (var i = 0; i < users.patients.length; i++) {
-    			console.log("user patients: " + users.patients[i]);
-    		}
+    	Patient.find({_id: userPatientsId}).then(function(patients) {
+    		for (var i = 0; i < patients.length; i++) {
+    			let remindersArray = patients[i].reminders;
+    			let patientName = patients[i].patientName;
+
+	 			// Loop through each of the patient's reminders and get the reminderId
+				for (let j = 0; j < remindersArray.length; j++) {
+					let reminderId = remindersArray[j];
+    		
+ 			    // Find the reminders of that patient with the receiveResponseBy = thirtyMinutesFromNow and if responseReceived = false   
+		    	Reminder.find({_id: reminderId, dayToComplete: day, receiveResponseBy: thirtyMinutesFromNow, responseReceived: false, responseLate: false}).then(function(reminders) {
+			    	console.log(reminders);
+
+			    	for (var i = 0; i < reminders.length; i++) {
+				    	let lateReminderBody = reminders[i].reminderMessage;
+				    	let timeToBeCompleted = reminders[i]. timeToComplete;
+						console.log( "userPhone: " + userPhone + userFirstName + ", " + patientName + " did not complete the following reminder: " + lateReminderBody + ", which was scheduled for " + timeToBeCompleted);
+						// Send text to user that the response is late
+						// client.messages.create({
+						//     body: userFirstName + ", " + patientName + " did not complete the following reminder: " + lateReminderBody + ", which was scheduled for " + timeToBeCompleted,
+						//     to: userPhone,  // Text this number
+						//     from: '+14848123347' // Our valid Twilio number
+						// })
+						// .then((message) => console.log(message.sid));
+			    	}
+		    	});
+
+	    	// Update reminder in db as responseLate: true
+			  Reminder.findOneAndUpdate({_id: reminderId}, {responseLate: true}).then(function(lateReminder) {
+				    console.log("reminder has been set to late: " + lateReminder)
+				  }).catch(function(err) {
+				    res.json(err);
+				  })
+	    		}
+    	  	}
+    	  });
     	}
-    }
-    // Find the reminders of that patient with the receiveResponseBy = thirtyMinutesFromNow and if responseReceived = false
-    // If response received = false, then we send a text message to the user alerting that the patient's 12:00 or so reminder hasn't been completed
-    // Update reminder in db as responseLate = true
-
-    // If a response has been received, we need to get the phone number that it's coming from. 
-    // Query all patients where the phone number matches and somehow find which reminder they were responding to. 
-    // Maybe we get the time the 'YES' was sent and say if it is less than receiveResponseBy then update that responseReceived to true
-
-
-
-	});
+    });
 
 }
 
+// *** TO DO ***
+
+// This should run whenever we receive a response, not within the every 0 or 30 minutes
+// If we receive a response, update the reminder to responseReceived: true
+// Get where the response came from 
+// Update the reminder in db to responseReceived: true
+// const MessagingResponse = require('twilio').twiml.MessagingResponse;
+
+// app.post('/sms', (req, res) => {
+//   const twiml = new MessagingResponse();
+
+//   twiml.message('Great!');
+
+//   res.writeHead(200, {'Content-Type': 'text/xml'});
+//   res.end(twiml.toString());
+// });
 
 module.exports = router;

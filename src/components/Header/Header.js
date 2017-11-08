@@ -1,5 +1,5 @@
 import React from 'react'
-// TODO - add proptypes
+import {Jumbotron} from "react-bootstrap";
 
 const Header = props => {
 	let Greeting
