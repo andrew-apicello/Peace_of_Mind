@@ -230,6 +230,7 @@ switch (new Date().getDay()) {
 
 // Go into DB and find all reminders on a specified day and time and get patient phone and task to be texted
 queryDB = () => {
+
 	// Get the full current time to compare with DB
 	let time = moment().format('HH:mm');
 
@@ -346,31 +347,31 @@ queryDB = () => {
 			    	for (var i = 0; i < reminders.length; i++) {
 				    	let lateReminderBody = reminders[i].reminderMessage;
 				    	let timeToBeCompleted = reminders[i]. timeToComplete;
-						let textMessage = "userPhone: " + userPhone + userFirstName + ", " + patientName + " did not complete the following reminder: " + lateReminderBody + ", which was scheduled for " + timeToBeCompleted;
 						console.log( "userPhone: " + userPhone + userFirstName + ", " + patientName + " did not complete the following reminder: " + lateReminderBody + ", which was scheduled for " + timeToBeCompleted);
-						// Send text to user that the response is late
-						client.messages.create({
-						    body: textMessage, 
-						    to: "+1" + userPhone,  // Text this number
-						    from: '+14848123347' // Our valid Twilio number
-						})
-						.then(function(message) {
-
-						  console.log(message.sid)
+						
 						  // Update reminder in db as responseLate: true
 						  Reminder.findOneAndUpdate({_id: reminderId}, {responseLate: true}).then(function(lateReminder) {
 							    console.log("reminder has been set to late: " + lateReminder)
 							  }).catch(function(err) {
 							    res.json(err);
 							  })
-							});
-			    	}
-		    	});
+
+						// Send text to user that the response is late
+						    client.messages.create({
+						        body: userFirstName + ", " + patientName + " did not complete the following reminder: " + lateReminderBody + ", which was scheduled for " + timeToBeCompleted,
+						        to: "+1" + userPhone,  // Text this number
+						        from: '+14848123347' // Our valid Twilio number
+						    })
+						    // Log that the message was sent.
+						    .then((message) => console.log(message.sid));
+						  }
+			    	});
+		    	}
 
 	    		}
-    	  	}
-    	  });
-    	}
+    	  	});
+
+    	  }
     });
 }
 
