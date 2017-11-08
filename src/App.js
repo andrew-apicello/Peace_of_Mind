@@ -6,67 +6,75 @@ import SignupForm from './components/SignupForm/SignupForm'
 import Header from './components/Header/Header'
 import Home from './pages/Home'
 import Patient from './pages/Patient'
-// import Jumbotrons from "./components/Jumbotron";
 import './App.css'
-// import Body from "./components/Body";
+import { Nav, Navbar, NavItem } from "react-bootstrap"
+// import { Image } from 'react-bootstrap'
+
 
 const DisplayLinks = props => {
 	if (props.loggedIn) {
 		return (
-			<div>
-				<nav className="navbar navbar-default navbar-fixed-top">
-					<div className="container">
-						<ul className="nav navbar-nav">
-							<li className="nav-item">
-								<a href="">Peace of Mind</a>
-							</li>
-							<li className="nav-item">
-								<Link to="/" className="nav-link">
-									Home
-								</Link>
-							</li>
-							<li>
-								<Link to="#" className="nav-link" onClick={props._logout}>
-									Logout
-								</Link>
-							</li>
-							<li>
-								<Link to="/patient" className="nav-link">
-									Patient Profile
-								</Link>
-							</li>
-						</ul>
-					</div>
-				</nav>
-			</div>
+		
+
+<Navbar collapseOnSelect className="navbar navbar-default navbar-fixed-top">
+					   <Navbar.Header>
+					    <Navbar.Brand>
+					      <a href="">PillMinder</a>
+					    </Navbar.Brand>
+					      <Navbar.Toggle />
+					    </Navbar.Header>
+					    <Navbar.Collapse>
+					      <Nav pullRight>
+					        <NavItem eventKey={1}><Link to="/">
+					          <a><span className="glyphicon glyphicon-home">  Home</span></a></Link>
+					         </NavItem>
+
+					        <NavItem eventKey={2}><Link to="#" onClick={props._logout}>
+					          <a><span className="glyphicon glyphicon-share-alt"> Logout</span></a>
+					         </Link>
+					         </NavItem>
+
+
+					         <NavItem eventKey={3}><Link to="/patient">
+					          <a><span className="glyphicon glyphicon-user">  Patient Profile</span></a></Link>
+					         </NavItem> 
+					      </Nav>
+					    </Navbar.Collapse>
+					</Navbar>
+
+
 
 		)
 	} else {
 		return (
-			<nav className="navbar navbar-default navbar-fixed-top">
-				<div className="container">
-					<ul className="nav navbar-nav">
-						<li className="nav-item">
-							<Link to="/" className="nav-link">
-								Home
-							</Link>
-						</li>
-						<li className="nav-item">
-							<Link to="/login" className="nav-link">
-								login
-							</Link>
-						</li>
-						<li className="nav-item">
-							<Link to="/signup" className="nav-link">
-								sign up
-							</Link>
-						</li>
-					</ul>
-				</div>
-			</nav>
+		
+<Navbar collapseOnSelect className="navbar navbar-default navbar-fixed-top">
+					   <Navbar.Header>
+					    <Navbar.Brand>
+					      <a href="">PillMinder</a>
+					    </Navbar.Brand>
+					      <Navbar.Toggle />
+					    </Navbar.Header>
+					    <Navbar.Collapse>
+					      <Nav pullRight>
+					        <NavItem eventKey={1}><Link to="/">
+					          <a><span className="glyphicon glyphicon-home">  Home</span></a></Link>
+					         </NavItem>
+					        <NavItem eventKey={2}><Link to="/login">
+					          <a><span className="glyphicon glyphicon-log-in">  Login</span></a></Link>
+					         </NavItem>
+					         <NavItem eventKey={3}><Link to="/signup">
+					          <a><span className="glyphicon glyphicon-user">  Signup</span></a></Link>
+					         </NavItem> 
+					      </Nav>
+					    </Navbar.Collapse>
+					</Navbar>
 		)
 	}
 }
+
+
+
 
 class App extends Component {
 	constructor() {
@@ -131,11 +139,12 @@ class App extends Component {
 
 	render() {
 		return (
+			<div className="container">
 			<div className="App">	
 				<div className="row">	
-					<div className="col-md-11">		
+					<div className="col-md-12">		
 						{/* LINKS to our different 'pages' */}
-						<Header user={this.state.user} />
+						 <Header user={this.state.user} />
 						<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
 						{/*  ROUTES */}
 						{/* <Route exact path="/" component={Home} /> */}
@@ -152,6 +161,7 @@ class App extends Component {
 					</div>
 				</div>
 			</div>
+		</div>
 		)
 	}
 }

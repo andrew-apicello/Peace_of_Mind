@@ -4,13 +4,18 @@ import PatientProfile from '../components/PatientProfile'
 // import Clock from "../components/Clock";
 
 const Patient = props => {
+	let user = props.user || 'no user';
+	console.log('props:  ', user._id);
 	if (props.user) {
 		return (
 			<div>
-				<p>Your Patient:</p>
-				<PatientProfile />
+				<p>Current User: </p>
+				<code>
+				{JSON.stringify(props)}
+				</code>
+				<PatientProfile user = {user} />
 				<p>Add a reminder:</p>
-				<ReminderForm />
+				<ReminderForm user= {user} />
 			</div>
 		)
 	} else {

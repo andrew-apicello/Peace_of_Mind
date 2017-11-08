@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
-import { FormGroup, ControlLabel, FormControl, Form } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Form, Image } from 'react-bootstrap';
 import axios from 'axios';
+import  "./LoginForm.css"
 
 class LoginForm extends Component {
 	constructor() {
