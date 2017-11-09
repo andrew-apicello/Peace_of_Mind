@@ -1,11 +1,39 @@
+
 import React from 'react';
 
 class Clock extends React.Component {
   constructor(props) {
+
+    let day;
+    switch (new Date().getDay()) {
+        case 0:
+            day = "Sunday";
+            break;
+        case 1:
+            day = "Monday";
+            break;
+        case 2:
+            day = "Tuesday";
+            break;
+        case 3:
+            day = "Wednesday";
+            break;
+        case 4:
+            day = "Thursday";
+            break;
+        case 5:
+            day = "Friday";
+            break;
+        case 6:
+            day = "Saturday";
+    }
+
     super(props);
     this.state = {
-      time: new Date().toLocaleString()
+      time: new Date().toLocaleString(),
+      day: day
     };
+
   }
   componentDidMount() {
     this.intervalID = setInterval(
@@ -23,9 +51,9 @@ class Clock extends React.Component {
   }
   render() {
     return (
-      <p className="App-clock">
-        The time is {this.state.time}.
-      </p>
+      <h3 className="App-clock">
+        Today is {this.state.day} {this.state.time}.
+      </h3>
     );
   }
 } 

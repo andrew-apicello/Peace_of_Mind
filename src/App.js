@@ -5,21 +5,17 @@ import LoginForm from './components/LoginForm/LoginForm'
 import SignupForm from './components/SignupForm/SignupForm'
 import Header from './components/Header/Header'
 import Home from './pages/Home'
-import Patient from './pages/Patient'
 import './App.css'
+import Patient from './pages/Patient'
 import { Nav, Navbar, NavItem } from "react-bootstrap"
-// import { Image } from 'react-bootstrap'
-
 
 const DisplayLinks = props => {
 	if (props.loggedIn) {
 		return (
-		
-
-<Navbar collapseOnSelect className="navbar navbar-default navbar-fixed-top">
+			<Navbar collapseOnSelect className="navbar navbar-default navbar-fixed-top">
 					   <Navbar.Header>
 					    <Navbar.Brand>
-					      <a href="">PillMinder</a>
+					      <a href="">RxMinder</a>
 					    </Navbar.Brand>
 					      <Navbar.Toggle />
 					    </Navbar.Header>
@@ -41,22 +37,18 @@ const DisplayLinks = props => {
 					      </Nav>
 					    </Navbar.Collapse>
 					</Navbar>
-
-
-
 		)
 	} else {
-		return (
-		
-<Navbar collapseOnSelect className="navbar navbar-default navbar-fixed-top">
+        return (
+          <Navbar collapseOnSelect className="navbar navbar-default navbar-fixed-top">
 					   <Navbar.Header>
 					    <Navbar.Brand>
-					      <a href="">PillMinder</a>
+					      <a href="">RxMinder</a>
 					    </Navbar.Brand>
 					      <Navbar.Toggle />
 					    </Navbar.Header>
 					    <Navbar.Collapse>
-					      <Nav pullRight>
+					      <Nav pullRight className="navBtns">
 					        <NavItem eventKey={1}><Link to="/">
 					          <a><span className="glyphicon glyphicon-home">  Home</span></a></Link>
 					         </NavItem>
@@ -69,12 +61,9 @@ const DisplayLinks = props => {
 					      </Nav>
 					    </Navbar.Collapse>
 					</Navbar>
-		)
-	}
+        )
+    }
 }
-
-
-
 
 class App extends Component {
 	constructor() {
@@ -139,11 +128,8 @@ class App extends Component {
 
 	render() {
 		return (
-			
-			<div className="App">	
-				
+			<div className="App">
 						{/* LINKS to our different 'pages' */}
-						 <Header user={this.state.user} />
 						<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
 						{/*  ROUTES */}
 						{/* <Route exact path="/" component={Home} /> */}
@@ -151,14 +137,11 @@ class App extends Component {
 						/>
 						<Route exact path="/patient" render={() => <Patient user={this.state.user} />} 
 						/>
-						<Route exact path="/login" render={() =>
-								<LoginForm _login={this._login} />
-							}
+						<Route exact path="/login" render={() => <LoginForm _login={this._login} />}
 						/>
 						<Route exact path="/signup" component={SignupForm} />
 
-					</div>
-			
+			</div>
 		)
 	}
 }

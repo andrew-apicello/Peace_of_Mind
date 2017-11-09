@@ -23,7 +23,7 @@ var RemindersSchema = new Schema({
   },
 
   medicationDosage: {
-    type: Number
+    type: String
   },
 
   medicationRefillDate: {

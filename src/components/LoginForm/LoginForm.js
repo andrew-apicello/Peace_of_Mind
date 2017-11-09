@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
-import { FormGroup, ControlLabel, FormControl, Form, Col, Button, Row, Well } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Form, Row, Col, Button } from 'react-bootstrap';
 import axios from 'axios';
-// import {WarningBanner} from "../Alerts" //PUT THIS BACK AFTER MERGING!!!
+import {WarningBanner} from "../Alerts"
 import "./LoginForm.css"
 
 class LoginForm extends Component {
@@ -81,15 +81,14 @@ class LoginForm extends Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {
 			return (
-				<Well>
 				<Row>
-				<Col lg={12} className="loginCol">
+					<Col lg={12} className="loginCol">
 					<div className="LoginForm">
 						<Form horizontal className="form">
-							<h3>Login</h3>
+							<h1>Login</h1>
 						  <FormGroup controlId="formHorzontalEmail"
       				>
-								<Col componentClass={ControlLabel} sm={4}>Email:
+								<Col className="loginLabel" componentClass={ControlLabel} sm={4}>Email:
 	      				</Col>
 	      				<Col sm={4}>
 									<FormControl
@@ -101,13 +100,15 @@ class LoginForm extends Component {
 										className="form-control"
 										placeholder="email"
 									/>
-									
+									<WarningBanner 
+										warn={this.state.emailFlag}
+									/>
 								</Col>
 							</FormGroup>
 							
 							<FormGroup controlId="formHorzontalEmail"
       				>
-								<Col componentClass={ControlLabel} sm={4}>Password:
+								<Col className="loginLabel" componentClass={ControlLabel} sm={4}>Password:
 		      			</Col>
 		      			<Col sm={4}>
 									<FormControl
@@ -121,16 +122,18 @@ class LoginForm extends Component {
 										maxLength="15" 
 										placeholder="password"
 									/>
-									
+									<WarningBanner 
+										warn={this.state.passwordFlag}
+									/>
 								</Col>
 							</FormGroup>
-							<Button onClick={this.handleSubmit} className="btn">Login</Button>
-					</Form>
-						<p>Need an account? <Link to="/signup">Sign up</Link></p>
+							<Button onClick={this.handleSubmit} className="btn-lg">Login</Button>
+						</Form>
+						<h4 className="signupRoute">Need an account? <Link to="/signup">Sign up</Link></h4>
 					</div>
 					</Col>
-					</Row>
-					</Well>
+				</Row>
+
 			)
 		}
 	}

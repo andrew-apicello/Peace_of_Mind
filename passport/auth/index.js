@@ -221,14 +221,20 @@ switch (new Date().getDay()) {
         day = "Saturday";
 }
 
+
 // Go into DB and find all reminders on a specified day and time and get patient phone and task to be texted
 queryDB = () => {
+
 	// Get the full current time to compare with DB
 	let time = moment().format('HH:mm');
-	let thirtyMinutesFromNow = moment().add(30, 'minutes').format('HH:mm');
-	console.log("current time: " + time);
-	console.log("day: " + day);
-	console.log("30 minutes from now: " + thirtyMinutesFromNow);
+
+	if(time === "0:0") {
+	  Reminder.find({}, {responseLate: false, responseReceived: false}).then(function(reminders) {
+		    console.log("reminders have been reset " + reminders)
+		  }).catch(function(err) {
+		    res.json(err);
+		  })
+		}
 
 
 	Patient.find({}).then(function(patients) {
@@ -249,14 +255,14 @@ queryDB = () => {
 
 
 				// Query into db to find the id of each reminder based on what day and time it is as well as if the responseReceived = false
-				Reminder.find({_id: reminderId, dayToComplete: day, responseReceived: false, responseLate: false}).then(function(reminders) {
+				Reminder.find({_id: reminderId, dayToComplete: day, timeToComplete: time, responseReceived: false, responseLate: false}).then(function(reminders) {
 					// console.log(reminders + " " + patientPhone);
 					for (let i = 0; i < reminders.length; i++) {
 						// Get the body of the reminderMessage. Can also get the reminder photo
 						let textMessage = reminders[i].reminderMessage;
 						let pictureUrl = reminders[i].reminderImage;
 
-					console.log(textMessage + " " + patientPhone);
+					// console.log(textMessage + " " + patientPhone);
 
 
 					// ********* THIS WORKS! *********
@@ -265,65 +271,102 @@ queryDB = () => {
 					// If the pictureUrl is true, send a picture text message
 					// Else send a regular text message without a picture
 
-					// if(pictureUrl) {
-					// client.messages
-					//   .create({
-					//     to: '+1' + patientPhone, // Text this number
-					//     from: '+14848123347', // Our valid Twilio number
-					//     body: textMessage,
-					//     mediaUrl: pictureUrl,
-					//   })
-					//   .then(message => console.log(message.sid));
-					// } else { 
-				 //    client.messages.create({
-				 //        body: textMessage + " Please respond 'YES' when finished.",
-				 //        to: "+1" + patientPhone,  // Text this number
-				 //        from: '+14848123347' // Our valid Twilio number
-				 //    })
-				 //    // Log that the message was sent.
-				 //    .then((message) => console.log(message.sid));
-				 //  }
+					if(pictureUrl) {
+					client.messages
+					  .create({
+					    to: '+1' + patientPhone, // Text this number
+					    from: '+14848123347', // Our valid Twilio number
+					    body: textMessage,
+					    mediaUrl: pictureUrl,
+					  })
+					  .then(message => console.log(message.sid));
+					} else { 
+				    client.messages.create({
+				        body: textMessage + " Please respond 'YES' when finished.",
+				        to: "+1" + patientPhone,  // Text this number
+				        from: '+14848123347' // Our valid Twilio number
+				    })
+				    // Log that the message was sent.
+				    .then((message) => console.log(message.sid));
+				  }
 
 					}
 				})
-
-
-
-
-
-
 			}
 		}
 	}); // End Patient.find query
 
 
- // ********* NEXT STEPS *********
+	// 9084513744
 
+   
     // Then, we query all users, get their phone numbers
 	User.find({}).then(function(users) {
+
+		var d = new Date();
+		var currentMinutes = d.getMinutes();
+
+		if (currentMinutes >= 30) {
+			currentMinutes = "30";
+		} else {
+			currentMinutes = "00";
+		}
+
+		var currentHours = d.getHours();
+
+		var timeDue = currentHours + ":" + currentMinutes;	
+
     // Loop through their patients, get their IDs 
     for (var i = 0; i < users.length; i++) {
-    	// console.log("users: " + users[i]);
+ 		let currentUserId = users[i]._id;
+ 		let userPhone = users[i].phone;
+ 		let userFirstName = users[i].firstName;
+ 		let userLastName = users[i].lastName;
+ 		let userPatientsId = users[i].patients;
+    	console.log("current user: " + currentUserId + " phone: " + userPhone +  " patient: " + userPatientsId);
 
-    	if(users.patients) {
-    		for (var i = 0; i < users.patients.length; i++) {
-    			console.log("user patients: " + users.patients[i]);
-    		}
-    	}
-    }
-    // Find the reminders of that patient with the receiveResponseBy = thirtyMinutesFromNow and if responseReceived = false
-    // If response received = false, then we send a text message to the user alerting that the patient's 12:00 or so reminder hasn't been completed
-    // Update reminder in db as responseLate = true
+    	Patient.find({_id: userPatientsId}).then(function(patients) {
+    		for (var i = 0; i < patients.length; i++) {
+    			let remindersArray = patients[i].reminders;
+    			let patientName = patients[i].patientName;
 
-    // If a response has been received, we need to get the phone number that it's coming from. 
-    // Query all patients where the phone number matches and somehow find which reminder they were responding to. 
-    // Maybe we get the time the 'YES' was sent and say if it is less than receiveResponseBy then update that responseReceived to true
+	 			// Loop through each of the patient's reminders and get the reminderId
+				for (let j = 0; j < remindersArray.length; j++) {
+					let reminderId = remindersArray[j];
 
+ 			    // Find the reminders of that patient with the receiveResponseBy = timeDue and if responseReceived = false   
+		    	Reminder.find({_id: reminderId, dayToComplete: day, receiveResponseBy: timeDue, responseReceived: false, responseLate: false}).then(function(reminders) {
+			    	console.log(reminders);
 
+			    	for (var i = 0; i < reminders.length; i++) {
+				    	let lateReminderBody = reminders[i].reminderMessage;
+				    	let timeToBeCompleted = reminders[i]. timeToComplete;
+						console.log( "userPhone: " + userPhone + userFirstName + ", " + patientName + " did not complete the following reminder: " + lateReminderBody + ", which was scheduled for " + timeToBeCompleted);
+						
+						  // Update reminder in db as responseLate: true
+						  Reminder.findOneAndUpdate({_id: reminderId}, {responseLate: true}).then(function(lateReminder) {
+							    console.log("reminder has been set to late: " + lateReminder)
+							  }).catch(function(err) {
+							    res.json(err);
+							  })
 
-	});
+						// Send text to user that the response is late
+						    client.messages.create({
+						        body: userFirstName + ", " + patientName + " did not complete the following reminder: " + lateReminderBody + ", which was scheduled for " + timeToBeCompleted,
+						        to: "+1" + userPhone,  // Text this number
+						        from: '+14848123347' // Our valid Twilio number
+						    })
+						    // Log that the message was sent.
+						    .then((message) => console.log(message.sid));
+						  }
+			    	});
+		    	}
 
+	    		}
+    	  	});
+
+    	  }
+    });
 }
-
 
 module.exports = router;

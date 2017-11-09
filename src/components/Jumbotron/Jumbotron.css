@@ -1,19 +1,22 @@
 h1 {
-	font-family: sofia;
-	font-weight: 600;
-	font-variant: small-caps;
-	
+  font-weight: 600;
+  font-variant: small-caps;
 
 }
 
 #text {
-	font-variant: small-caps;
-	color:#337ab7;
+  font-variant: small-caps;
+  color:#337ab7;
+  font-size:25px;
 }
 
 .pill {
-	height: 50px;
-	width: 50px;
+  height: 50px;
+  width: 50px;
+}
+
+.Jumbotron {
+	padding-top:60px;
 }
 /*
 .container {

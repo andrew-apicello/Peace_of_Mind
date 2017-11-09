@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { FormGroup, ControlLabel, FormControl, Button, Form, Col, HelpBlock, Well } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button, Form, Col, HelpBlock } from 'react-bootstrap';
 import "./SignupForm.css";
-import { WarningBanner, WarningBanner2, WarningBanner3, WarningBanner4 } from "../Alerts"
+import {WarningBanner, WarningBanner2, WarningBanner3, WarningBanner4} from "../Alerts"
 
 class SignupForm extends Component {
 	constructor(props) {
@@ -202,15 +202,12 @@ class SignupForm extends Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		}
 		return (
-			<Well>
-			
 				<div className="SignupForm">
 					<Form horizontal className="form">
-					<Well className="weller">
-						<h3>Signup</h3>
+						<h1>Signup</h1>
 						<FormGroup controlId="formHorzontalFirstName"
 	        	>
-							<Col componentClass={ControlLabel} sm={3}>First Name:
+							<Col className="signupLabel" componentClass={ControlLabel} sm={3}>First Name:
       				</Col>
       				<Col sm={6}>
 								<FormControl
@@ -227,7 +224,7 @@ class SignupForm extends Component {
 						</FormGroup>
 						<FormGroup controlId="formHorzontalEmail"
 	        	>
-							<Col componentClass={ControlLabel} sm={3}>Last Name:
+							<Col className="signupLabel" componentClass={ControlLabel} sm={3}>Last Name:
       				</Col>
       				<Col sm={6}>
 								<FormControl
@@ -245,7 +242,7 @@ class SignupForm extends Component {
 
 						<FormGroup controlId="formHorzontalEmail"
 	        	>
-							<Col componentClass={ControlLabel} sm={3}>Email:
+							<Col className="signupLabel" componentClass={ControlLabel} sm={3}>Email:
       				</Col>
       				<Col sm={6}>
 								<FormControl
@@ -263,7 +260,7 @@ class SignupForm extends Component {
 						</FormGroup>
 
 						<FormGroup>
-							<Col componentClass={ControlLabel} sm={3}>Phone Number:
+							<Col className="signupLabel" componentClass={ControlLabel} sm={3}>Phone Number:
       				</Col>
       				<Col sm={6}>
 								<FormControl
@@ -285,7 +282,7 @@ class SignupForm extends Component {
 							controlId="password"
 	        		validationState={this.passwordLengthValidate()}
 	        	>
-	        		<Col componentClass={ControlLabel} sm={3}>Password:
+	        		<Col className="signupLabel" componentClass={ControlLabel} sm={3}>Password:
     					</Col>
 	        		<Col sm={6}>
 								<FormControl
@@ -312,7 +309,7 @@ class SignupForm extends Component {
 							controlId="formBasicText"
 	        		validationState={this.confirmPasswordValidate()}
 	        	>
-	        		<Col componentClass={ControlLabel} sm={3}>Confirm Password:
+	        		<Col className="signupLabel" componentClass={ControlLabel} sm={3}>Confirm Password:
     					</Col>
     					<Col sm={6}>
 								<FormControl
@@ -332,15 +329,12 @@ class SignupForm extends Component {
 									/>	
 							</Col>
 						</FormGroup>
-						<Button onClick={this.handleSubmit} className="btn">Sign up</Button>
+						<Button onClick={this.handleSubmit} className="btn-lg">Sign up</Button>
 						<WarningBanner4 
 									warn={this.state.userFlag}
 								/>
-								</Well>
 					</Form>
 				</div>
-		
-			</Well>
 		)
 	}
 }

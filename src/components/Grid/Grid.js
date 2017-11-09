@@ -11,7 +11,7 @@ class GridHome extends React.Component {
       <Row>
         <Col xs={6} md={3}>
         <h1> Schedule your Medications </h1>
-          <Image height="250" width="250" alt="drug icon" src="https://cdn.pixabay.com/photo/2017/09/30/01/42/medicine-2801025_960_720.png" rounded />
+          <Image height="250" width="250" alt="drug icon" src="./assets/medicine.png" rounded />
           <p> Choose the time increments of your personal medication schedule</p>
         </Col>
         <Col xs={6} md={3}>
@@ -29,7 +29,6 @@ class GridHome extends React.Component {
           <Image height="250" width="250" alt="heart icon" src="https://cdn.pixabay.com/photo/2017/05/15/23/44/heart-icon-2316451_960_720.png" rounded />
           <p>Follow along with your loved-ones schedule in real-time to monitor their medications</p>
         </Col>
-        
       </Row>
     </Grid>
     );
