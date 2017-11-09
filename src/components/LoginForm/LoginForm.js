@@ -85,10 +85,10 @@ class LoginForm extends Component {
 					<Col lg={12} className="loginCol">
 					<div className="LoginForm">
 						<Form horizontal className="form">
-							<h3>Login</h3>
+							<h1>Login</h1>
 						  <FormGroup controlId="formHorzontalEmail"
       				>
-								<Col componentClass={ControlLabel} sm={4}>Email:
+								<Col className="loginLabel" componentClass={ControlLabel} sm={4}>Email:
 	      				</Col>
 	      				<Col sm={4}>
 									<FormControl
@@ -108,7 +108,7 @@ class LoginForm extends Component {
 							
 							<FormGroup controlId="formHorzontalEmail"
       				>
-								<Col componentClass={ControlLabel} sm={4}>Password:
+								<Col className="loginLabel" componentClass={ControlLabel} sm={4}>Password:
 		      			</Col>
 		      			<Col sm={4}>
 									<FormControl
@@ -127,9 +127,9 @@ class LoginForm extends Component {
 									/>
 								</Col>
 							</FormGroup>
-							<Button onClick={this.handleSubmit} className="btn">Login</Button>
+							<Button onClick={this.handleSubmit} className="btn-lg">Login</Button>
 						</Form>
-						<p>Need an account? <Link to="/signup">Sign up</Link></p>
+						<h4 className="signupRoute">Need an account? <Link to="/signup">Sign up</Link></h4>
 					</div>
 					</Col>
 				</Row>

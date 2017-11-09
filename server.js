@@ -19,6 +19,9 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('./passport');
 const dbConnection = require('./db');
+const User = require('./db/models/user')
+const Patient = require('./db/models/patients')
+const Reminder = require('./db/models/reminders')
 
 
 //================ MIDDLEWARE ================= //
@@ -60,22 +63,31 @@ const authToken = 'a9d53929a8bf32774108b4644960dba8';   // Your Auth Token from 
 
 const client = require('twilio')(accountSid, authToken);
 
-//======================
+//==================================Send Twilio Text=========================================
 
-let minutes;
-clock = () => {
-	// Get the current minute
-	minutes = moment().format('mm');
+// client.messages.create({
+//     body: 'Hello from Node',
+//     to: '+19087631304',  // Text this number
+//     from: '+14848123347' // Our valid Twilio number
+// })
+// .then((message) => console.log(message.sid));
 
-	if(minutes == 00 || minutes == 30) {
-		console.log(minutes);
-		// Query the db to check for tasks every 0 and 30 minutes 
-		queryDB();
-	}
-}
+//==================================Send Twilio Image Text=========================================
 
-// Run the clock function every minute
-setInterval(clock, 60000);
+// client.messages
+//   .create({
+//     to: '+19087631304',
+//     from: '+14848123347',
+//     body: '10:00AM: Take these pills. Reply "YES" after you take them.',
+//     mediaUrl: 'https://www.wareable.com/media/images/2016/03/pills-closeup-1459347869-F998-column-width-inline.jpg',
+//   })
+//   .then(message => console.log(message.sid));
+
+
+//==================================Twilio Respond to Text=========================================
+
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
+
 
 let day;
 switch (new Date().getDay()) {
@@ -101,85 +113,71 @@ switch (new Date().getDay()) {
         day = "Saturday";
 }
 
+app.post('/sms', (req, res) => {
+  const twiml = new MessagingResponse();
 
+  console.log(
+  	"*********************************************************  server req: ");
+  console.log(req.body);
+  console.log(req._startTime);
 
-// Go into DB and find all reminders on a specified day and time and get patient phone and task to be texted
-queryDB = () => {
-	// Get the full current time to compare with DB
-	let time = moment().format('H:mm');
-	console.log(time);
-	console.log(day);
-	// First we need to populate all patients with their reminders
-	
-	// // Find all patients with reminders that are related to the specified day and time
-	// db.Reminders.find({dayToComplete:day, timeToComplete:time}, function(err, data) {
- //      res.json(data);
-	//       for (let i = 0; i < data.length; i++) {
-	//       	let patientPhone = data[i].patientPhone;
-	//       	let reminderMessage = data[i].message;
+  twiml.message('Great!');
 
-	//       	// If the reminder includes a picture, send a picture message
-	//       	if(data[i].pic) {
-	//       		let reminderImage = data[i].pic;
-	// 						client.messages
-	// 						  .create({
-	// 						    to: patientPhone,
-	// 						    from: '+14848123347',
-	// 						    body: reminderMessage,
-	// 						    mediaUrl: reminderImage
-	// 						  })
-	// 						  // Log that the message was sent.
-	// 						  .then(message => console.log(message.sid));
-	//       	} 
-	//       	// Else, send a regular text message, with no picture
-	//       	else {
-	// 					client.messages.create({
-	// 					    body: reminderMessage,
-	// 					    to: patientPhone,  // Text this number
-	// 					    from: '+14848123347' // Our valid Twilio number
-	// 					})
-	// 					// Log that the message was sent.
-	// 					.then((message) => console.log(message.sid));
-	//       	}
-	//       }
- //  	});
-}
+  res.writeHead(200, {'Content-Type': 'text/xml'});
+  res.end(twiml.toString());
 
+	var string =  req.body.From;
+	var array = string.split("");
+	array = array.slice(2);
+	array = array.join("")
+	console.log(array);
 
+  Patient.find({patientPhone: array}).then(function(patients) {
 
-//==================================Send Twilio Text=========================================
+		// Loop through all of the patients information in the db
+		for (let i = 0; i < patients.length; i++) {
+			// Get the patient's phone and all of their reminders
+			let currentPatient = patients[i];
+			let patientPhone = currentPatient.patientPhone;
+			let remindersArray = currentPatient.reminders;
 
-// client.messages.create({
-//     body: 'Hello from Node',
-//     to: '+19087631304',  // Text this number
-//     from: '+14848123347' // Our valid Twilio number
-// })
-// .then((message) => console.log(message.sid));
+			// Loop through each of the patient's reminders and get the reminderId
+			for (let j = 0; j < remindersArray.length; j++) {
+				let reminderId = remindersArray[j];
+				console.log(reminderId);
 
-//==================================Send Twilio Image Text=========================================
+				var d = new Date();
+				var currentMinutes = d.getMinutes();
 
-// client.messages
-//   .create({
-//     to: '+19087631304',
-//     from: '+14848123347',
-//     body: '10:00AM: Take these pills. Reply "YES" after you take them.',
-//     mediaUrl: 'https://www.wareable.com/media/images/2016/03/pills-closeup-1459347869-F998-column-width-inline.jpg',
-//   })
-//   .then(message => console.log(message.sid));
+				if (currentMinutes >= 30) {
+					currentMinutes = "30";
+				} else {
+					currentMinutes = "00";
+				}
 
+				var currentHours = d.getHours();
 
-//==================================Twilio Respond to Text=========================================
+				var timeDue = currentHours + ":" + currentMinutes;
 
-// const MessagingResponse = require('twilio').twiml.MessagingResponse;
+			  Reminder.find({_id: reminderId, dayToComplete: {$in: [day]}, timeToComplete: timeDue }).then(function(reminders) {
+			  	console.log(reminders);
+			  	for (var i = 0; i < reminders.length; i++) {
+			  		var updateReminderId = reminders[i];
 
-// app.post('/sms', (req, res) => {
-//   const twiml = new MessagingResponse();
+				  Reminder.findOneAndUpdate({_id: updateReminderId}, {responseReceived: true}).then(function(completeReminder) {
+					    console.log("reminder has been set to true: " + completeReminder)
+					  }).catch(function(err) {
+					    res.json(err);
+					  })
 
-//   twiml.message('Great!');
+			  	}
 
-//   res.writeHead(200, {'Content-Type': 'text/xml'});
-//   res.end(twiml.toString());
-// });
+				})
+		}
+	}
+
+})
+})
 
 //==================================Routes=========================================
 

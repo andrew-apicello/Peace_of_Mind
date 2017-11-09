@@ -1,5 +1,5 @@
 import React from 'react'
-import {Jumbotron} from "react-bootstrap";
+import {Jumbotron, Row, Col} from "react-bootstrap";
 
 const Header = props => {
 	let Greeting
@@ -18,9 +18,13 @@ const Header = props => {
 		)
 	}
 	return (
-		<div className="Header">
-			{Greeting}
-		</div>
+		<Row>
+			<Col lg={12}>
+				<div className="Header">
+					{Greeting}
+				</div>
+			</Col>
+		</Row>
 	)
 }
 

@@ -202,13 +202,12 @@ class SignupForm extends Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		}
 		return (
-			<div className="container">
 				<div className="SignupForm">
 					<Form horizontal className="form">
-						<h3>Signup</h3>
+						<h1>Signup</h1>
 						<FormGroup controlId="formHorzontalFirstName"
 	        	>
-							<Col componentClass={ControlLabel} sm={3}>First Name:
+							<Col className="signupLabel" componentClass={ControlLabel} sm={3}>First Name:
       				</Col>
       				<Col sm={6}>
 								<FormControl
@@ -225,7 +224,7 @@ class SignupForm extends Component {
 						</FormGroup>
 						<FormGroup controlId="formHorzontalEmail"
 	        	>
-							<Col componentClass={ControlLabel} sm={3}>Last Name:
+							<Col className="signupLabel" componentClass={ControlLabel} sm={3}>Last Name:
       				</Col>
       				<Col sm={6}>
 								<FormControl
@@ -243,7 +242,7 @@ class SignupForm extends Component {
 
 						<FormGroup controlId="formHorzontalEmail"
 	        	>
-							<Col componentClass={ControlLabel} sm={3}>Email:
+							<Col className="signupLabel" componentClass={ControlLabel} sm={3}>Email:
       				</Col>
       				<Col sm={6}>
 								<FormControl
@@ -261,7 +260,7 @@ class SignupForm extends Component {
 						</FormGroup>
 
 						<FormGroup>
-							<Col componentClass={ControlLabel} sm={3}>Phone Number:
+							<Col className="signupLabel" componentClass={ControlLabel} sm={3}>Phone Number:
       				</Col>
       				<Col sm={6}>
 								<FormControl
@@ -283,7 +282,7 @@ class SignupForm extends Component {
 							controlId="password"
 	        		validationState={this.passwordLengthValidate()}
 	        	>
-	        		<Col componentClass={ControlLabel} sm={3}>Password:
+	        		<Col className="signupLabel" componentClass={ControlLabel} sm={3}>Password:
     					</Col>
 	        		<Col sm={6}>
 								<FormControl
@@ -310,7 +309,7 @@ class SignupForm extends Component {
 							controlId="formBasicText"
 	        		validationState={this.confirmPasswordValidate()}
 	        	>
-	        		<Col componentClass={ControlLabel} sm={3}>Confirm Password:
+	        		<Col className="signupLabel" componentClass={ControlLabel} sm={3}>Confirm Password:
     					</Col>
     					<Col sm={6}>
 								<FormControl
@@ -330,13 +329,12 @@ class SignupForm extends Component {
 									/>	
 							</Col>
 						</FormGroup>
-						<Button onClick={this.handleSubmit} className="btn">Sign up</Button>
+						<Button onClick={this.handleSubmit} className="btn-lg">Sign up</Button>
 						<WarningBanner4 
 									warn={this.state.userFlag}
 								/>
 					</Form>
 				</div>
-			</div>
 		)
 	}
 }

@@ -57,42 +57,44 @@ constructor() {
 
   }
 
+  //Original code attempting to add className for well colors
+  // className={this.state.reminders.responseLate ? ('incomplete' ): 'completed'}
+
   render() {
     return (
-          <Row>
-            <Col lg={12}>
-            <h2>Today's Reminders:</h2>
+      <Row className="todaysReminders">
+        <Col lg={12}>
+          <h2>Today's Reminders:</h2>
             
             {this.state.reminders.length ? (
               <div>
                 {this.state.reminders.map(reminder => (
-                  <Well key={reminder._id} id={reminder._id} className={this.state.reminders.responseLate ? ('incomplete' ): 'completed'}>
-                    <Row className="mainRow">
-                      <Col sm={2}>
-                        <h2 className="timeToComplete">{reminder.timeToComplete}</h2>
-                      </Col>
-                      <Col sm={8}>
-                        <h2 className="toDo">{reminder.reminderTitle}</h2>
-                      </Col>
-                      <Col sm={2}>
-                      </Col>
-                    </Row>
-                    <hr />
-                    <Row>
-                      <Col sm={4}>
-                        Dosage:<br />
-                        {reminder.medicationDosage }
-                       </Col>
-                       <Col sm={4}> 
-                        Refill Date: <br/>
-                        {reminder.medicationRefillDate}
-                        </Col>
-                        <Col sm={4}>
-                        Message: <br />
-                        {reminder.reminderMessage}
-                        </Col>
-                    </Row>
-                  </Well>
+                      <Well key={reminder._id} id={reminder._id} className="remindersWell">
+                        <Row className="mainRow">
+                          <Col sm={2}>
+                            <h2 className="timeToComplete">{reminder.timeToComplete}</h2>
+                          </Col>
+                          <Col sm={8}>
+                            <h2 className="toDo">{reminder.reminderTitle}</h2>
+                          </Col>
+                          <Col sm={2}>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col sm={4}>
+                            Dosage:<br />
+                            {reminder.medicationDosage }
+                           </Col>
+                           <Col sm={4}> 
+                            Refill Date: <br/>
+                            {reminder.medicationRefillDate}
+                            </Col>
+                            <Col sm={4}>
+                            Message: <br />
+                            {reminder.reminderMessage}
+                            </Col>
+                        </Row>
+                      </Well>
                 ))}
               </div>
             ) : (

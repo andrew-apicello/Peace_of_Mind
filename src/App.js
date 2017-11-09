@@ -12,53 +12,51 @@ import { Nav, Navbar, NavItem } from "react-bootstrap"
 const DisplayLinks = props => {
 	if (props.loggedIn) {
 		return (
-			<div>
-				<nav className="navbar navbar-default navbar-fixed-top">
-					<div className="container">
-						<ul className="nav navbar-nav">
-							<li className="nav-item">
-								<a href="">Peace of Mind</a>
-							</li>
-							<li className="nav-item">
-								<Link to="/" className="nav-link">
-									Home
-								</Link>
-							</li>
-							<li>
-								<Link to="#" className="nav-link" onClick={props._logout}>
-									Logout
-								</Link>
-							</li>
-							<li>
-								<Link to="/patient" className="nav-link">
-									Patient Profile
-								</Link>
-							</li>
-						</ul>
-					</div>
-				</nav>
-			</div>
-
-		)
-	} else {
-        return (
-          <Navbar collapseOnSelect className="navbar navbar-default navbar-fixed-top">
+			<Navbar collapseOnSelect className="navbar navbar-default navbar-fixed-top">
 					   <Navbar.Header>
 					    <Navbar.Brand>
-					      <a href="#">PILLMinder</a>
+					      <a href="">RxMinder</a>
 					    </Navbar.Brand>
 					      <Navbar.Toggle />
 					    </Navbar.Header>
 					    <Navbar.Collapse>
 					      <Nav pullRight>
 					        <NavItem eventKey={1}><Link to="/">
-					          <a><span className="glyphicon glyphicon-home">Home</span></a></Link>
+					          <a><span className="glyphicon glyphicon-home">  Home</span></a></Link>
+					         </NavItem>
+
+					        <NavItem eventKey={2}><Link to="#" onClick={props._logout}>
+					          <a><span className="glyphicon glyphicon-share-alt"> Logout</span></a>
+					         </Link>
+					         </NavItem>
+
+
+					         <NavItem eventKey={3}><Link to="/patient">
+					          <a><span className="glyphicon glyphicon-user">  Patient-Profile</span></a></Link>
+					         </NavItem> 
+					      </Nav>
+					    </Navbar.Collapse>
+					</Navbar>
+		)
+	} else {
+        return (
+          <Navbar collapseOnSelect className="navbar navbar-default navbar-fixed-top">
+					   <Navbar.Header>
+					    <Navbar.Brand>
+					      <a href="">PillMinder</a>
+					    </Navbar.Brand>
+					      <Navbar.Toggle />
+					    </Navbar.Header>
+					    <Navbar.Collapse>
+					      <Nav pullRight className="navBtns">
+					        <NavItem eventKey={1}><Link to="/">
+					          <a><span className="glyphicon glyphicon-home">  Home</span></a></Link>
 					         </NavItem>
 					        <NavItem eventKey={2}><Link to="/login">
-					          <a><span className="glyphicon glyphicon-log-in">Login</span></a></Link>
+					          <a><span className="glyphicon glyphicon-log-in">  Login</span></a></Link>
 					         </NavItem>
 					         <NavItem eventKey={3}><Link to="/signup">
-					          <a><span className="glyphicon glyphicon-log-in">Signup</span></a></Link>
+					          <a><span className="glyphicon glyphicon-user">  Signup</span></a></Link>
 					         </NavItem> 
 					      </Nav>
 					    </Navbar.Collapse>
@@ -139,8 +137,7 @@ class App extends Component {
 						/>
 						<Route exact path="/patient" render={() => <Patient user={this.state.user} />} 
 						/>
-						<Route exact path="/login" render={() =>
-							<LoginForm _login={this._login} />}
+						<Route exact path="/login" render={() => <LoginForm _login={this._login} />}
 						/>
 						<Route exact path="/signup" component={SignupForm} />
 

@@ -3,7 +3,12 @@ import PatientForm from '../components/PatientForm';
 import DisplayReminders from '../components/DisplayReminders';
 import Clock from "../components/Clock";
 import Carousel from "../components/Carousel";
+import Jumbotrons from "../components/Jumbotron";
+import Footer from "../components/Footer";
+import GridHome from "../components/Grid";
 import Header from '../components/Header/Header'
+import { Row, Col } from "react-bootstrap"
+import "./Home.css"
 
 const Home = props => {
 		let user = props.user || 'no user';
@@ -11,11 +16,9 @@ const Home = props => {
 	if (props.user && props.user.patients.length > 0) {
 		return (
 			<div className="container">
-				<div className="Home">
-					<Header user={user} />
-					<Clock />
-					<DisplayReminders user = {user}/>
-				</div>
+				<Header user={user} />
+				<Clock />
+				<DisplayReminders user = {user}/>
 			</div>
 		)
 	} 
@@ -33,14 +36,13 @@ const Home = props => {
 
 	else if (!props.user) {
 		return (
-			<div>				
-				<Carousel />
-				<div className="Home">
+				<div className="Homediv">
+					<Jumbotrons/>		
+					<Carousel />
+					<GridHome />
+					<Footer />
 
-				<h1>Peace of Mind</h1>
-				<p>I am not logged in</p>
-			</div>
-			</div>
+				</div>
 		)
 	}
 }

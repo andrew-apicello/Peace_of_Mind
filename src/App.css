@@ -1,5 +1,18 @@
 .App{
-	padding-top:70px;
-	text-align:center
+	margin-top:50px;
+	text-align:center;
+	font-family: sofia;
 }
 
+.navbar{
+	margin: 0;
+}
+
+.navbar-brand {
+	font-size: 30px;
+	font-family: sofia;
+}
+
+.glyphicon {
+	font-size:18px;
+}
