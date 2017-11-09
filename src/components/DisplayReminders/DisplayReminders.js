@@ -57,9 +57,6 @@ constructor() {
 
   }
 
-  //Original code attempting to add className for well colors
-  // className={this.state.reminders.responseLate ? ('incomplete' ): 'completed'}
-
   render() {
     return (
       <Row className="todaysReminders">
@@ -69,7 +66,7 @@ constructor() {
             {this.state.reminders.length ? (
               <div>
                 {this.state.reminders.map(reminder => (
-                      <Well key={reminder._id} id={reminder._id} className="remindersWell">
+                      <Well key={reminder._id} id={reminder._id} className={"remindersWell " + (reminder.responseReceived ? " greenBG" : "") + (reminder.responseLate ? " redBG" : "")}>
                         <Row className="mainRow">
                           <Col sm={2}>
                             <h2 className="timeToComplete">{reminder.timeToComplete}</h2>

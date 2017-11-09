@@ -5,9 +5,6 @@ import "./ReminderForm.css"
 import MilitaryTime from '../../Utils/MilitaryTime.js';
 import { Redirect } from 'react-router-dom';
 import {WarningBanner} from "../Alerts"
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
-import 'react-datepicker/dist/react-datepicker.css';
 
 
 class ReminderForm extends React.Component {
@@ -29,9 +26,7 @@ constructor() {
       messageFlag: false,
       redirectTo: null,
       selected: [],
-      startDate: moment()
     }
-    this.handleChange = this.handleChange.bind(this);
 }
   componentDidMount() {
     const id = this.props.user._id;
@@ -63,13 +58,6 @@ constructor() {
       };
     });
   }
-  
-  handleChange = date => {
-    this.setState({
-      startDate: date
-    });
-
-  };
 
   handleInputChange = event => {
     // Destructure the name and value properties off of event.target
@@ -105,15 +93,8 @@ constructor() {
     console.log(this.state.timeToCompleteMin);
     console.log(this.state.timeToCompleteAmPm);
     console.log(this.state.medicationDosage);
-    // console.log(this.state.medicationRefillDate);
+    console.log(this.state.medicationRefillDate);
     console.log(this.state.reminderMessage);
-    console.log(this.state.startDate._d);
-
-    // var string = this.state.startDate;
-
-    // var array = string.split("").slice(0,10).join("");
-
-    // console.log(array);
 
     let hours = this.state.timeToCompleteHour;
     let minutes = this.state.timeToCompleteMin;
@@ -175,7 +156,7 @@ constructor() {
         dayToComplete: this.state.selected,
         timeToComplete: convertedTime,
         medicationDosage: this.state.medicationDosage,
-        medicationRefillDate: this.state.startDate,
+        medicationRefillDate: this.state.medicationRefillDate,
         reminderMessage: this.state.reminderMessage,
         receiveResponseBy: convertedTimeAdded,
       })
@@ -412,7 +393,7 @@ constructor() {
                 warn={this.state.timeFlag}
               />
               <br />
-              <Form className="medicationForm">
+              <Form inline className="medicationForm">
                 <ControlLabel>Dosage:</ControlLabel>
                   <FormControl
                     className="dosageInput"
@@ -422,12 +403,15 @@ constructor() {
                     placeholder="(if a med reminder)"
                   />
                   <br />
-                <ControlLabel>Refill Date:</ControlLabel>
-                  <DatePicker className="datePicker"
-                    name="startDate"
-                    selected={this.state.startDate}
-                    onChange={this.handleChange}
+                <ControlLabel>Date:</ControlLabel>
+                  <FormControl
+                    className="medicationRefillDateInput"
+                    name="medicationRefillDate"
+                    value={this.state.medicationRefillDate}
+                    onChange={this.handleInputChange}
+                    placeholder="(if a med reminder: MM/MM/YYYY)"
                   />
+                  <br />
               </Form>
               <br />
               <Form className="medicationForm">

@@ -188,14 +188,14 @@ clock = () => {
 	// Get the current minute
 	let minutes = moment().format('mm');
 
-	// if(minutes == 00 || minutes == 30) {
+	if(minutes == 00 || minutes == 30) {
 		// Query the db to check for tasks every 0 and 30 minutes 
 		queryDB();
-	// }
+	}
 }
 
 // Run the clock function every minute
-// setInterval(clock, 10000);
+setInterval(clock, 60000);
 
 let day;
 switch (new Date().getDay()) {
