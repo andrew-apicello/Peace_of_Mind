@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Well, Row, Col, ControlLabel, FormControl, Form, Checkbox, Panel } from "react-bootstrap"
 import axios from 'axios';
-import "./ReminderForm.css"
+import "./reminderForm.css"
 import MilitaryTime from '../../Utils/MilitaryTime.js';
 import { Redirect } from 'react-router-dom';
 import {WarningBanner} from "../Alerts"

@@ -23,6 +23,19 @@ const User = require('./db/models/user')
 const Patient = require('./db/models/patients')
 const Reminder = require('./db/models/reminders')
 
+//===========================Mongo Connection for Heroku=============================
+
+
+if (process.env.MONGODB_URI){
+	mongoose.connect(process.env.MONGODB_URI);
+	console.log("connected remotely");
+} else {
+	mongoose.connect("mongodb://localhost/pills", {
+		useMongoClient: true
+	});
+	console.log("connected locally");
+}
+
 
 //================ MIDDLEWARE ================= //
 app.use(logger('dev'))
