@@ -12,6 +12,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
 // var db = require("./models");
+var db = require('../../db/models');
 const PORT = process.env.PORT || 3001;
 const twilio = require('twilio');
 const moment = require('moment');
@@ -19,9 +20,9 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('./passport');
 const dbConnection = require('./db');
-const User = require('./db/models/User')
-const Patient = require('./db/models/Patients')
-const Reminder = require('./db/models/Reminders')
+// const User = require('./db/models/User')
+// const Patient = require('./db/models/Patients')
+// const Reminder = require('./db/models/Reminders')
 
 //===========================Mongo Connection for Heroku=============================
 
@@ -145,7 +146,7 @@ app.post('/sms', (req, res) => {
 	array = array.join("")
 	console.log(array);
 
-  Patient.find({patientPhone: array}).then(function(patients) {
+  db.Patient.find({patientPhone: array}).then(function(patients) {
 
 		// Loop through all of the patients information in the db
 		for (let i = 0; i < patients.length; i++) {
@@ -172,12 +173,12 @@ app.post('/sms', (req, res) => {
 
 				var timeDue = currentHours + ":" + currentMinutes;
 
-			  Reminder.find({_id: reminderId, dayToComplete: {$in: [day]}, timeToComplete: timeDue }).then(function(reminders) {
+			  db.Reminder.find({_id: reminderId, dayToComplete: {$in: [day]}, timeToComplete: timeDue }).then(function(reminders) {
 			  	console.log(reminders);
 			  	for (var i = 0; i < reminders.length; i++) {
 			  		var updateReminderId = reminders[i];
 
-				  Reminder.findOneAndUpdate({_id: updateReminderId}, {responseReceived: true}).then(function(completeReminder) {
+				  db.Reminder.findOneAndUpdate({_id: updateReminderId}, {responseReceived: true}).then(function(completeReminder) {
 					    console.log("reminder has been set to true: " + completeReminder)
 					  }).catch(function(err) {
 					    res.json(err);

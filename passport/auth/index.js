@@ -1,9 +1,10 @@
 const express = require('express')
-const router = express.Router()
-const User = require('../../db/models/User')
+// const router = express.Router()
+// const User = require('../../db/models/User')
 const passport = require('passport')
-const Patient = require('../../db/models/Patients')
-const Reminder = require('../../db/models/Reminders')
+var db = require('../../db/models');
+// const Patient = require('../../db/models/Patients')
+// const Reminder = require('../../db/models/Reminders')
 const moment = require('moment');
 
 //==================================Twilio=========================================
@@ -57,13 +58,13 @@ router.post('/logout', (req, res) => {
 router.post('/signup', (req, res) => {
 	const { email, password, phone, firstName, lastName } = req.body
 	// ADD VALIDATION
-	User.findOne({ 'local.email': email }, (err, userMatch) => {
+	db.User.findOne({ 'local.email': email }, (err, userMatch) => {
 		if (userMatch) {
 			return res.json({
 				error: `Sorry, already a user with the email: ${email}`
 			})
 		}
-		const newUser = new User({
+		const newUser = new db.User({
 			'local.email': email,
 			'local.password': password,
 			"phone": phone,
@@ -82,10 +83,10 @@ router.get('/patients/:id', (req, res) => {
 const id = req.params.id;
 let patientID;
 
-  User.find({_id:id}).then(function(user) {
+  db.User.find({_id:id}).then(function(user) {
   	patientID = user[0].patients[0];
 
-  Patient.find({_id: patientID}).then(function(patients) {
+  db.Patient.find({_id: patientID}).then(function(patients) {
     res.json(patients);
   }).catch(function(err) {
     res.json(err);
@@ -97,10 +98,10 @@ let patientID;
 router.get('/reminders/:patientId', (req, res) => {
 const patientId = req.params.patientId;
 
-  Patient.find({_id:patientId}).then(function(patient) {
+  db.Patient.find({_id:patientId}).then(function(patient) {
   	reminderId = patient[0].reminders;
 
-  Reminder.find({_id: reminderId}).sort({ timeToComplete: 1 }).then(function(reminders) {
+  db.Reminder.find({_id: reminderId}).sort({ timeToComplete: 1 }).then(function(reminders) {
     res.json(reminders);
   }).catch(function(err) {
     res.json(err);
@@ -116,10 +117,10 @@ const today = req.params.day;
 console.log(patientId);
 
 console.log("Getting reminders route")
-  Patient.find({_id: patientId}).then(function(patient) {
+  db.Patient.find({_id: patientId}).then(function(patient) {
   	reminderId = patient[0].reminders;
 
-  Reminder.find({_id: reminderId, dayToComplete: today}).sort({ timeToComplete: 1 }).then(function(reminders) {
+  db.Reminder.find({_id: reminderId, dayToComplete: today}).sort({ timeToComplete: 1 }).then(function(reminders) {
     res.json(reminders);
   }).catch(function(err) {
     res.json(err);
@@ -229,7 +230,7 @@ queryDB = () => {
 	let time = moment().format('HH:mm');
 
 	if(time === "0:0") {
-	  Reminder.find({}, {responseLate: false, responseReceived: false}).then(function(reminders) {
+	  db.Reminder.find({}, {responseLate: false, responseReceived: false}).then(function(reminders) {
 		    console.log("reminders have been reset " + reminders)
 		  }).catch(function(err) {
 		    res.json(err);
@@ -237,7 +238,7 @@ queryDB = () => {
 		}
 
 
-	Patient.find({}).then(function(patients) {
+	db.Patient.find({}).then(function(patients) {
 
 var d = new Date();
 		var currentMinutes = d.getMinutes();
@@ -267,7 +268,7 @@ var d = new Date();
 
 
 				// Query into db to find the id of each reminder based on what day and time it is as well as if the responseReceived = false
-				Reminder.find({_id: reminderId, dayToComplete: day, timeToComplete: timeDue, responseReceived: false, responseLate: false}).then(function(reminders) {
+				db.Reminder.find({_id: reminderId, dayToComplete: day, timeToComplete: timeDue, responseReceived: false, responseLate: false}).then(function(reminders) {
 					// console.log(reminders + " " + patientPhone);
 					for (let i = 0; i < reminders.length; i++) {
 						// Get the body of the reminderMessage. Can also get the reminder photo
@@ -313,7 +314,7 @@ var d = new Date();
 
    
     // Then, we query all users, get their phone numbers
-	User.find({}).then(function(users) {
+	db.User.find({}).then(function(users) {
 
 		var d = new Date();
 		var currentMinutes = d.getMinutes();
@@ -337,7 +338,7 @@ var d = new Date();
  		let userPatientsId = users[i].patients;
     	console.log("current user: " + currentUserId + " phone: " + userPhone +  " patient: " + userPatientsId);
 
-    	Patient.find({_id: userPatientsId}).then(function(patients) {
+    	db.Patient.find({_id: userPatientsId}).then(function(patients) {
     		for (var i = 0; i < patients.length; i++) {
     			let remindersArray = patients[i].reminders;
     			let patientName = patients[i].patientName;
@@ -347,7 +348,7 @@ var d = new Date();
 					let reminderId = remindersArray[j];
 
  			    // Find the reminders of that patient with the receiveResponseBy = timeDue and if responseReceived = false   
-		    	Reminder.find({_id: reminderId, dayToComplete: day, receiveResponseBy: timeDue, responseReceived: false, responseLate: false}).then(function(reminders) {
+		    	db.Reminder.find({_id: reminderId, dayToComplete: day, receiveResponseBy: timeDue, responseReceived: false, responseLate: false}).then(function(reminders) {
 			    	console.log(reminders);
 
 			    	for (var i = 0; i < reminders.length; i++) {
@@ -356,7 +357,7 @@ var d = new Date();
 						console.log( "userPhone: " + userPhone + userFirstName + ", " + patientName + " did not complete the following reminder: " + lateReminderBody + ", which was scheduled for " + timeToBeCompleted);
 						
 						  // Update reminder in db as responseLate: true
-						  Reminder.findOneAndUpdate({_id: reminderId}, {responseLate: true}).then(function(lateReminder) {
+						  db.Reminder.findOneAndUpdate({_id: reminderId}, {responseLate: true}).then(function(lateReminder) {
 							    console.log("reminder has been set to late: " + lateReminder)
 							  }).catch(function(err) {
 							    res.json(err);
