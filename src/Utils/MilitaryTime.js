@@ -30,15 +30,18 @@ if(minutes === 0){
 }
 
 //From military time to standard time
-exports.convertMilitaryToStandardTime = function(hours,minutes){
+exports.convertMilitaryToStandardTime = function(time){
+
+var hours = time.split(":")[0]
+var minutes = time.split(":")[1]
+
+
+console.log("hours: " + hours);
+console.log("minutes: " + minutes);
 
 let amPm;
 let hoursStd;
 let hoursInt = parseInt(hours);
-
-if(minutes === 0){
-    minutes = "00"
-}
 
 if (hoursInt > 12){
     hoursStd = hoursInt - 12;
@@ -55,6 +58,8 @@ if (hoursInt > 12){
 }
 
 let standardTime = hoursStd + ":" + minutes + " " + amPm;
+
+console.log("final display: " + standardTime);
 
 return standardTime;
 }

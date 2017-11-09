@@ -239,6 +239,18 @@ queryDB = () => {
 
 	Patient.find({}).then(function(patients) {
 
+var d = new Date();
+		var currentMinutes = d.getMinutes();
+
+		if (currentMinutes >= 30) {
+			currentMinutes = "30";
+		} else {
+			currentMinutes = "00";
+		}
+
+		var currentHours = d.getHours();
+
+		var timeDue = currentHours + ":" + currentMinutes;	
 		// Loop through all of the patients information in the db
 		for (let i = 0; i < patients.length; i++) {
 			// Get the patient's phone and all of their reminders
@@ -255,7 +267,7 @@ queryDB = () => {
 
 
 				// Query into db to find the id of each reminder based on what day and time it is as well as if the responseReceived = false
-				Reminder.find({_id: reminderId, dayToComplete: day, timeToComplete: time, responseReceived: false, responseLate: false}).then(function(reminders) {
+				Reminder.find({_id: reminderId, dayToComplete: day, timeToComplete: timeDue, responseReceived: false, responseLate: false}).then(function(reminders) {
 					// console.log(reminders + " " + patientPhone);
 					for (let i = 0; i < reminders.length; i++) {
 						// Get the body of the reminderMessage. Can also get the reminder photo

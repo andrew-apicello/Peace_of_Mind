@@ -26,6 +26,7 @@ constructor() {
       messageFlag: false,
       redirectTo: null,
       selected: [],
+      dayFlag: false,
     }
 }
   componentDidMount() {
@@ -62,7 +63,7 @@ constructor() {
   handleInputChange = event => {
     // Destructure the name and value properties off of event.target
     // Update the appropriate state
-    let { name, value } = event.target;
+    let { name, value, checked } = event.target;
 
     console.log(event.target);
 
@@ -77,10 +78,12 @@ constructor() {
       console.log(this.state.selected);
     }
 
+
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
+
 
   handleFormSubmit = event => {
     event.preventDefault();
@@ -95,6 +98,7 @@ constructor() {
     console.log(this.state.medicationDosage);
     console.log(this.state.medicationRefillDate);
     console.log(this.state.reminderMessage);
+    console.log(this.state.checkboxSelected);
 
     let hours = this.state.timeToCompleteHour;
     let minutes = this.state.timeToCompleteMin;
@@ -145,9 +149,38 @@ constructor() {
     if (!this.state.reminderMessage){
       this.setState({
         messageFlag:true,
+        reminderMessage:"",
         redirectTo: ""
       })
     }
+
+    if(this.state.dayToComplete){
+      this.setState({
+        dayFlag: false
+      })
+    }
+
+    if(!this.state.dayToComplete){
+      this.setState({
+        dayFlag: true,
+        redirectTo:""
+      })
+    }
+
+    // if (this.state.timeToComplete){
+    //   this.setState({
+    //     timeFlag:false
+    //   })
+    // }
+
+    // if (!this.state.timeToComplete){
+    //   this.setState({
+    //     timeFlag:true,
+    //     redirectTo: ""
+    //   })
+    // }
+
+
 
     axios
       .post('/auth/addReminder', {
@@ -174,8 +207,8 @@ constructor() {
             medicationDosage: "",
             medicationRefillDate: "",
             reminderMessage: "",
+            mondayCheckbox: "Monday",
             selected: [],
-
           });
 
       axios.get('/auth/reminders/' + patientId).then(response => {
@@ -209,7 +242,7 @@ constructor() {
               <Well className="wellDay">SUNDAY</Well>
               {this.state.reminders.map(reminder => (
                 <div key={reminder._id} id={reminder._id}>
-                <h4 className="remindersText">{reminder.dayToComplete.includes("Sunday") && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete  + " - " + reminder.reminderTitle + " Medication Dosage: " + reminder.medicationDosage + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage + " " ) : ""}</h4>
+                <p className="remindersText">{reminder.dayToComplete.includes("Sunday") && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete  + " - " + reminder.reminderTitle + " Medication Dosage: " + reminder.medicationDosage + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage + " " ) : ""}</p>
                 {reminder.dayToComplete.includes("Sunday") && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
                 </div>
               ))}
@@ -337,6 +370,9 @@ constructor() {
                   Saturday
                 </Checkbox>
             </Form>
+              <WarningBanner 
+                    warn={this.state.dayFlag}
+                />
               <br />
             <Form inline className="medicationForm">
                 <ControlLabel>Hour:</ControlLabel>
@@ -396,20 +432,19 @@ constructor() {
               <Form inline className="medicationForm">
                 <ControlLabel>Dosage:</ControlLabel>
                   <FormControl
-                    className="dosageInput"
+                    className="Input"
                     name="medicationDosage"
                     value={this.state.medicationDosage}
                     onChange={this.handleInputChange}
                     placeholder="(if a med reminder)"
                   />
-                  <br />
-                <ControlLabel>Date:</ControlLabel>
+                <ControlLabel className="dateLabel">Refill Date:</ControlLabel>
                   <FormControl
-                    className="medicationRefillDateInput"
+                    className="Input"
                     name="medicationRefillDate"
                     value={this.state.medicationRefillDate}
                     onChange={this.handleInputChange}
-                    placeholder="(if a med reminder: MM/MM/YYYY)"
+                    placeholder="if a med reminder"
                   />
                   <br />
               </Form>
