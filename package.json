@@ -33,7 +33,7 @@
     "react-scripts": "1.0.10"
   },
   "scripts": {
-    "start": "node server",
+    "start": "node server.js",
     "seed": "node scripts/seedDB.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
