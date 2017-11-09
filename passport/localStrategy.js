@@ -1,4 +1,4 @@
-var db = require('../db/models');
+var db = require('../db/models/index.js');
 // const User = require('../db/models/User')
 const LocalStrategy = require('passport-local').Strategy
 

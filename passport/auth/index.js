@@ -1,8 +1,8 @@
 const express = require('express')
-// const router = express.Router()
+const router = express.Router()
 // const User = require('../../db/models/User')
 const passport = require('passport')
-var db = require('../../db/models');
+var db = require('../../db/models/index.js');
 // const Patient = require('../../db/models/Patients')
 // const Reminder = require('../../db/models/Reminders')
 const moment = require('moment');
