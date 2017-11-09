@@ -13,10 +13,16 @@
 
 .addMedsPanel{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color:rgb(97, 134, 133);
+    border:0;
 }
 
 .wellDay{
 	padding:10px;
+	background-color:rgb(97, 134, 133);
+	color: #fff;
+	border-radius: 10px;
+	font-size:15px;
 }
 
 .remindersText{
@@ -29,5 +35,54 @@ text-align:left;
 
 .dateLabel{
 	margin-left:10px;
+}
+
+.medicationForm{
+	text-align:left;
+}
+
+.hide {
+	display: none;
+}
+
+.deleteBtn {
+	margin-left: 10px;
+	position: absolute;
+	right: 0;
+	top: 0px;
+	margin-right: 15px;
+	padding: 5px;
+	font-size: 9px;
+	color: rgb(181, 92, 111);
+	font-weight: bold;
+	margin-bottom: 0;
+}
+
+.reminders {
+	text-align: left;
+	padding-bottom: 10px;
+	position: relative;
+	padding-left:20px;
+}
+
+.reminderTitle {
+	font-weight: bold;
+	text-transform: uppercase;
+	line-height: 1.5;
+	padding-right: 15px;
+}
+
+.panelTitle{
+	color:white;
+	font-size:30px;
+}
+
+.currentReminders{
+	margin-bottom:20px;
+	font-size:40px;
+}
+
+.addReminderBtn{
+
 }
 

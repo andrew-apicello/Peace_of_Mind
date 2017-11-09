@@ -154,6 +154,23 @@ router.post("/addPatient", (req, res) => {
     })
 });
 
+router.delete("/reminders/:id", (req, res) => {
+	Reminder.findOneAndRemove({_id: req.params.id}, function(err, removed) {
+
+		Patient.findOneAndUpdate({reminders:req.params.id}, {$pull: {reminders:req.params.id}}, function(err, removed) {
+			if(err) {
+				console.log(err);
+			}
+		});
+
+		  Reminder.find({}).sort({ timeToComplete: 1 }).then(function(reminders) {
+		    res.json(reminders);
+		  }).catch(function(err) {
+		    res.json(err);
+		  });
+		});
+});
+
 
 router.post("/addReminder", (req, res) => {
 	const patientId = req.body._id;

@@ -69,16 +69,15 @@ constructor() {
 
     // Run the queryDb function every 3 seconds
     setInterval(queryDb, 3000);
-
   }
-
-
 
   render() {
     return (
-      <Row className="todaysReminders">
-        <Col lg={12}>
-          <h2>Today's Reminders:</h2>
+      <Row>
+        <Col lg={1}>
+        </Col>
+        <Col lg={10} className="todaysReminders">
+          <h1 className="remindersh1">Today's Reminders:</h1>
             
               <div>
                 {this.state.reminders.map(reminder => (
@@ -109,7 +108,8 @@ constructor() {
                       </Well>
                 ))}
               </div>
-
+            </Col>
+            <Col lg={1}>
             </Col>
           </Row>
     );

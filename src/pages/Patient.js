@@ -13,12 +13,8 @@ const Patient = props => {
 
 	if (props.user) {
 		return (
-				<div className="container">
-					<Row className="patientBody">
-						<Col lg={12}>
+				<div className="patientContainer">
 							<PatientProfile user = {user} />
-						</Col>
-					</Row>
 					<Row className="reminderBody">
 						<Col lg={12}>
 							<ReminderForm user = {user}/>

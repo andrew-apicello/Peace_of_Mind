@@ -15,11 +15,22 @@ const Home = props => {
 	// If a user exists and if that user has patients, display the patient's reminders
 	if (props.user && props.user.patients.length > 0) {
 		return (
-			<div className="container">
-				<Header user={user} />
-				<Clock />
-				<DisplayReminders user = {user}/>
-			</div>
+
+				<div className="Home">
+					<Row>
+						<Col lg={5}>
+							<Header user={user} />
+						</Col>
+						<Col lg={1}>
+						</Col>
+						<Col lg={6}>
+							<Clock />
+						</Col>
+					</Row>
+					<DisplayReminders user = {user}/>
+					<Footer />
+				</div>
+
 		)
 	} 
 	// Display the add a patient form if the user doesn't have a saved patient
@@ -29,6 +40,7 @@ const Home = props => {
 				<div className="Home">
 							{console.log(props.user)}
 					<PatientForm />
+					<Footer />
 				</div>
 			</div>
 		)

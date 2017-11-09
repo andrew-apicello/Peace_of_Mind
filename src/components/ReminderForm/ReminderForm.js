@@ -167,21 +167,6 @@ constructor() {
       })
     }
 
-    // if (this.state.timeToComplete){
-    //   this.setState({
-    //     timeFlag:false
-    //   })
-    // }
-
-    // if (!this.state.timeToComplete){
-    //   this.setState({
-    //     timeFlag:true,
-    //     redirectTo: ""
-    //   })
-    // }
-
-
-
     axios
       .post('/auth/addReminder', {
         _id: this.state._id,
@@ -228,6 +213,20 @@ constructor() {
 
   };
 
+  // Deletes a reminder from the database with a given id, then reloads reminders from the db
+  deleteReminder = id => {
+    axios.delete('/auth/reminders/' + id).then(response => {
+      console.log("Deleting a reminder...")
+      console.log(response.data)
+        if (response.data) {
+          this.setState({
+            reminders: response.data
+          })
+        };
+    });
+  };
+
+
   render() {
     if (this.state.redirectTo === "/") {
       return <Redirect to={{ pathname: this.state.redirectTo }} />
@@ -235,68 +234,78 @@ constructor() {
     return (
       <Row className="content">
         <Col md={6}>
-          <h2>Current Reminders:</h2>
+          <h1 className="currentReminders">Current Reminders:</h1>
 
           {this.state.reminders.length ? (
             <div>
               <Well className="wellDay">SUNDAY</Well>
               {this.state.reminders.map(reminder => (
-                <div key={reminder._id} id={reminder._id}>
-                <p className="remindersText">{reminder.dayToComplete.includes("Sunday") && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete  + " - " + reminder.reminderTitle + " Medication Dosage: " + reminder.medicationDosage + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage + " " ) : ""}</p>
-                {reminder.dayToComplete.includes("Sunday") && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
-                </div>
+                <div key={reminder._id} id={reminder._id} className="reminders">
+                <p className="reminderTitle">{reminder.dayToComplete.includes("Sunday") ? (reminder.timeToComplete + " " + reminder.reminderTitle) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Sunday") ? ("Message: " + reminder.reminderMessage ) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Sunday") && reminder.medicationDosage ? ("Dosage: " + reminder.medicationDosage) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Sunday") && reminder.medicationRefillDate ? ("Refill: " + reminder.medicationRefillDate) : ""}</p>
+                <Button onClick={() => this.deleteReminder(reminder._id)} className= {reminder.dayToComplete.includes("Sunday") ? "deleteBtn" : "hide"}>X</Button></div>
               ))}
-              <br />
               <Well className="wellDay">MONDAY: </Well>
               {this.state.reminders.map(reminder => (
-                <div key={reminder._id} id={reminder._id}>
-                {reminder.dayToComplete.includes("Monday") && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationDosage + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
-                {reminder.dayToComplete.includes("Monday") && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
-                </div>
+                <div key={reminder._id} id={reminder._id} className="reminders">
+                <p className="reminderTitle">{reminder.dayToComplete.includes("Monday") ? (reminder.timeToComplete + " " + reminder.reminderTitle) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Monday") ? ("Message: " + reminder.reminderMessage ) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Monday") && reminder.medicationDosage ? ("Dosage: " + reminder.medicationDosage) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Monday") && reminder.medicationRefillDate ? ("Refill: " + reminder.medicationRefillDate) : ""}</p>
+                <Button onClick={() => this.deleteReminder(reminder._id)} className= {reminder.dayToComplete.includes("Monday") ? "deleteBtn" : "hide"}>X</Button></div>
               ))}
 
-              <br />
-              <Well className="wellDay">TUESDAY: </Well>
+             <Well className="wellDay">TUESDAY: </Well>
               {this.state.reminders.map(reminder => (
-                <div key={reminder._id} id={reminder._id}>
-                {reminder.dayToComplete.includes("Tuesday") && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationDosage + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
-                {reminder.dayToComplete.includes("Tuesday") && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}          
-                </div>
+                <h4 key={reminder._id} id={reminder._id} className="reminders">
+                <p className="reminderTitle">{reminder.dayToComplete.includes("Tuesday") ? (reminder.timeToComplete + " " + reminder.reminderTitle) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Tuesday") ? ("Message: " + reminder.reminderMessage ) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Tuesday") && reminder.medicationDosage ? ("Dosage: " + reminder.medicationDosage) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Tuesday") && reminder.medicationRefillDate ? ("Refill: " + reminder.medicationRefillDate) : ""}</p>
+                <Button onClick={() => this.deleteReminder(reminder._id)} className= {reminder.dayToComplete.includes("Tuesday") ? "deleteBtn" : "hide"}>X</Button></h4>
               ))}
-              <br />
+
               <Well className="wellDay">WEDNESDAY: </Well>
               {this.state.reminders.map(reminder => (
-                <div key={reminder._id} id={reminder._id}>
-                {reminder.dayToComplete.includes("Wednesday") && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationDosage + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
-                {reminder.dayToComplete.includes("Wednesday") && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
-                </div>
+                <div key={reminder._id} id={reminder._id} className="reminders">
+                <p className="reminderTitle">{reminder.dayToComplete.includes("Wednesday") ? (reminder.timeToComplete + " " + reminder.reminderTitle) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Wednesday") ? ("Message: " + reminder.reminderMessage ) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Wednesday") && reminder.medicationDosage ? ("Dosage: " + reminder.medicationDosage) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Wednesday") && reminder.medicationRefillDate ? ("Refill: " + reminder.medicationRefillDate) : ""}</p>
+                <Button onClick={() => this.deleteReminder(reminder._id)} className= {reminder.dayToComplete.includes("Wednesday") ? "deleteBtn" : "hide"}>X</Button></div>
               ))}
-              <br/>
+
               <Well className="wellDay">THURSDAY: </Well>
               {this.state.reminders.map(reminder => (
-                <div key={reminder._id} id={reminder._id}>
-                {reminder.dayToComplete.includes("Thursday") && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationDosage + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
-                {reminder.dayToComplete.includes("Thursday") && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
-                </div>
-              ))}
+                <div key={reminder._id} id={reminder._id} className="reminders">
+                <p className="reminderTitle">{reminder.dayToComplete.includes("Thursday") ? (reminder.timeToComplete + " " + reminder.reminderTitle) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Thursday") ? ("Message: " + reminder.reminderMessage ) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Thursday") && reminder.medicationDosage ? ("Dosage: " + reminder.medicationDosage) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Thursday") && reminder.medicationRefillDate ? ("Refill: " + reminder.medicationRefillDate) : ""}</p>
+                <Button onClick={() => this.deleteReminder(reminder._id)} className= {reminder.dayToComplete.includes("Thursday") ? "deleteBtn" : "hide"}>X</Button></div>
+                ))}
 
-              <br/>
               <Well className="wellDay">FRIDAY: </Well>
               {this.state.reminders.map(reminder => (
-                <div key={reminder._id} id={reminder._id}>
-                {reminder.dayToComplete.includes("Friday") && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationDosage + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
-                {reminder.dayToComplete === "Friday" && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}         
-                </div>
-              ))}
+                <div key={reminder._id} id={reminder._id} className="reminders">
+                <p className="reminderTitle">{reminder.dayToComplete.includes("Friday") ? (reminder.timeToComplete + " " + reminder.reminderTitle) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Friday") ? ("Message: " + reminder.reminderMessage ) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Friday") && reminder.medicationDosage ? ("Dosage: " + reminder.medicationDosage) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Friday") && reminder.medicationRefillDate ? ("Refill: " + reminder.medicationRefillDate) : ""}</p>
+                <Button onClick={() => this.deleteReminder(reminder._id)} className= {reminder.dayToComplete.includes("Friday") ? "deleteBtn" : "hide"}>X</Button></div>
+                ))}
 
-              <br/>
-              <Well className="wellDay">SATURDAY</Well>
+              <Well className="wellDay">SATURDAY: </Well>
               {this.state.reminders.map(reminder => (
-                <div key={reminder._id} id={reminder._id}>
-                {reminder.dayToComplete.includes("Saturday") && reminder.medicationDosage && reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Medication Qty: " + reminder.medicationDosage + " Medication Refill Date: " + reminder.medicationRefillDate + " Message: " + reminder.reminderMessage ) : ""}
-                {reminder.dayToComplete.includes("Saturday") && !reminder.medicationDosage && !reminder.medicationRefillDate ? (reminder.timeToComplete + " To Do: " + reminder.reminderTitle + " Message: " + reminder.reminderMessage ) : ""}
-                </div>
-              ))}
+                <div key={reminder._id} id={reminder._id} className="reminders">
+                <p className="reminderTitle">{reminder.dayToComplete.includes("Saturday") ? (reminder.timeToComplete + " " + reminder.reminderTitle) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Saturday") ? ("Message: " + reminder.reminderMessage ) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Saturday") && reminder.medicationDosage ? ("Dosage: " + reminder.medicationDosage) : ""}</p>
+                <p>{reminder.dayToComplete.includes("Saturday") && reminder.medicationRefillDate ? ("Refill: " + reminder.medicationRefillDate) : ""}</p>
+                <Button onClick={() => this.deleteReminder(reminder._id)} className= {reminder.dayToComplete.includes("Saturday") ? "deleteBtn" : "hide"}>X</Button></div>
+                ))}
             </div>
           ) : (
               <p>No Reminders Scheduled</p>
@@ -304,11 +313,12 @@ constructor() {
           </Col>
           <Col md={6}>
             <Panel className="addMedsPanel">
-              <h3>Add a New Reminder</h3>
+              <h3 className="panelTitle">Add a New Reminder</h3>
               <Form className="medicationForm">
               <ControlLabel>Reminder Title:</ControlLabel>
                 <FormControl
                   name="reminderTitle"
+                  className="reminderTitle"
                   type="text"
                   value={this.state.reminderTitle}
                   onChange={this.handleInputChange}
@@ -453,6 +463,7 @@ constructor() {
                <ControlLabel>Message</ControlLabel>
                   <FormControl
                     name="reminderMessage"
+                    className="messageInput"
                     componentClass="textarea"
                     value={this.state.reminderMessage}
                     onChange={this.handleInputChange}
@@ -462,7 +473,7 @@ constructor() {
                   warn={this.state.messageFlag}
                 />
                 <br />
-                <Button bsStyle="primary"
+                <Button bsStyle="default"
                   onClick={this.handleFormSubmit}
                   type="success"
                   className="addReminderBtn"
