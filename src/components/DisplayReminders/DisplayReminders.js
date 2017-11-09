@@ -75,24 +75,23 @@ constructor() {
                             <h2 className="timeToComplete">{reminder.timeToComplete}</h2>
                           </Col>
                           <Col sm={8}>
-                            <h2 className="toDo">{reminder.reminderTitle}</h2>
+                            <h1 className="toDo">{reminder.reminderTitle}</h1>
                           </Col>
                           <Col sm={2}>
                           </Col>
                         </Row>
-                        <Row>
+                        <Row className="infoRow">
                           <Col sm={4}>
-                            Dosage:<br />
-                            {reminder.medicationDosage }
-                           </Col>
-                           <Col sm={4}> 
-                            Refill Date: <br/>
-                            {reminder.medicationRefillDate}
-                            </Col>
-                            <Col sm={4}>
-                            Message: <br />
-                            {reminder.reminderMessage}
-                            </Col>
+                            <h3>Dosage: {reminder.medicationDosage }</h3>
+                          </Col>
+                          <Col sm={4}> 
+                            <h3>Refill Date:</h3>
+                            <h4>{reminder.medicationRefillDate}</h4>
+                          </Col>
+                          <Col sm={4}>
+                            <h3>Message:</h3>
+                            <h4>{reminder.reminderMessage}</h4>
+                          </Col>
                         </Row>
                       </Well>
                 ))}

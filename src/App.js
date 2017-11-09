@@ -43,7 +43,7 @@ const DisplayLinks = props => {
           <Navbar collapseOnSelect className="navbar navbar-default navbar-fixed-top">
 					   <Navbar.Header>
 					    <Navbar.Brand>
-					      <a href="">PillMinder</a>
+					      <a href="">RxMinder</a>
 					    </Navbar.Brand>
 					      <Navbar.Toggle />
 					    </Navbar.Header>

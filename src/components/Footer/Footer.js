@@ -8,7 +8,7 @@ const Footer = () =>
     <footer className="footer navbar-staticBottom">
     	<Row>
     		<Col lg={12}>
-        	<p className="footerText">RxMinder 2107</p>
+        	<p className="footerText">RxMinder © 2017</p>
         </Col>
       </Row>
   	</footer>;

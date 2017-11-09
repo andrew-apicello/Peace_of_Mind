@@ -52,9 +52,9 @@ class Clock extends React.Component {
   }
   render() {
     return (
-      <p className="App-clock">
+      <h3 className="App-clock">
         Today is {this.state.day} {this.state.time}.
-      </p>
+      </h3>
     );
   }
 } 

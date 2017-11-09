@@ -1,4 +1,8 @@
 .footer {
-  min-height: 50px;
+  height: 60px;
   background: #E5E5E5;
+}
+
+.footerText{
+	padding-top:20px;
 }
