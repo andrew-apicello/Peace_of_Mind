@@ -1,0 +1,17 @@
+
+.remindersWell{
+	padding:0px;
+	padding-bottom:10px;
+	margin: 20px 40px;
+	border:0;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	background-color: rgb(252, 224, 85); 
+}
+
+.redBG {
+  background-color: rgb(219, 74, 74);
+}
+
+.greenBG {
+  background-color: rgb(109, 198, 181);
+}

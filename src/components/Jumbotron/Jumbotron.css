@@ -1,0 +1,16 @@
+h1 {
+  font-weight: 600;
+  font-variant: small-caps;
+
+}
+
+#text {
+  font-variant: small-caps;
+  color:#337ab7;
+  font-size:25px;
+}
+
+.pill {
+  height: 50px;
+  width: 50px;
+}
