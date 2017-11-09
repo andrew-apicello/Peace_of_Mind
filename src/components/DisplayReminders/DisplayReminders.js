@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {Well, Row, Col} from "react-bootstrap";
 import "./DisplayReminders.css";
+import MilitaryTime from '../../Utils/MilitaryTime.js';
 
 class DisplayReminders extends React.Component {
 constructor() {
@@ -55,7 +56,23 @@ constructor() {
       };
     });
 
+     const queryDb = () => {
+      // Get all reminders based on what day it is to display on the screen
+      axios.get('/auth/reminders/' + patientId + "/" + day).then(response => {
+        if (response.data) {
+          this.setState({
+            reminders: response.data
+          })
+        };
+      });
+    }
+
+    // Run the queryDb function every 3 seconds
+    setInterval(queryDb, 3000);
+
   }
+
+
 
   render() {
     return (
@@ -63,13 +80,12 @@ constructor() {
         <Col lg={12}>
           <h2>Today's Reminders:</h2>
             
-            {this.state.reminders.length ? (
               <div>
                 {this.state.reminders.map(reminder => (
                       <Well key={reminder._id} id={reminder._id} className={"remindersWell " + (reminder.responseReceived ? " greenBG" : "") + (reminder.responseLate ? " redBG" : "")}>
                         <Row className="mainRow">
                           <Col sm={2}>
-                            <h2 className="timeToComplete">{reminder.timeToComplete}</h2>
+                            <h2 className="timeToComplete">{MilitaryTime.convertMilitaryToStandardTime(reminder.timeToComplete)}</h2>
                           </Col>
                           <Col sm={8}>
                             <h1 className="toDo">{reminder.reminderTitle}</h1>
@@ -93,9 +109,7 @@ constructor() {
                       </Well>
                 ))}
               </div>
-            ) : (
-                <p>No Reminders to Display</p>
-              )}
+
             </Col>
           </Row>
     );
