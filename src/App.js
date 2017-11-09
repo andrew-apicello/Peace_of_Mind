@@ -25,7 +25,7 @@ const DisplayLinks = props => {
 					          <a><span className="glyphicon glyphicon-home">  Home</span></a></Link>
 					         </NavItem>
 
-					        <NavItem eventKey={2}><Link to="#" onClick={props._logout}>
+					        <NavItem eventKey={2}><Link to="/" onClick={props._logout}>
 					          <a><span className="glyphicon glyphicon-share-alt"> Logout</span></a>
 					         </Link>
 					         </NavItem>
