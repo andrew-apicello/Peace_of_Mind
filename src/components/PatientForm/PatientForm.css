@@ -1,0 +1,24 @@
+.PatientForm{
+	background-image: url("https://www.planochildrensmedicalclinic.org/wp-content/uploads/2016/09/backgroundNEW.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	width:100%;
+	height:110vh;
+	margin-top:130px;
+}
+
+.weller {
+	width:50%;
+	margin-left:450px;
+	background-color:white;
+}
+
+.signupLabels{
+	font-size:20px;
+}
+
+.signupTab {
+	font-size:20px;
+	padding-left:340px;
+	font-weight:bold;
+}

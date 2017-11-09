@@ -3,7 +3,8 @@ import { Button, Form, FormGroup, Col, ControlLabel, FormControl, Checkbox } fro
 import axios from 'axios';
 import {WarningBanner} from "../Alerts"
 import { Redirect } from 'react-router-dom';
-import MilitaryTime from '../../Utils/MilitaryTime.js';
+// import MilitaryTime from '../../Utils/MilitaryTime.js';
+import "./PatientForm.css";
 
 class PatientForm extends React.Component {
 constructor() {
@@ -165,11 +166,11 @@ constructor() {
       return <Redirect to={{ pathname: this.state.redirectTo }} />
     }
     return (
-        <div className ='container'>
+        <div className ='container PatientForm'>
               <Form horizontal className="addPatientForm">
                 <h3>Add a patient to get started</h3>
                     <FormGroup>
-                      <Col componentClass={ControlLabel} sm={3}>Name: </Col>
+                      <Col className="signupTab" componetClass={ControlLabel} sm={3}>Name: </Col>
                       <Col sm={6}>
                         <FormControl
                           name="patientName"
@@ -183,7 +184,7 @@ constructor() {
                        </Col> 
                     </FormGroup>
                     <FormGroup>
-                      <Col componentClass={ControlLabel} sm={3}>Phone: </Col>
+                      <Col className="signupLabels" componentClass={ControlLabel} sm={3}>Phone: </Col>
                       <Col sm={6}>  
                         <FormControl
                           name="patientPhone"
@@ -197,7 +198,7 @@ constructor() {
                       </Col>  
                     </FormGroup>
                     <FormGroup>
-                      <Col componentClass={ControlLabel} sm={3}>Street: </Col>
+                      <Col className="signupLabels" componentClass={ControlLabel} sm={3}>Street: </Col>
                       <Col sm={6}>  
                         <FormControl
                           name="patientStreet"
@@ -211,7 +212,7 @@ constructor() {
                       </Col>
                     </FormGroup>
                     <FormGroup>
-                      <Col componentClass={ControlLabel} sm={3}>City: </Col>
+                      <Col className="signupLabels" componentClass={ControlLabel} sm={3}>City: </Col>
                       <Col sm={6}>  
                         <FormControl
                           name="patientCity"
@@ -225,7 +226,7 @@ constructor() {
                       </Col>
                     </FormGroup>
                     <FormGroup>
-                      <Col componentClass={ControlLabel} sm={3}>State: </Col>
+                      <Col className="signupLabels" componentClass={ControlLabel} sm={3}>State: </Col>
                       <Col sm={6}>  
                         <FormControl
                           name="patientState"
@@ -295,7 +296,7 @@ constructor() {
                       </Col> 
                     </FormGroup>
                     <FormGroup>
-                      <Col componentClass={ControlLabel} sm={3}>Zipcode: </Col>
+                     <Col className="signupLabels" componentClass={ControlLabel} sm={3}>Zipcode: </Col>
                       <Col sm={6}>  
                         <FormControl
                           name="patientZip"
