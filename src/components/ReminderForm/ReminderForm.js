@@ -403,9 +403,9 @@ constructor() {
                     placeholder="(if a med reminder)"
                   />
                   <br />
-                <ControlLabel>Date:</ControlLabel>
+                <ControlLabel>Refill Date:</ControlLabel>
                   <FormControl
-                    className="medicationRefillDateInput"
+                    className="medicationRefillDate"
                     name="medicationRefillDate"
                     value={this.state.medicationRefillDate}
                     onChange={this.handleInputChange}
