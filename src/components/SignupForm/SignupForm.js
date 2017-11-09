@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { FormGroup, ControlLabel, FormControl, Button, Form, Col, HelpBlock } from 'react-bootstrap';
 import "./SignupForm.css";
 import {WarningBanner, WarningBanner2, WarningBanner3, WarningBanner4} from "../Alerts"
+import Footer from "../Footer"
 
 class SignupForm extends Component {
 	constructor(props) {
@@ -202,6 +203,7 @@ class SignupForm extends Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		}
 		return (
+			<div>
 				<div className="SignupForm">
 					<Form horizontal className="form">
 						<h1>Signup</h1>
@@ -334,6 +336,8 @@ class SignupForm extends Component {
 									warn={this.state.userFlag}
 								/>
 					</Form>
+				</div>
+				<Footer />
 				</div>
 		)
 	}

@@ -1,9 +1,10 @@
 import React from 'react'
 import ReminderForm from '../components/ReminderForm'
 import PatientProfile from '../components/PatientProfile'
-import {Row, Col, Jumbotron} from "react-bootstrap"
+import {Row, Col} from "react-bootstrap"
 import Home from './Home'
-import Header from '../components/Header/Header'
+
+
 import "./Patient.css"
 
 const Patient = props => {
@@ -12,17 +13,18 @@ const Patient = props => {
 
 	if (props.user) {
 		return (
-				<div className="container">
-					<Row>
-						<Col lg={12}>
+				<div className="patientContainer"> 
+					
 							<PatientProfile user = {user} />
-						</Col>
-					</Row>
-					<Row>
+						
+					
+					<Row className="rowBody">
 						<Col lg={12}>
 							<ReminderForm user = {user}/>
 						</Col>
 					</Row>
+
+				
 				</div>
 		)
 	} else {

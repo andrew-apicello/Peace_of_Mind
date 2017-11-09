@@ -32,7 +32,7 @@ class CarouselHome extends React.Component {
   </Carousel>
   </Col>
   </Row>
-  // </div>
+  
   
     );
   }

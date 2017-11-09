@@ -1,3 +1,11 @@
-.container{
-	width:95%;
+.patientContainer{
+	width:100%;
+	background-color:#efe5d5;
+}
+
+.rowBody {
+
+margin-left:30px;
+margin-right:30px;
+margin-bottom:30px;
 }

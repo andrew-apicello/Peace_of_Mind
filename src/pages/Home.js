@@ -7,7 +7,7 @@ import Jumbotrons from "../components/Jumbotron";
 import Footer from "../components/Footer";
 import GridHome from "../components/Grid";
 import Header from '../components/Header/Header'
-import { Row, Col } from "react-bootstrap"
+
 import "./Home.css"
 
 const Home = props => {

@@ -1,6 +1,6 @@
 
 import React from 'react'
-import {Jumbotron, Row, Col} from "react-bootstrap";
+import {Row, Col} from "react-bootstrap";
 
 const Header = props => {
 	let Greeting

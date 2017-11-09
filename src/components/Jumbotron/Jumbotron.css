@@ -10,13 +10,15 @@ h1 {
   font-size:25px;
 }
 
-.pill {
+.pill-icon {
   height: 50px;
   width: 50px;
 }
 
 .Jumbotron {
-	padding-top:60px;
+	padding-top:80px;
+	background-color:#fff7ea;
+
 }
 /*
 .container {

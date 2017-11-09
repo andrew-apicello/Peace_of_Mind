@@ -4,6 +4,7 @@ import { FormGroup, ControlLabel, FormControl, Form, Row, Col, Button } from 're
 import axios from 'axios';
 import {WarningBanner} from "../Alerts"
 import "./LoginForm.css"
+import Footer from "../Footer"
 
 class LoginForm extends Component {
 	constructor() {
@@ -81,6 +82,7 @@ class LoginForm extends Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {
 			return (
+				<div>
 				<Row>
 					<Col lg={12} className="loginCol">
 					<div className="LoginForm">
@@ -132,8 +134,10 @@ class LoginForm extends Component {
 						<h4 className="signupRoute">Need an account? <Link to="/signup">Sign up</Link></h4>
 					</div>
 					</Col>
+						<Footer />
 				</Row>
-
+			
+				</div>
 			)
 		}
 	}
