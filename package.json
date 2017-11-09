@@ -40,7 +40,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "dev": "concurrently \"react-scripts start\" \"nodemon server.js\"",
-    "server": "export NODE_ENV=\"production\" && node server.js"
+    "server": "node server.js"
   },
   "proxy": "http://localhost:3001"
 }
