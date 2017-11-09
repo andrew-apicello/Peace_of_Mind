@@ -19,9 +19,9 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('./passport');
 const dbConnection = require('./db');
-const User = require('./db/models/user')
-const Patient = require('./db/models/patients')
-const Reminder = require('./db/models/reminders')
+const User = require('./db/models/User')
+const Patient = require('./db/models/Patients')
+const Reminder = require('./db/models/Reminders')
 
 //===========================Mongo Connection for Heroku=============================
 
