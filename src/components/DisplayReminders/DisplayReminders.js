@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-
+import {Well} from "react-bootstrap";
 
 class DisplayReminders extends React.Component {
 constructor() {
@@ -10,7 +10,7 @@ constructor() {
       reminderTitle: "",
       dayToComplete: "",
       timeToComplete: "",
-      medicationQuantity: "",
+      medicationDosage: "",
       medicationRefillDate: "",
       reminderMessage: "",
       numberToText: ""
@@ -49,6 +49,7 @@ constructor() {
       if (response.data) {
         this.setState({
           reminders: response.data
+        
         })
       };
     });
@@ -61,17 +62,24 @@ constructor() {
         <div className ='container'>
           <div className ='row'>
             <div className='col-md-12'>
-            <p>Current Reminders:</p>
+            <h2>Today's Reminders:</h2>
+            
             {this.state.reminders.length ? (
               <ul>
                 {this.state.reminders.map(reminder => (
-                  <li key={reminder._id}>Title: {reminder.reminderTitle + " "}
+                  <Well key={reminder._id} id={reminder._id}>
+                  {reminder.timeToComplete + " "}
+                  <br />
+                  To do: {reminder.reminderTitle + " "}
+                  <br />
                   Day: {reminder.dayToComplete + " "}
-                  Time: {reminder.timeToComplete + " "}
-                  Medication Qty: {reminder.medicationQuantity + " "}
+                  <br />
+                  Dosage: {reminder.medicationDosage + " "}
+                  <br />
                   Medication Refill Date: {reminder.medicationRefillDate + " "}
+                  <br />
                   Message: {reminder.reminderMessage + " "}
-                  </li>
+                  </Well>
                 ))}
               </ul>
             ) : (
@@ -84,5 +92,4 @@ constructor() {
     );
   }
 }
-
 export default DisplayReminders;

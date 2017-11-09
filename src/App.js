@@ -36,7 +36,7 @@ const DisplayLinks = props => {
 
 
 					         <NavItem eventKey={3}><Link to="/patient">
-					          <a><span className="glyphicon glyphicon-user">  Patient Profile</span></a></Link>
+					          <a><span className="glyphicon glyphicon-user">  Patient-Profile</span></a></Link>
 					         </NavItem> 
 					      </Nav>
 					    </Navbar.Collapse>
@@ -139,10 +139,9 @@ class App extends Component {
 
 	render() {
 		return (
-			<div className="container">
+			
 			<div className="App">	
-				<div className="row">	
-					<div className="col-md-12">		
+				
 						{/* LINKS to our different 'pages' */}
 						 <Header user={this.state.user} />
 						<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
@@ -159,9 +158,7 @@ class App extends Component {
 						<Route exact path="/signup" component={SignupForm} />
 
 					</div>
-				</div>
-			</div>
-		</div>
+			
 		)
 	}
 }

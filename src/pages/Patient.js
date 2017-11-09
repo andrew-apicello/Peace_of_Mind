@@ -1,28 +1,31 @@
 import React from 'react'
 import ReminderForm from '../components/ReminderForm'
 import PatientProfile from '../components/PatientProfile'
-// import Clock from "../components/Clock";
+import {Row, Col} from "react-bootstrap"
+import Home from './Home'
 
 const Patient = props => {
 	let user = props.user || 'no user';
-	console.log('props:  ', user._id);
+	console.log('props: ', user._id);
+
 	if (props.user) {
 		return (
-			<div>
-				<p>Current User: </p>
-				<code>
-				{JSON.stringify(props)}
-				</code>
-				<PatientProfile user = {user} />
-				<p>Add a reminder:</p>
-				<ReminderForm user= {user} />
+			<div className="container">
+				<Row>
+					<Col lg={12}>
+						<PatientProfile user = {user} />
+					</Col>
+				</Row>
+				<Row>
+					<Col lg={12}>
+					<ReminderForm user = {user}/>
+					</Col>
+				</Row>
 			</div>
 		)
 	} else {
 		return (
-			<div>
-				<p>Please add a patient before adding a reminder</p>
-			</div>
+				<Home />
 		)
 	}
 }

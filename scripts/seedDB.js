@@ -26,7 +26,7 @@ mongoose.connect(
 //   });
 
 
-const reminderSeed = ({reminderTitle: 'Take Medication', dayToComplete: 'Friday', timeToComplete: '2:00', medicationQuantity: 10, medicationRefillDate: '12/01/17', reminderMessage: 'Take your whatever pills'});
+const reminderSeed = ({reminderTitle: 'Take Medication', dayToComplete: 'Friday', timeToComplete: '2:00', medicationDosage: 10, medicationRefillDate: '12/01/17', reminderMessage: 'Take your whatever pills'});
 
 db.Reminders
   .remove({})
@@ -38,4 +38,4 @@ db.Reminders
   .catch(err => {
     console.error(err);
     process.exit(1);
-  });
+});

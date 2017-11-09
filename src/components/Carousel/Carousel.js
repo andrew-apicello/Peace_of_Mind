@@ -6,7 +6,7 @@ import "./Carousel.css";
 class CarouselHome extends React.Component {
   render() {
     return (
-      <div className="container">
+    // <div className="image">
       <Row>
       <Col md={12}>
       <Carousel>
@@ -34,7 +34,8 @@ class CarouselHome extends React.Component {
   </Carousel>
   </Col>
   </Row>
-  </div>
+  // </div>
+  
     );
   }
 } 

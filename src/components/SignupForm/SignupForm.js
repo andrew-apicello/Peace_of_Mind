@@ -1,20 +1,30 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { FormGroup, ControlLabel, FormControl, Button, Form, Col } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button, Form, Col, HelpBlock, Well } from 'react-bootstrap';
 import "./SignupForm.css";
+import { WarningBanner, WarningBanner2, WarningBanner3, WarningBanner4 } from "../Alerts"
 
 class SignupForm extends Component {
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 		this.state = {
 			firstName: "",
+			firstNameFlag: false,
 			lastName: "",
+			lastNameFlag: false,
 			email: '',
+			emailFlag: false,
 			phone: '',
+			phoneFlag: false,
 			password: '',
+			passwordFlag: false,
+			lengthFlag: false,
 			confirmPassword: '',
-			redirectTo: null,
+			passwordConfirmFlag: false,
+			confirmFlag: false,
+			userFlag:false,
+			redirectTo: null
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.handleChange = this.handleChange.bind(this)
@@ -45,52 +55,118 @@ class SignupForm extends Component {
 
 	handleSubmit = event => {
 		event.preventDefault()
-		//If no First Name is entered
-		if(!this.state.firstName){
-			alert("Please enter your First Name");
 		
+		if(this.state.firstName){
 			this.setState({
+				firstNameFlag:false
+			})
+		} 
+		//If no First Name is entered throw warning
+		if(!this.state.firstName){
+
+			this.setState({
+				firstNameFlag: true,
 				redirectTo: ""
 			})
-		}else if (!this.state.lastName){
-			alert("Please enter your Last Name");
+		}
 
+		if (this.state.lastName){
 			this.setState({
-				redirstTo: ""
-			})	
-		//If no email is input
-		}else if (!this.state.email){
-			alert("Please enter an email");
+				lastNameFlag:false
+			})
+		} 
 
+		if (!this.state.lastName){
+			this.setState({
+				lastNameFlag: true,
+				redirectTo: ""
+			})	
+		}
+
+		if (this.state.email){
+			this.setState({
+				emailFlag:false
+			})
+		} 
+
+		if (!this.state.email){
 			 this.setState({
+			 	emailFlag: true,
       	email: "",
 				redirectTo: ""
 			})
-		// if no password is input
-		} else if (!this.state.password){
-			alert("Please enter a password");
+		}
 
+		if (!this.state.phone){
+			this.setState({
+				phoneFlag: true,
+			})
+		}
+
+		if(!this.state.phone){
+			this.setState({
+				phoneFlag:true,
+				redirectTo:""
+			})
+		}
+
+		if(this.state.password){
+			this.setState({
+				passwordFlag: false,
+			})
+		}
+
+		if (!this.state.password){
 			 this.setState({
+			 	passwordFlag: true,
       	password: "",
 				redirectTo: "",
 				confirmPassword: ""
 			})
-		} else if (this.state.password.length < 6){
-			alert("Password must be longer than 6 characters");
+		} 
+
+		if (this.state.password.length < 6){
 
 			this.setState({
+				lengthFlag:true,
 				redirectTo: "",
 				confirmPassword: ""
 			})
-		}else if ((this.state.password) !== (this.state.confirmPassword)){
-			alert("Passwords do not match");
+		}
 
+		if (this.state.password.length >= 6){
 			this.setState({
+				lengthFlag:false,
+			})
+		}
+
+		if (this.state.confirmPasword){
+			this.setState({
+				passwordConfirmFlag: false
+			})
+		}
+
+		if (!this.state.confirmPassword){
+			 this.setState({
+			 	passwordConfirmFlag: true,
       	password: "",
 				redirectTo: "",
 				confirmPassword: ""
 			})
-    } else {
+		} 
+
+		if ((this.state.password) !== (this.state.confirmPassword)){
+
+			this.setState({
+				confirmFlag: true,
+      	password: "",
+				redirectTo: "",
+				confirmPassword: ""
+			})
+    } 
+
+    if (this.state.firstName && this.state.lastName && this.state.email && this.state.password && this.state.phone && this.state.confirmPassword){
+
 			axios
 			.post('/auth/signup', {
 				email: this.state.email,
@@ -109,8 +185,8 @@ class SignupForm extends Component {
 					})
 				} else {
 					console.log(response.data.error);
-					alert (response.data.error)
 					this.setState({
+						userFlag: true,
 		      	password: "",
 		      	email: "",
 						redirectTo: "",
@@ -126,16 +202,17 @@ class SignupForm extends Component {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		}
 		return (
-			<div className="container">
+			<Well>
+			
 				<div className="SignupForm">
 					<Form horizontal className="form">
+					<Well className="weller">
 						<h3>Signup</h3>
-
-						<FormGroup controlId="formHorzontalEmail"
+						<FormGroup controlId="formHorzontalFirstName"
 	        	>
 							<Col componentClass={ControlLabel} sm={3}>First Name:
       				</Col>
-      				<Col sm={7}>
+      				<Col sm={6}>
 								<FormControl
 									type="text"
 									name="firstName"
@@ -143,20 +220,25 @@ class SignupForm extends Component {
 									onChange={this.handleChange}
 									className="form-control"
 								/>
+								<WarningBanner 
+									warn={this.state.firstNameFlag}
+								/>
 							</Col>
 						</FormGroup>
-
 						<FormGroup controlId="formHorzontalEmail"
 	        	>
 							<Col componentClass={ControlLabel} sm={3}>Last Name:
       				</Col>
-      				<Col sm={7}>
+      				<Col sm={6}>
 								<FormControl
 									type="text"
 									name="lastName"
 									value={this.state.lastName}
 									onChange={this.handleChange}
 									className="form-control"
+								/>
+								<WarningBanner 
+									warn={this.state.lastNameFlag}
 								/>
 							</Col>
 						</FormGroup>
@@ -165,7 +247,7 @@ class SignupForm extends Component {
 	        	>
 							<Col componentClass={ControlLabel} sm={3}>Email:
       				</Col>
-      				<Col sm={7}>
+      				<Col sm={6}>
 								<FormControl
 									type="email"
 									name="email"
@@ -174,22 +256,29 @@ class SignupForm extends Component {
 									className="form-control"
 									placeholder="example@example.com"
 								/>
+								<WarningBanner 
+									warn={this.state.emailFlag}
+								/>
 							</Col>
 						</FormGroup>
 
 						<FormGroup>
 							<Col componentClass={ControlLabel} sm={3}>Phone Number:
       				</Col>
-      				<Col sm={7}>
+      				<Col sm={6}>
 								<FormControl
 	              	type="tel"
 	              	pattern="^\d{3}-\d{3}-\d{4}$" required
 	                name="phone"
 	                value={this.state.phone}
 	                onChange={this.handleChange}
-	                placeholder="000-000-0000"
+	                placeholder="000 000 0000"
 	              	/>
+	              <WarningBanner 
+									warn={this.state.phoneFlag}
+								/>
               </Col>	
+
             </FormGroup>
 
 						<FormGroup
@@ -198,7 +287,7 @@ class SignupForm extends Component {
 	        	>
 	        		<Col componentClass={ControlLabel} sm={3}>Password:
     					</Col>
-	        		<Col sm={7}>
+	        		<Col sm={6}>
 								<FormControl
 									type="password"
 									name="password"
@@ -208,7 +297,15 @@ class SignupForm extends Component {
 									minLength="6"
 									maxLength="15"
 								/>
+								<HelpBlock>Password must contain more than 6 characters.</HelpBlock>
+								 <WarningBanner 
+									warn={this.state.passwordFlag}
+									/>
+									<WarningBanner2
+										warn={this.state.lengthFlag}
+									/>	
 							</Col>
+							 
 						</FormGroup>
 
 						<FormGroup
@@ -217,7 +314,7 @@ class SignupForm extends Component {
 	        	>
 	        		<Col componentClass={ControlLabel} sm={3}>Confirm Password:
     					</Col>
-    					<Col sm={7}>
+    					<Col sm={6}>
 								<FormControl
 									type="password"
 									name="confirmPassword"
@@ -227,12 +324,23 @@ class SignupForm extends Component {
 									minLength="6"
 									maxLength="15"
 								/>
+								<WarningBanner 
+									warn={this.state.passwordConfirmFlag}
+									/>
+								<WarningBanner3
+										warn={this.state.confirmFlag}
+									/>	
 							</Col>
 						</FormGroup>
 						<Button onClick={this.handleSubmit} className="btn">Sign up</Button>
+						<WarningBanner4 
+									warn={this.state.userFlag}
+								/>
+								</Well>
 					</Form>
 				</div>
-			</div>
+		
+			</Well>
 		)
 	}
 }

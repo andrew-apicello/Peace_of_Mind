@@ -1,4 +1,3 @@
-
 const express = require('express')
 const router = express.Router()
 const User = require('../../db/models/user')
@@ -9,11 +8,9 @@ const moment = require('moment');
 
 //==================================Twilio=========================================
 const twilio = require('twilio');
-const accountSid = 'AC48ce06d27e69dece3a0702596ee55a08'; // Your Account SID from www.twilio.com/console
-const authToken = 'a9d53929a8bf32774108b4644960dba8';   // Your Auth Token from www.twilio.com/console
+const accountSid = 'AC48ce06d27e69dece3a0702596ee55a08';
+const authToken = 'a9d53929a8bf32774108b4644960dba8';
 const client = require('twilio')(accountSid, authToken);
-
-
 
 
 // this route is just used to get the user basic info
@@ -103,13 +100,14 @@ const patientId = req.params.patientId;
   Patient.find({_id:patientId}).then(function(patient) {
   	reminderId = patient[0].reminders;
 
-  Reminder.find({_id: reminderId}).then(function(reminders) {
+  Reminder.find({_id: reminderId}).sort({ timeToComplete: 1 }).then(function(reminders) {
     res.json(reminders);
   }).catch(function(err) {
     res.json(err);
   })
  })
 })
+
 
 router.get('/reminders/:patientId/:day', (req, res) => {
 console.log("Getting reminders/id/day route")
@@ -119,18 +117,15 @@ console.log(patientId);
 
 console.log("Getting reminders route")
   Patient.find({_id: patientId}).then(function(patient) {
-  	// console.log("current patient: " + patient);
   	reminderId = patient[0].reminders;
-  	console.log("reminderID" + reminderId);
 
-  Reminder.find({_id: reminderId, dayToComplete: today}).then(function(reminders) {
+  Reminder.find({_id: reminderId, dayToComplete: today}).sort({ timeToComplete: 1 }).then(function(reminders) {
     res.json(reminders);
   }).catch(function(err) {
     res.json(err);
   })
  })
 })
-
 
 
 router.post("/addPatient", (req, res) => {
@@ -162,33 +157,15 @@ router.post("/addPatient", (req, res) => {
 
 router.post("/addReminder", (req, res) => {
 	const patientId = req.body._id;
-	const { reminderTitle, dayToComplete, timeToComplete, medicationQuantity, medicationRefillDate, reminderMessage } = req.body
-
-	// Need to calculate 30 minutes from timeToComplete to get the time of when the task should be completed
-	// First, split the time and remove the colon upon splitting
-	const timeArray = timeToComplete.split(":")
-	// Then loop through the new array and parseInt each of the items
-	let timeNumbers = [];
-	for (let i = 0; i < timeArray.length; i++) {
-		// push the numbers into a new array
-		let numbers = parseInt(timeArray[i])
-		timeNumbers.push(numbers);
-	}
-
-	// Then, add 30 minutes to the second item in the array, which should be the minutes
-	let hours = timeNumbers[0];
-	let minutes = timeNumbers[1];
-	let addThirtyMinutes = minutes + 30;
-	// Then, concatenate the two back together and send into db with a colon in between 
-	let receiveResponseBy = hours + ":" + addThirtyMinutes;
+	const { reminderTitle, dayToComplete, timeToComplete, medicationDosage, medicationRefillDate, reminderMessage, receiveResponseBy } = req.body
 
 	const newReminder = new Reminder ({
 		reminderTitle: reminderTitle,
 		dayToComplete: dayToComplete,
 		timeToComplete: timeToComplete,
-		medicationQuantity: medicationQuantity,
+		medicationDosage: medicationDosage,
 		medicationRefillDate: medicationRefillDate,
-		reminderMessage: reminderMessage,
+		reminderMessage: reminderMessage, 
 		receiveResponseBy: receiveResponseBy
 	})
 	newReminder.save((err, savedReminder) => {
@@ -206,21 +183,19 @@ router.post("/addReminder", (req, res) => {
 
 });
 
-
-
 // Logic to text/receive/update reminders
 clock = () => {
 	// Get the current minute
 	let minutes = moment().format('mm');
 
-	if(minutes == 00 || minutes == 30) {
+	// if(minutes == 00 || minutes == 30) {
 		// Query the db to check for tasks every 0 and 30 minutes 
 		queryDB();
-	}
+	// }
 }
 
 // Run the clock function every minute
-setInterval(clock, 60000);
+// setInterval(clock, 10000);
 
 let day;
 switch (new Date().getDay()) {
@@ -245,7 +220,6 @@ switch (new Date().getDay()) {
     case 6:
         day = "Saturday";
 }
-
 
 // Go into DB and find all reminders on a specified day and time and get patient phone and task to be texted
 queryDB = () => {
@@ -275,7 +249,7 @@ queryDB = () => {
 
 
 				// Query into db to find the id of each reminder based on what day and time it is as well as if the responseReceived = false
-				Reminder.find({_id: reminderId, dayToComplete: day, responseReceived: false}).then(function(reminders) {
+				Reminder.find({_id: reminderId, dayToComplete: day, responseReceived: false, responseLate: false}).then(function(reminders) {
 					// console.log(reminders + " " + patientPhone);
 					for (let i = 0; i < reminders.length; i++) {
 						// Get the body of the reminderMessage. Can also get the reminder photo
@@ -310,138 +284,46 @@ queryDB = () => {
 				 //    .then((message) => console.log(message.sid));
 				 //  }
 
-
-				 // ********* NEXT STEPS *********
-
-				    // Then, we query all users, get their phone numbers
-				    // Loop through their patients, get their IDs 
-				    // Find the reminders of that patient with the receiveResponseBy = thirtyMinutesFromNow and if responseReceived = false
-				    // If response received = false, then we send a text message to the user alerting that the patient's 12:00 or so reminder hasn't been completed
-				    // Update reminder in db as responseLate = true
-
-				    // If a response has been received, we need to get the phone number that it's coming from. 
-				    // Query all patients where the phone number matches and somehow find which reminder they were responding to. 
-				    // Maybe we get the time the 'YES' was sent and say if it is less than receiveResponseBy then update that responseReceived to true
 					}
 				})
 
+
+
+
+
+
 			}
-
 		}
+	}); // End Patient.find query
 
-	})
+
+ // ********* NEXT STEPS *********
+
+    // Then, we query all users, get their phone numbers
+	User.find({}).then(function(users) {
+    // Loop through their patients, get their IDs 
+    for (var i = 0; i < users.length; i++) {
+    	// console.log("users: " + users[i]);
+
+    	if(users.patients) {
+    		for (var i = 0; i < users.patients.length; i++) {
+    			console.log("user patients: " + users.patients[i]);
+    		}
+    	}
+    }
+    // Find the reminders of that patient with the receiveResponseBy = thirtyMinutesFromNow and if responseReceived = false
+    // If response received = false, then we send a text message to the user alerting that the patient's 12:00 or so reminder hasn't been completed
+    // Update reminder in db as responseLate = true
+
+    // If a response has been received, we need to get the phone number that it's coming from. 
+    // Query all patients where the phone number matches and somehow find which reminder they were responding to. 
+    // Maybe we get the time the 'YES' was sent and say if it is less than receiveResponseBy then update that responseReceived to true
+
+
+
+	});
 
 }
 
 
 module.exports = router;
-
-
-
-
-
-
-
-
-//THIS IS MY OLD CODEEEEEEEEEEEEEEEEEEEEEEEEEEE
-
-// router.get('/reminders', (req, res) => {
-//   Reminder.find({}).then(function(reminders) {
-//     res.json(reminders);
-//   }).catch(function(err) {
-//     res.json(err);
-//   })
-// })
-
-
-// router.get('/reminders/:day', (req, res) => {
-//   let today = req.params.day;
-//   Reminder.find({dayToComplete: today}).then(function(reminders) {
-//     res.json(reminders);
-//   }).catch(function(err) {
-//     res.json(err);
-//   })
-// })
-
-// router.get('/reminders/:day/:time/:phone', (req, res) => {
-//   let today = req.params.day;
-//   let time = req.params.time;
-//   let phone = req.params.phone;
-//   Reminder.find({dayToComplete: today, timeToComplete: time}).then(function(reminders) {
-//     console.log(reminders);
-//     res.json(reminders);
-
-
-// 	  for (let i = 0; i < reminders.length; i++) {
-// 	    let text = reminders[i].reminderMessage
-// 	    console.log(text);
-// 	    console.log(phone);
-// 	    client.messages.create({
-// 	        body: text,
-// 	        to: "+1" + phone,  // Text this number
-// 	        from: '+14848123347' // Our valid Twilio number
-// 	    })
-// 	    // Log that the message was sent.
-// 	    .then((message) => console.log(message.sid));
-// 	    }
-
-
-//   }).catch(function(err) {
-//     res.json(err);
-//   })
-// })
-
-
-// router.post("/addPatient", (req, res) => {
-// 	const caretakerId = req.body._id;
-// 	const { patientName, patientPhone, patientAddress } = req.body
-
-// 	const newPatient = new Patient({
-// 		patientName: patientName,
-// 		patientPhone: patientPhone,
-// 		patientAddress: patientAddress
-// 	})
-// 	newPatient.save((err, savedPatient) => {
-// 		if (err) return res.json(err)
-// 	})
-
-// 	.then(function(dbPatient) {
-// 	return User.findOneAndUpdate({_id: caretakerId}, { $push: { patients: dbPatient._id } }, {new:true});
-//     }).then(function(dbUser) {
-//       res.json(dbUser);
-//     })
-//     .catch(function(err) {
-//       res.json(err);
-//     })
-// });
-
-
-// router.post("/addReminder", (req, res) => {
-// 	const patientId = req.body._id;
-// 	const { reminderTitle, dayToComplete, timeToComplete, medicationQuantity, medicationRefillDate, reminderMessage } = req.body
-
-// 	const newReminder = new Reminder ({
-// 		reminderTitle: reminderTitle,
-// 		dayToComplete: dayToComplete,
-// 		timeToComplete: timeToComplete,
-// 		medicationQuantity: medicationQuantity,
-// 		medicationRefillDate: medicationRefillDate,
-// 		reminderMessage: reminderMessage
-// 	})
-// 	newReminder.save((err, savedReminder) => {
-// 		if (err) return res.json(err)
-// 	})
-
-// 	.then(function(dbReminder) {
-// 	return Patient.findOneAndUpdate({_id: patientId}, { $push: { reminders: dbReminder._id } }, {new:true});
-//     }).then(function(dbUser) {
-//       res.json(dbUser);
-//     })
-//     .catch(function(err) {
-//       res.json(err);
-//     })
-
-// });
-
-
-// module.exports = router

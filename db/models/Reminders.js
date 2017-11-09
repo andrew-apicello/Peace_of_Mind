@@ -1,6 +1,5 @@
 var mongoose = require("mongoose");
 
-
 // Save a reference to the Schema constructor
 var Schema = mongoose.Schema;
 
@@ -12,21 +11,25 @@ var RemindersSchema = new Schema({
   },
 
   dayToComplete: {
-    type: String
+    type: Array
   },
 
   timeToComplete: {
     type: String
   },
 
-  medicationQuantity: {
+  typeOfMedication: {
+    type: String
+  },
+
+  medicationDosage: {
     type: Number
   },
 
   medicationRefillDate: {
-    type: String
+    type: Date
   },
-  
+
   reminderMessage: {
     type: String,
     required: true
