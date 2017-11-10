@@ -36,13 +36,11 @@ const Home = props => {
 	// Display the add a patient form if the user doesn't have a saved patient
 	else if (props.user && props.user.patients.length === 0) {
 		return (
-			<div className="container">
 				<div className="Home">
 							{console.log(props.user)}
 					<PatientForm />
 					<Footer />
 				</div>
-			</div>
 		)
 	} 
 

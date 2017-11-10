@@ -4,6 +4,7 @@ import axios from 'axios';
 import {WarningBanner} from "../Alerts"
 import { Redirect } from 'react-router-dom';
 import MilitaryTime from '../../Utils/MilitaryTime.js';
+import "./PatientForm.css"
 
 class PatientForm extends React.Component {
 constructor() {
@@ -167,7 +168,7 @@ constructor() {
     return (
         <div className ='container'>
               <Form horizontal className="addPatientForm">
-                <h3>Add a patient to get started</h3>
+                <h2>Add a patient to get started</h2>
                     <FormGroup>
                       <Col componentClass={ControlLabel} sm={3}>Name: </Col>
                       <Col sm={6}>
@@ -309,10 +310,10 @@ constructor() {
                         />
                       </Col>
                     </FormGroup>
-                      <Button bsStyle="primary"
+                      <Button bsStyle="default"
                         onClick={this.handleFormSubmit}
                         type="success"
-                        className="input-lg"
+                        className="input-lg addPatientBtn"
                       >
                         Add Patient
                       </Button>

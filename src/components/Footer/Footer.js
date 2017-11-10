@@ -5,8 +5,11 @@ import {Row, Col} from "react-bootstrap"
 
 
 const Footer = () =>
-    <div className="footer">
-        	<p className="footerText">RxMinder © 2017</p>
-  	</div>;
-
+    <footer className="footer navbar-staticBottom">
+        <Row>
+            <Col lg={12}>
+            <p className="footerText">RxMinder © 2017</p>
+        </Col>
+      </Row>
+    </footer>;
 export default Footer;
