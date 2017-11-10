@@ -1,7 +1,6 @@
 h1 {
   font-weight: 600;
   font-variant: small-caps;
-
 }
 
 #text {
@@ -10,9 +9,18 @@ h1 {
   font-size:25px;
 }
 
-.pill-icon {
-  height: 50px;
-  width: 50px;
+.leftimage {
+  height: 60px;
+  width: 60px;
+  position:relative;
+  right:50px;
+  bottom:20px;
+}
+  
+.righttext{
+	position:relative;
+    display:inline-block;
+  
 }
 
 .Jumbotron {
@@ -20,6 +28,9 @@ h1 {
 	background-color:#fff7ea;
 
 }
+
+
+
 /*
 .container {
 

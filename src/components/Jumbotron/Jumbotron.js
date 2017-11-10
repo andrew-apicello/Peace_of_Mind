@@ -11,8 +11,8 @@ class Jumbotrons extends React.Component {
     return (
 
     <Jumbotron className="Jumbotron">
-    <Image className="pill-icon" src={require("../../assets/pill_capsule.png")}></Image>
-    <h1>RxMinder</h1>
+    <Image className="leftimage" src={require("../../assets/pill_capsule.png")}></Image>
+    <h1 className="righttext">RxMinder</h1>
     <p id="text">Welcome to RxMinder! Designed to give you peace of mind while your loved one still maintains their independence. </p>
   
   </Jumbotron>
